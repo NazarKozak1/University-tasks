@@ -1,0 +1,3780 @@
+\documentclass[a4paper, 20pt, titlepage]{article}
+\usepackage[warn]{mathtext}
+\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage[ warn ]{ mathtext }
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[normalem]{ulem}
+\usepackage[pdftex]{graphics}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{amsmath,systeme}
+\usepackage{comment}
+\usepackage{slashbox}
+\usepackage{pgfplots}
+\usepackage{setspace}
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{fillbetween}
+
+\title{Розрахункова робота №1}
+\author{Козак Назар КА-02\\~\\ 1 завдання - 14 варіант, друге -15}
+\date{16.11.2021}
+
+\begin{document}
+
+\begin{titlepage}
+\maketitle
+\end{titlepage}
+
+
+%------------------------------------------------------------------------------------------------------------------------------------
+%define: для першого завдання
+
+% функція розподілу: 
+\newcommand \rosp {F_{\vec{\xi}}(x,y)}
+
+%прямокутник:
+\newcommand \set[4]{
+	\Biggl\{ (x,y) \biggm|
+	 \begin{aligned} #1 < \,\, &x \, \leqslant #2, \\
+	#3 < \,\, &y \, \leqslant #4
+	\end{aligned}
+	\Biggr\}
+}
+
+%графік:
+\newcommand \plot[7]{
+
+	\begin{tikzpicture}
+	\begin{axis}[
+		axis lines = middle,
+		xmin = -4 , xmax = 4,
+		ymin = -12, ymax = 12,
+	%
+	% тіки
+		ytick = {-10, -6, -3, 3 },
+		xtick = {-2, 0 , 3},
+		extra x ticks = {0},
+		extra x tick labels = {\!\!\!\!\!\!\! 0},
+	%
+	% підпис осей	
+		xlabel style={below right},
+		xlabel = {$t$},
+		ylabel = {$s$},
+		width = 9 cm,	
+		height =8cm,
+		title  = Рисунок #7,
+		title style={yshift= - 7.3 cm}
+	%
+	]
+	%restrict y to domain = 0:4
+
+	\addplot[color = black, mark = *, only marks, mark size = 2pt] coordinates {(-2, 3) (0,3) (3,3) (-2, -3) (0,-3) (3,-3) (-2, -6) (0,-6) (3,-6) (-2, -10) (0,-10) 			(3,-10)};
+	\addplot[color = cyan, ultra thick] coordinates {(#1,#2) (#3,#4) (#5,#6) };
+	\node[above] at (#3,#4) {$(x,y)$};
+	\end{axis}
+	\end{tikzpicture}
+}
+
+	%ймовірність
+
+	\newcommand \pr[2]{P\{\xi_1 = #1, \xi_2 = #2\}}
+
+
+	%прямокутник х
+	
+	\newcommand \setx[3]{
+	\Biggl\{ (x,y) \biggm|
+	 \begin{aligned} x &> #1, \\
+	#2 < \,\, &y \, \leqslant #3
+	\end{aligned}
+	\Biggr\}
+}
+
+	%прямокутник y
+	
+	\newcommand \sety[3]{
+	\Biggl\{ (x,y) \biggm|
+	\begin{aligned} #1 < \,\, &x \, \leqslant #2, \\
+	y &> #3 
+	\end{aligned}
+	\Biggr\}
+}
+	%прямокутник xy
+	
+	\newcommand \setxy[2]{
+	\Biggl\{ (x,y) \biggm|
+	\begin{aligned} x &> #1, \\
+	y &> #2 
+	\end{aligned}
+	\Biggr\}
+}
+
+	% проміжок 
+	\newcommand \inter[4]{при \,\, (#1 < x \leqslant #2) \wedge (#3 < y \leqslant #4)}
+
+	\newcommand \interx[3]{при \,\, (x > #1) \wedge (#2 < y \leqslant #3)}
+	
+	\newcommand \intery[3]{при \,\, (#1 < x \leqslant #2) \wedge (y > #3)}
+
+	\newcommand \interxy[2]{при \,\, ( x > #1) \wedge (y > #2)}
+
+
+	%умовна ймовірність:
+	\newcommand \cpo[2]{P\left\{\xi_1 = #1 / \xi_2 = #2 \right\} }
+	\newcommand \cpt[2]{P\left\{\xi_2 = #1 / \xi_1 = #2 \right\} }
+
+
+%------------------------------------------------------------------------------------------------------------------------------------
+
+
+\paragraph{Завдання 1} За таблицею розподілу координат дискретного випадкового вектора $\vec{\xi} = \left(\xi_1, \xi_2\right)$ знайти:
+
+\begin{enumerate}
+	\item Ряди розподілу координат $\xi_1$ та $\xi_2$.
+	\item Функції розподілу $F_{\xi_1}(x)$ та $F_{\xi_2}(y)$ координат $\xi_1$ та $\xi_2$ відповідно та побудувати графіки цих функцій
+	\item Функцію розподілу $F_{\vec{\xi}}(x,y)$ випадкового вектора.
+	\item Математичні сподівання координат та кореляційну матрицю.
+	\item Умовні ряди розподілу для кожної координати.
+	\item Умовні математичні сподівання для кожної координати з перевіркою.
+\end{enumerate}
+
+\begin{center}
+\begin{tabular}{| c | c | c | c | c |}
+	\hline
+	\backslashbox{$\xi_1$}{$\xi_2$} & -10 & -6 & -3 & 3 \\ \hline
+	-2 & 0,1 & 0,04 & 0,1 & 0,08 \\ \hline
+	0 & 0,09 & 0,01 & 0,09 & 0,05 \\ \hline
+	3 & 0,09 & 0,14 & 0,05 & 0,16 \\
+	\hline 
+\end{tabular}
+\end{center}
+
+\paragraph{Розв'язання}
+
+
+\begin{comment}
+\begin{flushright}
+\begin{tikzpicture}
+\begin{axis}[
+	axis lines = middle,
+	xmin = - 5 , xmax = 5,
+	ymin = -5, ymax = 5,
+	xtick = {0},
+	ytick = \empty,
+	scale = 1.2,
+	xlabel style={below right},
+	xlabel = {$x$},
+	ylabel = {$y$}
+]
+%\addplot[domain = 0:10, restrict y to domain = 0:4, samples = 400, color = red]{10/(x^2)+1};
+\addplot[domain = -4:4, samples = 100, color = red]{4 };
+\end{axis}
+\end{tikzpicture}
+\end{flushright}
+\end{comment}
+
+
+\hfill \break
+
+\begin{spacing}{1.4}
+Бачимо, що $n=3, m  = 4, x_1 = -2, x_2 = 0, x_3 = 3, y_1 = -10, y_2 =  -6, \newline y_3 = -3, y_4 = 3.$ 
+Значення $p_{kj} = P\{\xi_1 = x_k, \xi_2 = y_1\}, k = \overline{1,3}, j = \overline{1,4}.$  
+
+\paragraph{1. Ряди розподілу координат $\xi_1$ та $\xi_2$}
+\hfill \break
+
+Подія $A_k = \{\xi_1 = x_k\},  k = \overline{1,3} $ відбувається разом з гіпотезами $H_j = \{\xi_2 = y_j\},  j = \overline{1,4},$ причому 
+$B_1,B_2,B_3,B_4$ утворюють повну группу подій, тобто $\bigcup_{j = 1}^{4} B_j = \Omega, B_i \cap B_l = \varnothing, i \neq l.$ 
+Тоді за формулою повної ймовірності маємо:
+\begin{center}
+$P(A_k) = \sum\limits_{j=1}^4 P(H_j) P(A_k/H_j) = \sum\limits_{j=1}^4 P(A_k \cap H_j) = \sum\limits_{j=1}^4 p_{kj} $
+\end{center}
+
+аналогічно:
+
+
+\begin{center}
+$P(H_j) = \sum\limits_{k=1}^3 P(A_k) P(H_j/A_k) = \sum\limits_{k=1}^4 P(H_j \cap A_k) = \sum\limits_{k=1}^3 p_{jk}$
+\end{center}
+
+\vspace{3mm}
+\hspace{-6mm} Знайдемо ряд розподілу випадкової величини $\xi_1:$
+\end{spacing}
+
+$ P(\xi_1 = -2) = P(A_1) = \sum\limits_{j=1}^4 p_{1j} = 0.1 + 0.04 + 0.1 + 0.08 = 0.32$
+
+$ P(\xi_1 = 0) = P(A_2) = \sum\limits_{j=1}^4 p_{2j} = 0.09 + + 0.01 + 0.09 + 0.05 = 0.24$
+
+$ P(\xi_1 = 3) = P(A_3) = \sum\limits_{j=1}^4 p_{3j} = 0.09 + 0.14 + 0.05 + 0.16 = 0.44$
+
+\newpage{}
+
+\hspace{-6mm} Перевірка: 
+
+\begin{center}
+$P(\xi_1 = -2) + P(\xi_1 = 0) + P(\xi_1 = 3) = 0.32 + 0.24 + 0.44 = 1$
+\end{center}
+
+\hspace{-6mm} Отже ряд розподілу $\xi_1$ має вигляд:
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline 
+$\xi_1$ & -2 & 0 & 3 \\ \hline
+$P$ & 0.32 & 0.24 & 0.44 \\ \hline 
+\end{tabular}
+\end{center}
+
+\vspace{4mm}
+
+\hspace{-6mm} Знайдемо ряд розподілу випадкової величини $\xi_2:$
+ 
+\vspace{4mm}
+
+$P(\xi_2 = -10) = P(H_1) = \sum\limits_{k=1}^3 p_{1k} = 0.1 + 0.09 + 0.09 = 0.28$
+
+$P(\xi_2 = -6) = P(H_2) = \sum\limits_{k=1}^3 p_{1k} =0.04 + 0.01 + 0.14 = 0.19$
+
+$P(\xi_2 = -3) = P(H_3) = \sum\limits_{k=1}^3 p_{1k} = 0.1 + 0.09 + 0.05 = 0.24$
+
+$P(\xi_2 = 3) = P(H_4) = \sum\limits_{k=1}^3 p_{1k} = 0.08 + 0.05 + 0.16 = 0.29$
+
+\vspace{4mm}
+
+\hspace{-6mm} Перевірка:
+
+\begin{spacing}{1.4}
+\begin{center}
+$P(\xi_2 = -10) + P(\xi_2 = -6) + P(\xi_2 = -3) + P(\xi_2 = 3) =\newline = 0.28 + 0.19 + 0.24 + 0.29 = 1$
+\end{center}
+\end{spacing}
+
+\hspace{-6mm} Отже ряд розподілу $\xi_2$ має вигляд:
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline 
+$\xi_2$ & -10& -6 & -3 & 3 \\ \hline
+$P$ & 0.28 & 0.19 & 0.24 & 0.29\\ \hline 
+\end{tabular}
+\end{center}
+
+\vspace{4mm}
+
+\paragraph{2. Функції розподілу координат $\xi_1$ та $\xi_2$}
+\hfill \break
+
+За означенням $F_{\xi_i} = P\{\xi_i < x\} (i = 1,2), x \in \mathbb{R}$
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline 
+$\xi_1$ & -2 & 0 & 3 \\ \hline
+$P$ & 0.32 & 0.24 & 0.44 \\ \hline 
+\end{tabular}
+\end{center}
+
+Тоді маємо:
+
+$F_{\xi_1}(x) = P\{\xi_1 < x\} = $
+
+\begin{flushleft}
+$
+ =\nolinebreak 
+	\begin{cases}
+		\vspace{2mm}
+		P(\varnothing) = 0, \quad x \leqslant -2 \\ \vspace{2mm} 
+		P\{\xi_1 = -2\} = 0.32,  \quad  -2 < x \leqslant 0 \\   
+		P\left\{\{\xi_1 = -2\} \cup \{\xi_1 = 0\} \right\} = P\{\xi_1 = -2\} + P\{\xi_1 = 0\} = \\ \vspace{2mm} = 0.32 + 0.24 = 0.56, \quad 0 < x \leqslant 3 \\ 
+		P\left\{\{\xi_1 = -2\} \cup \{\xi_1 = 0\} \cup \{\xi_1 = 3\} \right\} = \\
+		 = P\{\xi_1 = -2\} + P\{\xi_1 = 0\} + P\{\xi_1 = 3\} = 0.32 + 0.24 + 0.44 = 1, x > 3
+
+	\end{cases}
+$
+\end{flushleft}
+
+\newpage{}
+
+\hspace{-6mm} Отримуємо:
+
+\begin{center}
+$
+F_{\xi_1}(x) = 
+\begin{cases}
+	\vspace{3mm}
+	0, \quad x \leqslant -2 \\ \vspace{2mm}
+	0.32, \quad -2 < x \leqslant 0 \\ \vspace{2mm} 
+	0.56, \quad 0 < x \leqslant 3  \\ \vspace{2mm}
+	1, \quad x > 3
+\end{cases}
+$
+\end{center}
+
+\hspace{-6mm} Аналогічно знаходимо функцію розподілу другої координати.
+\vspace{4mm}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline 
+$\xi_2$ & -10& -6 & -3 & 3 \\ \hline
+$P$ & 0.28 & 0.19 & 0.24 & 0.29\\ \hline 
+\end{tabular}
+\end{center}
+
+\vspace{4mm}
+
+$F_{\xi_2}(y) = P\{\xi_2 < y\} = $ 
+
+\begin{flushleft}
+$
+ =\nolinebreak 
+	\begin{cases}
+		\vspace{3mm}
+		P(\varnothing) = 0, \quad y \leqslant -10 \\ \vspace{3mm}
+		P\{\xi_2 = -10\} = 0.28,  \quad -10 < y \leqslant -6 \\ 
+		P\left\{\{\xi_2 = -10\} \cup \{\xi_2 = -6\}\right\} = P\{\xi_2 = -10\} + P\{\xi_2  = -6\} = \\ \vspace{3mm}
+		= 0.28 + 0.19 = 0.47, \quad -6 < y \leqslant -3 \\  
+		P\left\{\{\xi_2 = -10\} \cup \{\xi_2 = -6\} \cup \{\xi_2 = -3\}\right\} = P\{\xi_2 = -10\} + P\{\xi_2  = -6\} + \\ \vspace{3mm} + P\{\xi_2  = -3\} 
+		= 0.28 + 0.19 + 0.24 = 0.71, \quad -3 < y \leqslant 3 \\ 
+		P\left\{\{\xi_2 = -10\} \cup \{\xi_2 = -6\} \cup \{\xi_2 = -3\} \cup \{\xi_2 = 3\}\right\} = P\{\xi_2 = -10\} +  \\ +   P\{\xi_2  = -6\} +
+                P\{\xi_2  = -3\} + P\{\xi_2 = 3\}=  \\ \vspace{3mm}   = 0.28 + 0.19 + 0.24 + 0.29 = 1, \quad y > 3
+	\end{cases}
+$
+\end{flushleft}
+
+\hspace{-6mm} Отримуємо:
+
+\vspace{4mm}
+\begin{center}
+$
+F_{\xi_2}(y) = 
+\begin{cases}
+	\vspace{3mm}
+	0, \quad y \leqslant -10 \\ \vspace{2mm}
+	0.28, \quad -10 < y \leqslant -6 \\ \vspace{2mm} 
+	0.47, \quad -6 < y \leqslant -3 \\ \vspace{2mm}
+	0.71, \quad -3 < y \leqslant 3 \\ \vspace{2mm}
+	1, \quad y > 3
+\end{cases}
+$
+\end{center}
+
+\newpage{}
+
+
+\hspace{-6mm} Графіки функцій розподілу $F_{\xi_1}(x)$ та $F_{\xi_2}(y)$ зображені на рис. 2.1 та рис. \nolinebreak 2.2
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 4,
+	ymin = -0.5, ymax = 1.3,
+%
+% тіки
+	xtick = {-2, 0, 3},
+	ytick = {0.56, 1},
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	extra y ticks = {0.32},
+	extra y tick labels = { 0.32 \!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!},
+%
+% підпис осей	
+	xlabel style={below right},
+	xlabel = {$x$},
+	ylabel = {$F_{\xi_1}(x)$},
+	width = 10 cm,	
+	height = 5 cm,
+	title  = Рисунок 2.1 -- Графік функції $F_{\xi_1(x)}$,
+	title style={yshift= - 4.3 cm}
+%
+]
+%restrict y to domain = 0:4
+\addplot[domain = -6:-2, samples = 100, color = cyan, opacity = 0.7, ultra thick]{0};
+\addplot[color = black, dashed] coordinates {(-2, 0) (-2, 0.32)};
+\addplot[domain = -2:0, samples = 100, color = cyan,  very thick, opacity = 0.7 , <-]{0.32};
+\addplot[color = black, dashed] coordinates {(3, 0) (3, 1) (0,1)};
+\addplot[domain = 0:3, samples = 100, color = cyan,  very thick, opacity = 0.7 , <-]{0.56};
+\addplot[domain = 3:4, samples = 100, color = cyan,  very thick, opacity = 0.7 , <-]{1};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\vspace{6mm}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+	axis lines = middle,
+	xmin = -15 , xmax = 12,
+	ymin = -0.5, ymax = 1.3,
+%
+% тіки
+	xtick = {-10, -6, -3, 3},
+	ytick = { 1},
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	extra y ticks = {0.28, 0.47, 0.71},
+	extra y tick labels = { 0.28 \!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!, 0.47 \!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!\! , 0.71 \!\!\!\!},
+%
+% підпис осей	
+	xlabel style={below right},
+	xlabel = {$y$},
+	ylabel = {$F_{\xi_2}(y)$},
+	width = 10 cm,	
+	height = 5 cm,
+	title  = Рисунок 2.2 -- Графік функції $F_{\xi_2(y)}$,
+	title style={yshift= - 4.3 cm}
+%
+]
+%restrict y to domain = 0:4
+\addplot[domain = -15:-10, samples = 100, color = cyan, opacity = 0.7, ultra thick]{0};
+\addplot[domain = -10:-6, samples = 100, color = cyan,  very thick, opacity = 0.7 , <-]{0.28};
+\addplot[domain = -6:-3, samples = 100, color = cyan,  very thick, opacity = 0.7 , <-]{0.47};
+\addplot[domain = -3:3, samples = 100, color = cyan,  very thick, opacity = 0.7 , <-]{0.71};
+\addplot[domain = 3:12, samples = 100, color = cyan,  very thick, opacity = 0.7 , <-]{1};
+
+\addplot[color = black, dashed] coordinates {(-10, 0) (-10, 0.28)};
+\addplot[color = black, dashed] coordinates {(-6,0) (-6,0.47) };
+\addplot[color = black, dashed] coordinates { (-3,0.47) (0,0.47)};
+\addplot[color = black, dashed] coordinates {(-6,0.28) (0,0.28) };
+\addplot[color = black, dashed] coordinates {(-3,0) (-3, 0.71) };
+\addplot[color = black, dashed] coordinates {(3,0) (3,1) (0,1) };
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\paragraph{3. Сумісна функція розподілу випадкового вектора $\vec{\xi}$.}
+\hfill \break
+
+\begin{spacing}{1.4}
+За означенням $F_{\vec{\xi}}(x,y) = P\{\xi_1 < x, \xi_2 < y\}$. Це ймовірність потрапляння випадкового вектора усередину нескінченного квадранта з вершиною у точці $(x,y)$ 
+
+Використаємо формулу:
+\begin{center}
+$
+F_{\vec{\xi}}(x,y) = \sum_{k:x_k < x}\sum_{j:y_j < y} p_{kj}
+$
+\end{center}
+
+Зрозуміло, що значення сумісної функції розподілу в кожній точці координатної площини залежить від множини точок, які потрапили в квадрант. Зрозуміло, що $\rosp = 0$, якщо $x \leqslant x_1$, або $y \leqslant y_1$. Іншу частину координатної площини розіб'ємо на області виду:
+\end{spacing}
+
+\vspace{-0.5mm}
+
+\begin{center}
+$D_{k,j} =\set{x_k}{x_{k+1}}{y_j}{y_{j+1}}, \,\, k = \overline{1, n - 1}, j = \overline{1, m-1}$
+\end{center}
+
+При $k = n$ матимемо умову $x > x_n$, а при $j = m$ маємо $y > y_m$.
+
+\newpage{}
+
+\begin{spacing}{1.4}
+Щоб полегшити знаходження $\rosp$ намалюємо в декартовій системі координат усі точки, що відповідають значенню вектора $\vec{\xi}$ (рис. 2.3) та обчислимо значення сумісної функції розподілу в кожній області $D_{k,j}, k = \overline{1,3}, j = \overline{1,4}$. Для наочності кожен випадок супроводжується малюнком.
+(рис. 2.3 - 2.16)
+\end{spacing}
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[
+	axis lines = middle,
+	xmin = -4 , xmax = 4,
+	ymin = -12, ymax = 12,
+%
+% тіки
+	ytick = {-10, -6, -3, 3 },
+	xtick = {-2, 0 , 3},
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+%
+% підпис осей	
+	xlabel style={below right},
+	xlabel = {$t$},
+	ylabel = {$s$},
+	width = 7 cm,	
+	height = 9 cm,
+	title  = Рисунок 2.3,
+	title style={yshift= - 8.5 cm}
+%
+]
+%restrict y to domain = 0:4
+
+\addplot[color = black, mark = *, only marks, mark size = 2pt] coordinates {(-2, 3) (0,3) (3,3) (-2, -3) (0,-3) (3,-3) (-2, -6) (0,-6) (3,-6) (-2, -10) (0,-10) (3,-10)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\vspace{5mm}
+
+\begin{enumerate}
+
+\item $(x \leqslant -2) \vee (y \leqslant -10) $ (рис. 2.4)
+$\rosp = 0$
+\begin{center}
+\plot{-4}{-9}{-3}{-9}{-3}{-12}{2.4}
+\end{center}
+
+
+\item $ D_{1,1} = \set{-2}{0}{-10}{-6}$
+
+\vspace{3mm}
+$\rosp = \pr{-2}{-10} = 0.1$
+\begin{center}
+\plot{-4}{-9}{-1.5}{-9}{-1.5}{-12}{2.5}
+\end{center}
+
+\vspace{3mm}
+\item $D_{2,1} = \set{0}{3}{-10}{-6}$
+
+\vspace{3mm}
+\begin{spacing}{1.4}
+$\rosp = \pr{-2}{-10} + \pr{0}{-10} = 0.1 + 0.09 = \\ = 0.19$
+\end{spacing}
+\begin{center}
+\plot{-4}{-9}{1.5}{-9}{1.5}{-12}{2.6}
+\end{center}
+
+
+\item $D_{3,1} = \setx{3}{-10}{-6}$
+
+\vspace{3mm}
+\begin{spacing}{1.4}
+$\rosp = \pr{-2}{-10} + \pr{0}{-10} + \\ + \pr{3}{-10}= 0.1 + 0.09 + 0.09 = 0.28$
+\end{spacing}
+\begin{center}
+\plot{-4}{-9}{3.5}{-9}{3.5}{-12}{2.7}
+\end{center}
+
+
+\item $D_{1,2} = \set{-2}{0}{-6}{-3}$
+
+\vspace{3mm}
+\begin{spacing}{1.4}
+$\rosp = \pr{-2}{-6} + \pr{-2}{-10} = 0.1 +\nolinebreak  0.04 = \\ =0.14$
+\end{spacing}
+\nopagebreak{}
+\begin{center}
+\plot{-4}{-5}{-1.5}{-5}{-1.5}{-12}{2.8}
+\end{center}
+
+
+\item $D_{2,2} = \set{0}{3}{-6}{-3}$
+
+\vspace{3mm}
+\begin{spacing}{1.4}
+$\rosp = \pr{-2}{-6} + \pr{-2}{-10} + \\ +\pr{0}{-6}  + \pr{0}{-10}= 0.04 + 0.1 + 0.01 + 0.09 = \\ =0.24$
+\end{spacing}
+\nopagebreak{}
+\begin{center}
+\plot{-4}{-5}{1.5}{-5}{1.5}{-12}{2.9}
+\end{center}
+
+
+\vspace{-5.21mm}
+\item $D_{3,2} = \setx{3}{-6}{-3}$
+
+\vspace{3mm}
+\begin{spacing}{1.4}
+$\rosp = \pr{-2}{-6} + \pr{-2}{-10} + \\ +\pr{0}{-6}  + \pr{0}{-10} + \pr{3}{-6} + \\ + \pr{3}{-10}= 0.04 + 0.1 + 0.01 + 0.09 + 0.14 + 0.09=0.47$
+\end{spacing}
+\nopagebreak{}
+\begin{center}
+\plot{-4}{-5}{3.5}{-5}{3.5}{-12}{2.10}
+\end{center}
+
+
+\item $D_{1,3} = \set{-2}{0}{-6}{-3}$
+
+\vspace{3mm}
+\begin{spacing}{1.4}
+$\rosp = \pr{-2}{-3} + \pr{-2}{-6} +\\ + \pr{-2}{-10} = 0.1+ 0.04 + 0.1 = 0.24$
+\end{spacing}
+\nopagebreak{}
+\begin{center}
+\plot{-4}{1}{-1.5}{1}{-1.5}{-12}{2.11}
+\end{center}
+
+
+
+\item $D_{3,3} = \set{0}{3}{-6}{-3}$
+
+\vspace{3mm}
+\begin{spacing}{1.4}
+$\rosp = \pr{-2}{-3} + \pr{-2}{-6} +\\ + \pr{-2}{-10}+ \pr{0}{-3} + \pr{0}{-6} + \\ + \pr{0}{-10} = 0.1 + 0.04 + 0.1 + 0.09 + 0.01 + 0.09  = 0.43$
+\end{spacing}
+\nopagebreak{}
+\begin{center}
+\plot{-4}{1}{1.5}{1}{1.5}{-12}{2.12}
+\end{center}
+
+
+\item $D_{2,3} = \setx{3}{-6}{-3}$
+
+\vspace{3mm}
+\begin{spacing}{1.4}
+$\rosp = \pr{-2}{-3} + \pr{-2}{-6} +\\ + \pr{-2}{-10}+ \pr{0}{-3} + \pr{0}{-6} + \\ + \pr{0}{-10} + \pr{3}{-3} + \pr{3}{-6} + \\ + \pr{3}{-10}= 0.1 + 0.04 + 0.1 + 0.09 + 0.01 + 0.09  +0.05 + 0.14 + \\ + 0.09  = 0.71$
+\end{spacing}
+\nopagebreak{}
+\begin{center}
+\plot{-4}{1}{3.6}{1}{3.6}{-12}{2.13}
+\end{center}
+
+
+\vspace{4mm}
+\item $D_{1,4} = \sety{-2}{0}{3}$
+
+\vspace{5mm}
+\begin{spacing}{1.4}
+$\rosp = \pr{-2}{3} + \pr{-2}{-3} + \\ + \pr{-2}{-6} + \pr{-2}{-10} = 0.08 + 0.1 + 0.04 + 0.1 = \\ =0.32$
+\end{spacing}
+\nopagebreak{}
+\begin{center}
+\plot{-4}{6}{-1.5}{6}{-1.5}{-12}{2.14}
+\end{center}
+
+
+
+\item $D_{2,4} = \sety{0}{3}{3}$
+
+\vspace{5mm}
+\begin{spacing}{1.4}
+$\rosp = \pr{-2}{3} + \pr{-2}{-3} + \\ + \pr{-2}{-6} + \pr{-2}{-10} + \pr{0}{\nolinebreak3}+ \\  + \pr{0}{-3} + \pr{0}{-6} + \pr{0}{-10}= \\ = 0.08 + 0.1 + 0.04 + 0.1 +0.05 + 0.09 + 0.01 + 0.09 =0.56$
+\end{spacing}
+\nopagebreak{}
+\begin{center}
+\plot{-4}{6}{1.5}{6}{1.5}{-12}{2.15}
+\end{center}
+
+\newpage{}
+\item $D_{3,4} = \setxy{3}{3}$
+
+\vspace{5mm}
+\begin{spacing}{1.4}
+$\rosp = \pr{-2}{3} + \pr{-2}{-3} + \\ + \pr{-2}{-6} + \pr{-2}{-10} + \pr{0}{\nolinebreak3}+ \\  + \pr{0}{-3} + \pr{0}{-6} + \pr{0}{-10} + \\ + \pr{3}{3} + \pr{3}{-3}
++ \pr{3}{-6} + \\ + \pr{3}{-10} =0.08 + 0.1 + 0.04 + 0.1 + 0.05 + 0.09 + \\ + 0.01 + 0.09 + 0.16 + 0.05 + 0.14 + 0.09 = 1$
+\end{spacing}
+\nopagebreak{}
+\begin{center}
+\plot{-4}{6}{3.6}{6}{3.6}{-12}{2.16}
+\end{center}
+\end{enumerate}
+
+\begin{spacing}{1.4}
+Отримали сумісну функцію розподілу, яку можна записати у вигляді таблиці:
+\end{spacing}
+\vspace{4mm}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline 
+\backslashbox{$y$}{$x$} & $x \leqslant -2 $ & $-2 < x \leqslant 0$ & $0 < x \leqslant 3 $ & $x > 3$ \\ \hline
+$y \leqslant -10$ & 0 & 0 & 0 & 0\\ \hline
+$-10 < y \leqslant -6$ & 0 & 0.1 & 0.19 & 0.28\\ \hline
+$-6 < y \leqslant -3$ & 0 & 0.14 & 0.24 & 0.47\\ \hline
+$-3 < y \leqslant 3$ & 0 & 0.24 & 0.43 & 0.71\\ \hline
+$ y > 3$ & 0 & 0.32 & 0.56 & 1\\ \hline 
+\end{tabular}
+\end{center}
+
+\newpage{}
+
+Також її можна записати у вигляді:
+
+
+
+
+\begin{flushleft}
+$
+\rosp =\nolinebreak 
+	\begin{cases}
+	\begin{aligned}
+		\vspace{1mm}
+		0, \quad \quad &при \,\, (x \leqslant -2)\vee(y \leqslant -10); \\ \vspace{1mm}
+		0.1, \quad \quad &\inter{-2}{0}{-10}{-6}; \\ \vspace{1mm}
+		0.19, \quad \quad &\inter{0}{3}{-10}{-6}; \\ \vspace{1mm}
+		0.28, \quad \quad &\interx{3}{-10}{-6}; \\ \vspace{1mm}
+		0.14, \quad \quad &\inter{-2}{0}{-6}{-3}; \\ \vspace{1mm}
+		0.24, \quad \quad &\inter{0}{3}{-6}{-3}; \\ \vspace{1mm}
+		0.47, \quad \quad &\interx{3}{-6}{-3}; \\ \vspace{1mm}
+		0.24, \quad \quad &\inter{-2}{0}{-3}{3}; \\ \vspace{1mm}
+		0.43, \quad \quad &\inter{0}{3}{-3}{3}; \\ \vspace{1mm}
+		0.71, \quad \quad &\interx{3}{3}{3}; \\ \vspace{1mm}
+		0.32 \quad \quad &\intery{-2}{0}{3}; \\ \vspace{1mm}
+		0.56, \quad \quad &\intery{0}{3}{3}; \\ \vspace{1mm}
+		1, \quad \quad &\interxy{3}{3}; 
+	\end{aligned}
+	\end{cases}
+$
+\end{flushleft}
+
+\begin{spacing}{1.4}
+Можна помітити що умови узгодженості $\lim\limits_{x \to +\infty} \rosp  = F_{\xi_2}(y);$ \\ $\lim\limits_{y \to +\infty} \rosp  = F_{\xi_1}(x)$ сумісної
+функції розподілу випадкового вектора $\vec{\xi}$ з функціями розподілу його координат виконуються.
+\end{spacing}
+
+
+\paragraph{4. Математичне сподівання координат та кореляційна матриця.}
+\hfill \break
+
+\begin{spacing}{1.4}
+\begin{enumerate}
+\item Знайдемо математичне сподівання координати $\xi_1$, яка має ряд розподілу:
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+$\xi_1$ & -2 & 0 & 3 \\ \hline
+$P$ & 0.32  & 0.24 &  0.44 \\ \hline
+\end{tabular}
+
+\vspace{5mm}
+$E \xi_1 = \sum_{k = 1}^3 x_k p_k = (-2) \cdot 0.32 + 0 \cdot 0.24 + 3 \cdot 0.44 = 0.68$ 
+\end{center}
+
+\vspace{2mm}
+Аналогічно для $\xi_2$ з рядом розподілу:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$\xi_2$ & -10 & -6 & -3 & 3\\ \hline
+$P$ & 0.28  & 0.19 &  0.24 & 0.29 \\ \hline
+\end{tabular}
+
+\vspace{5mm}
+$E \xi_2 = \sum_{j = 1}^4 y_j p_j = (-10) \cdot 0.28 + (-6) \cdot 0.19 + (-3) \cdot 0.24 + 3 \cdot 0.29 = -3.79$
+\end{center}
+
+\vspace{2mm}
+
+Центр розсіювання вектора $\vec{\xi}$ -- точка $(0.68 ; -3.79)$
+
+
+\newpage{}
+
+\item Побудуємо кореляційну та нормовану кореляційну матриці.
+
+Кореляційна матриця має вигляд:
+\begin{center}
+$
+K = 
+\begin{pmatrix}
+D \xi_1 & K(\xi_1,\xi_2) \\
+K(\xi_1, \xi_2) & D\xi_2 
+\end{pmatrix}
+$
+\end{center}
+де $D \xi_i$ - диспресія випадкової величини $\xi_i, i =1,2. \,\,  K(\xi_1,\xi_2)$ - кореляційний момент $\xi_1$ та $\xi_2$.
+
+
+\vspace{3mm}
+
+$D \xi_1 = E \xi_1^2 - (E \xi_1)^2 = (-2)^2 \cdot 0.32 + 0^2 \cdot 0.24 + 3^2 \cdot 0.44 - (0.68)^2 = 4.7776$ 
+
+\vspace{1mm}
+$D \xi_2 = E \xi_2^2 - (E \xi_2)^2 = (-10)^2 \cdot 0.28 + (-6)^2 \cdot 0.19 + (-3)^2 \cdot 0.24 + 3^2 \cdot 0.29 = \\ = 39.61$
+
+\vspace{1mm}
+$K(\xi_1,\xi_2) = E \xi_1 \xi_2 - E \xi_1 E\xi_2$, обрахуємо $E\xi_1\xi_2$ окремо
+
+\vspace{1mm}
+$E \xi_1 \xi_2 = \sum_{k=1}^3 \sum_{j = 1}^4 p_{k,j} = (-10) \cdot (-2) \cdot 0.1 + (-6) \cdot (-2) \cdot 0.04 + \\ + (-3) \cdot (-2) \cdot 0.1 + 3 \cdot (-2) \cdot 0.08
++ (-10) \cdot 0 \cdot 0.09 + (-6) \cdot 0 \cdot 0.01 + \\ + (-3) \cdot 0 \cdot 0.09 + 3 \cdot 0 \cdot 0.05 + (-10) \cdot (3) \cdot 0.09 + (-6) \cdot 3 \cdot  0.14 + \\ + (-3) \cdot 3 \cdot 0.05 + 3 \cdot  3 \cdot 0.16 = 2.6 + 0 - 4.23 = -1.63$
+
+\vspace{1mm}
+Тоді маємо:
+
+$K(\xi_1,\xi_2) = E \xi_1 \xi_2 - E \xi_1 E\xi_2 = -1.63 - 0.68 \cdot (-3.79) = 0.9472$
+
+Отримуємо кореляційну матрицю:
+\begin{center}
+$
+\begin{pmatrix}
+4.7776 & 0.9472 \\
+0.9472 & 39.61
+\end{pmatrix}
+$
+\end{center}
+Оскільки $K(\xi_1,\xi_2) \neq 0$, то випадкові величини $\xi_1$ та $\xi_2$ є корельованими
+
+
+\vspace{3mm} 
+Перевіримо додатну визначеність $K$. За критерієм Сильвестра, для того щоб $K$ була додатньо визначеною потрібно, щоб всі кутові мінори матриці $K$ були строго додатні. Перший кутовий мінор дорівнює 4.7776 > 0, другий дорівнює визначнику матриці:
+
+\begin{center}
+$
+\begin{vmatrix}
+4.7776 & 0.9472 \\
+0.9472 & 39.61
+\end{vmatrix}
+= 4.7776 \cdot  39.61 - 0.9472 ^ 2 = 188.343548 > 0
+$
+\end{center}
+
+Отже, оскільки всі кутові мінори матриці строго додатні, то за критерієм Сильвестра $K$ -- додатньо визначена.
+
+\newpage{}
+
+
+Нормована кореляційна матриця має наступний вигляд:
+
+\begin{center}
+$
+R =
+\begin{pmatrix}
+1 & r(\xi_1,\xi_2) \\
+r(\xi_1,\xi_2) & 1
+\end{pmatrix}
+$
+\end{center}
+де $r(\xi_1,\xi_2) $ --  коефіцієнт кореляції
+
+\vspace{3mm}
+
+$\displaystyle{r(\xi_1,\xi_2) = \frac{K(\xi_1,\xi_2)}{\sqrt{D \xi_1 \cdot D \xi_2 }}} = \frac{0.9472}{\sqrt{4.7776 \cdot 39.61}} \approx 0.069$
+
+\vspace{3mm}
+Отримуємо:
+\begin{center}
+$
+R =
+\begin{pmatrix}
+1 & 0.069 \\
+0.069 & 1
+\end{pmatrix}
+$
+\end{center}
+\end{enumerate}
+\end{spacing}
+
+
+\paragraph{5. Умовні ряди розподілу для кожної координати.}
+\hfill \break
+
+Обчислимо умовні ймовірності $\cpo{x_k}{y_j}$ та $\cpt{y_j}{x_k}$ за наступними формулами:
+
+\begin{spacing}{1.4}
+\begin{center}
+$
+\displaystyle{
+\begin{cases}
+\vspace{3mm}
+\cpo{x_k}{y_j} = \frac{P \left\{ \xi_1 = x_k, \xi_2 = y_k \right\} }{P\left\{\xi_2 = y_j \right\}} = \frac{p_{kj}}{p_k} \\
+\cpt{y_j}{x_k} = \frac{P \left\{ \xi_1 = x_k, \xi_2 = y_k \right\} }{P\left\{\xi_1 = x_k \right\}} = \frac{p_{kj}}{p_j}
+\end{cases}
+(k = \overline{1,3}, j = \overline{1,4}})
+$
+\end{center}
+
+Отримані результати занесемо до таблиць 2.1 та 2.2 (Умовні ряди розподілу $\xi_1$ та $\xi_2$ відповідно). 
+
+
+\end{spacing}
+\vspace{-3mm}
+\begin{enumerate}
+\begin{spacing}{2.3}
+
+\item Для $\xi_1$:
+
+$\displaystyle{\cpo{-2}{-10} = \frac{0.1}{0.28} = \frac{10}{28}}$
+
+$\displaystyle{\cpo{0}{-10} = \frac{0.09}{0.28} = \frac{9}{28}}$
+
+$\displaystyle{\cpo{3}{-10} = \frac{0.09}{0.28} = \frac{9}{28}}$
+
+$\displaystyle{\cpo{-2}{-6} = \frac{0.04}{0.19} = \frac{4}{19}}$
+
+$\displaystyle{\cpo{0}{-6} = \frac{0.01}{0.19} = \frac{1}{19}}$
+
+$\displaystyle{\cpo{3}{-6} = \frac{0.14}{0.19} = \frac{14}{19}}$
+
+$\displaystyle{\cpo{-2}{-3} = \frac{0.1}{0.24} = \frac{10}{24}}$
+
+$\displaystyle{\cpo{0}{-3} = \frac{0.09}{0.24} = \frac{9}{24}}$
+
+$\displaystyle{\cpo{3}{-3} = \frac{0.05}{0.24} = \frac{5}{24}}$
+
+$\displaystyle{\cpo{-2}{3} = \frac{0.08}{0.29} = \frac{8}{29}}$
+
+$\displaystyle{\cpo{0}{3} = \frac{0.05}{0.29} = \frac{5}{29}}$
+
+$\displaystyle{\cpo{3}{3} = \frac{0.16}{0.29} = \frac{16}{29}}$
+
+\end{spacing}
+
+Отже, отримали:
+
+\begin{spacing}{2}
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+$\xi_1$ & -2 & 0 & 3 \\ \hline
+$\cpo{x_k}{-10}$ & $\frac{10}{28}$ & $\frac{9}{28}$ & $\frac{9}{28}$ \\ \hline
+$\cpo{x_k}{-6}$ & $\frac{4}{19}$ & $\frac{1}{19}$ & $\frac{14}{19}$ \\ \hline
+$\cpo{x_k}{-3}$ & $\frac{10}{24}$ & $\frac{9}{24}$ & $\frac{5}{24}$ \\ \hline
+$\cpo{x_k}{3}$ & $\frac{8}{29}$ & $\frac{5}{29}$ & $\frac{16}{29}$ \\ \hline
+\end{tabular}
+
+\vspace{3mm}
+Таблиця 2.1 - Умовні ряди розподілу $\xi_1$
+\end{center}
+\end{spacing}
+
+Перевірка:
+
+\begin{spacing}{2}
+\begin{enumerate}
+\vspace{-4mm}
+\item $\cpo{-2}{-10} + \cpo{0}{-10} + \cpo{3}{-10} = \quad= \displaystyle{\frac{10}{28} + \frac{9}{28} + \frac{9}{28}} = 1$ 
+
+\item $\cpo{-2}{-6} + \cpo{0}{-6} + \cpo{3}{-6} = \quad= \displaystyle{\frac{4}{19} + \frac{1}{19} + \frac{14}{19}} = 1$ 
+\vspace{2mm}
+
+\item $\cpo{-2}{-3} + \cpo{0}{-3} + \cpo{3}{-3} = \quad= \displaystyle{\frac{10}{24} + \frac{9}{24} + \frac{5}{24}} = 1$ 
+\vspace{2mm}
+
+\item $\cpo{-2}{3} + \cpo{0}{3} + \cpo{3}{3} = \\ = \displaystyle{\frac{8}{29} + \frac{5}{29} + \frac{16}{29}} = 1$ 
+\vspace{2mm}
+\end{enumerate}
+\end{spacing}
+
+\vspace{-10mm}
+\begin{spacing}{2.3}
+\item  Для $\xi_2$: 
+
+$\displaystyle{\cpt{-10}{-2} = \frac{0.1}{0.32}} = \frac{10}{32}$
+
+$\displaystyle{\cpt{-6}{-2} = \frac{0.04}{0.32}} = \frac{4}{32}$
+
+$\displaystyle{\cpt{-3}{-2} = \frac{0.1}{0.32}} = \frac{10}{32}$
+
+$\displaystyle{\cpt{3}{-2} = \frac{0.08}{0.32}} = \frac{8}{32}$
+
+%----
+
+$\displaystyle{\cpt{-10}{0} = \frac{0.09}{0.24}} = \frac{9}{24}$
+
+$\displaystyle{\cpt{-6}{0} = \frac{0.01}{0.24}} = \frac{1}{24}$
+
+$\displaystyle{\cpt{-3}{0} = \frac{0.09}{0.24}} = \frac{9}{24}$
+
+$\displaystyle{\cpt{3}{0} = \frac{0.05}{0.24}} = \frac{5}{24}$
+
+%----
+
+$\displaystyle{\cpt{-10}{3} = \frac{0.09}{0.44}} = \frac{9}{44}$
+
+$\displaystyle{\cpt{-6}{3} = \frac{0.14}{0.44}} = \frac{14}{44}$
+
+$\displaystyle{\cpt{-3}{3} = \frac{0.05}{0.44}} = \frac{5}{44}$
+
+$\displaystyle{\cpt{3}{3} = \frac{0.16}{0.44}} = \frac{16}{44}$
+
+
+\end{spacing}
+
+Отже, отримали:
+
+
+
+\vspace{-2mm}
+\begin{spacing}{2}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$\xi_2$ & -10 & -6 & -3 & 3 \\ \hline
+$\cpt{y_j}{-2}$ & $\frac{10}{32}$ & $\frac{4}{32}$ & $\frac{10}{32}$ & $\frac{8}{32}$ \\ \hline
+$\cpt{y_j}{0}$ & $\frac{9}{24}$ & $\frac{1}{24}$ & $\frac{9}{24}$ & $\frac{5}{24}$ \\ \hline
+$\cpt{y_j}{3}$ & $\frac{9}{44}$ & $\frac{14}{44}$ & $\frac{5}{44}$ & $\frac{16}{44}$ \\ \hline
+
+\end{tabular}
+
+\vspace{3mm}
+Таблиця 2.2 - Умовні ряди розподілу $\xi_2$
+\end{center}
+\end{spacing}
+
+Перевірка:
+
+\begin{spacing}{2}
+\begin{enumerate}
+\item $\cpt{-10}{-2} + \cpt{-6}{-2} + \cpt{-3}{-2} + \quad + \cpt{3}{-2} = \displaystyle{\frac{10}{32} + \frac{4}{32} + \frac{10}{31} + \frac{8}{32} = 1}$
+\vspace{2mm}
+
+\item $\cpt{-10}{0} + \cpt{-6}{0} + \cpt{-3}{0} + \quad + \cpt{3}{0} = \displaystyle{\frac{9}{24} + \frac{1}{24} + \frac{9}{24} + \frac{5}{24} = 1}$
+\vspace{2mm}
+
+\item $\cpt{-10}{3} + \cpt{-6}{3} + \cpt{-3}{3} + \quad + \cpt{3}{3} = \displaystyle{\frac{9}{44} + \frac{14}{44} + \frac{5}{44} + \frac{16}{44} = 1}$
+
+\end{enumerate}
+\end{spacing}
+\end{enumerate}
+
+\vspace{-8mm}
+\paragraph{6. Умовні математичні сподівання для кожної координати з перевіркою}
+\hfill \break
+
+\begin{spacing}{1.4}
+Умовне математичне сподівання дискретної випадкової величини $\xi_1$ відносно значення $\xi_2 = y_j, j = \overline{1,4}$ обчислюється за формулою:
+
+\begin{center}
+$E\left(\xi_1/\xi_2 = y_j\right) = \sum \limits_{k=1}^3 x_k P\left\{\xi_1 = x_k / \xi_2 = y_j\right\} $
+\end{center}
+
+Аналогічно формула для обчислення умовного математичного сподівання $\xi_2$ відносно значення $\xi_1 = x_k, k = \overline{1,3}$ має вигляд:
+
+\begin{center}
+$E\left(\xi_2/\xi_1 = x_k\right) = \sum \limits_{j=1}^4 y_j P\left\{\xi_2 = y_j / \xi_1 = x_k\right\}$
+\end{center}
+
+Далі розглядається випадкова величина $E(\xi_1/\xi_2)$, яка приймає значення $E\left(\xi_1/\xi_2 = y_j\right)$ з ймовірностями $P\left\{\xi_2 = y_j\right\}, 
+j = \overline{1,4}$, та випадкова величина $E(\xi_2/\xi_1)$, що приймає значення $E\left(\xi_2/\xi_1 = x_k\right)$ з ймовірностями $P\left\{\xi_1 = x_k\right\}, \\k = \overline{1,3}$.
+
+\begin{enumerate}
+
+\item Побудуємо ряд розподілу $E (\xi_1 / \xi_2)$, для цього спочатку обчислимо умовні математичні сподівання для $\xi_1$:
+
+\vspace{3mm}
+
+$E\left(\xi_1 / \xi_2 = -10 \right) = \displaystyle{-\frac{20}{28} + 0 + \frac{27}{28} = \frac{7}{28} = \frac{1}{4}}$
+
+\vspace{1mm}
+
+$E\left(\xi_1 / \xi_2 = -6 \right) = \displaystyle{-\frac{8}{19} + 0 + \frac{42}{19} = \frac{34}{19} }$
+
+\vspace{1mm}
+
+$E\left(\xi_1 / \xi_2 = -3 \right) = \displaystyle{-\frac{20}{24} + 0 + \frac{15}{24} = - \frac{5}{24} }$
+
+\vspace{1mm}
+
+$E\left(\xi_1 / \xi_2 = 3 \right) = \displaystyle{-\frac{16}{29} + 0 + \frac{48}{29} = \frac{32}{29} }$
+
+\vspace{4mm}
+Отже, отримали:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$E(\xi_1/\xi_2)$ & $-\frac{5}{24}$ & $\frac{1}{4}$ & $\frac{32}{29}$ & $\frac{34}{19}$ \\ \hline
+$P$ & 0.24 & 0.28 & 0.29 & 0.19 \\ \hline
+\end{tabular}
+
+\vspace{1mm}
+Таблиця 2.3 -- ряд розподілу $E(\xi_1/\xi_2)$
+\end{center}
+
+Виконаємо перевірку, враховуючи формулу повного математичного сподівання: $E(E(\xi_1/\xi_2)) = E \xi_1$
+
+\vspace{1mm}
+\begin{spacing}{2}
+$E(E(\xi_1/\xi_2)) = \displaystyle{-\frac{5}{24} \cdot 0.24 + \frac{1}{4} \cdot 0.28 + \frac{32}{29} \cdot 0.29 + \frac{34}{19} \cdot 0.19= -0.05 + 0.07 +} \\ + 0.32 + 0.34 = 0.68 = E \xi_1$
+\end{spacing}
+
+
+\item Побудуємо ряд розподілу $E (\xi_2 / \xi_1)$, для цього спочатку обчислимо умовні математичні сподівання для $\xi_2$:
+
+\vspace{3mm}
+
+$E(\xi_2 / \xi_1 = -2) = \displaystyle{-\frac{100}{32} - \frac{24}{32} - \frac{30}{32} + \frac{24}{32} = - \frac{65}{16}}$
+
+\vspace{1mm}
+
+$E(\xi_2 / \xi_1 = 0) = \displaystyle{-\frac{90}{24} - \frac{6}{24} - \frac{27}{24} + \frac{15}{24} = - \frac{108}{24} = - \frac{9}{2}}$
+
+\vspace{1mm}
+
+$E(\xi_2 / \xi_1 = 3) = \displaystyle{-\frac{90}{44} - \frac{84}{44} - \frac{15}{44} + \frac{48}{44} = - \frac{141}{44}}$
+
+
+\vspace{4mm}
+Отже, отримали:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+$E(\xi_2/\xi_1)$ & $-\frac{65}{16}$ & $ -\frac{9}{2}$ & $ - \frac{141}{44}$  \\ \hline
+$P$ & 0.32 & 0.24 & 0.44\\ \hline
+\end{tabular}
+
+\vspace{1mm}
+Таблиця 2.4 -- ряд розподілу $E(\xi_2/\xi_1)$
+\end{center}
+
+Виконаємо перевірку, враховуючи формулу повного математичного сподівання: $E(E(\xi_2/\xi_1)) = E \xi_2$
+
+\vspace{1mm}
+\begin{spacing}{2}
+$E(\xi_2 / \xi_1) = \displaystyle{-\frac{65}{16} \cdot 0.32 - \frac{9}{2} \cdot 0.24  - \frac{141}{44} \cdot 0.44 = -1.3 - 1.08 - 1.41 = -3.79 = E \xi_2}$
+\end{spacing}
+
+
+\end{enumerate}
+\end{spacing}
+
+\newpage{}
+
+%---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+%---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+%---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+%---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+%---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+%---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+%#define
+	
+%Зручний інтеграл
+
+\newcommand \INT[3]{ \frac{1}{5+2\pi}\int \limits_{#1}^{#2} \left( #3 \right)}
+
+\newcommand \q[3]{\int \limits_{#1}^{#2} #3}
+
+%кут
+
+\newcommand \kut[2]{ \addplot[color = black, ultra thick] coordinates {(-3, #2) (#1,#2) (#1,-3) }; \node[above] at (#1, #2) {$(x,y)$};}
+
+
+
+
+
+
+
+
+%---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+\paragraph{Завдання 2} Вважаючи, що неперервний випадковий вектор $\vec{\xi} = (\xi_1, \xi_2)$ рівномірно розподілений в заданій області знайти:
+
+\begin{enumerate}
+	\item Щільності розподілу координат $\xi_1$ та $\xi_2$.
+	\item Функції розподілу $F_{\xi_1}(x)$ та $F_{\xi_2}(y)$ координат $\xi_1$ та $\xi_2$ відповідно.
+	\item Функцію розподілу $F_{\vec{\xi}}(x,y)$ випадкового вектора.
+	\item Математичні сподівання координат та кореляційну матрицю.
+	\item Умовні щільності розподілу для кожної координати.
+	\item Умовні математичні сподівання для кожної координати з перевіркою.
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = {2, -2},
+	xtick = {-2,2, -1,1},
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$X$},
+	ylabel = {$Y$},
+	width = 9 cm,	
+	height =8cm,
+	title = {рис. 3.1},
+	title style={yshift= - 7.3 cm}
+	%
+]
+	%restrict y to domain = 0:4
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick]{x-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2) (1, -2) (1, -1)};
+\node[above] at (2,1.8) {$x^2+y^2=4$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\paragraph{Розв'язання}
+\hfill \break
+
+\begin{spacing}{1.4}
+Нехай неперервний випадковий вектор рівномірно розподілений в області $G$(див. рисунок 3.2).
+Фігура обмежена наступною кривою $y = \sqrt{4 - x^2}$, а також наступними прямими $x+y = -2, y - x = -2, x = -1, x = 1, y = -2$
+\end{spacing}
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$X$},
+	ylabel = {$Y$},
+	width = 6 cm,	
+	height =6 cm,
+	title = {рис. 3.1},
+	title style={yshift= - 5cm}
+]
+
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+
+\addplot[domain = -2:2, draw = none, name path = a]{0};
+\addplot[domain = -2:-1, draw = none, name path = a1]{0};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+
+\addplot [blue, opacity = 0.2] fill between [of = k and a];
+\addplot [blue, opacity = 0.2] fill between [of = r and a3];
+\addplot [blue, opacity = 0.2] fill between [of = c and a2];
+\addplot [blue, opacity = 0.2] fill between [of = l and a1];
+
+\node[above] at (0.5,0.5) {$G$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{spacing}{1.4}
+Саму область $G$ можна подати у вигляді:
+
+\vspace{3mm}
+
+$G = \Bigg\{ (x,y) \biggm|
+	 \begin{aligned} 
+		\big( ((-2 \leqslant x \leqslant -1)\vee(1 \leqslant x \leqslant 2)) \wedge& (|x| -2 \leqslant y \leqslant \sqrt{4-x^2}) \big) \vee \\
+		\vee ( (-1 \leqslant x \leqslant 1) \wedge (-2 \leqslant y& \leqslant \sqrt{4-x^2}) ) \\
+	\end{aligned}
+	\Bigg\}
+$ 
+\end{spacing}
+
+\paragraph{1. Щільності розподілу координат $\xi_1$ та $\xi_2$.}
+\hfill \break
+
+Обчислимо площу $G$, для цього розіб'ємо її на 4 області:
+
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$X$},
+	ylabel = {$Y$},
+	width = 8 cm,	
+	height =8 cm,
+]
+
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+
+\addplot[domain = -2:2, draw = none, name path = a]{0};
+\addplot[domain = -2:-1, draw = none, name path = a1]{0};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+
+\addplot [blue, opacity = 0.2] fill between [of = k and a];
+\addplot [green, opacity = 0.2] fill between [of = r and a3];
+\addplot [orange, opacity = 0.2] fill between [of = c and a2];
+\addplot [yellow, opacity = 0.2] fill between [of = l and a1];
+
+\node[above] at (0.5,0.5) {$G_1$};
+\node[above] at (-1.4,-0.5) {$G_2$};
+\node[above] at (0.5,-1.5) {$G_3$};
+\node[above] at (1.4,-0.5) {$G_4$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{spacing}{1.4}
+
+$G_1 =  \Big\{ (x,y) \big| (-2\leqslant x \leqslant 2) \wedge (0 \leqslant y \leqslant \sqrt{4-x^2}) \Big\}$
+
+\vspace{2mm}
+$G_2 =  \Big\{ (x,y) \big| (-2\leqslant x \leqslant -1) \wedge (-x-2 \leqslant y \leqslant 0) \Big\}$
+
+\vspace{2mm}
+$G_3 =  \Big\{ (x,y) \big| (-1 \leqslant x \leqslant 1) \wedge (-2 \leqslant y \leqslant 0) \Big\}$
+
+\vspace{2mm}
+$G_4 =  \Big\{ (x,y) \big| (1 \leqslant x \leqslant 2) \wedge (x-2 \leqslant y \leqslant 0) \Big\}$
+
+\vspace{5mm}
+Знайдемо площі цих областей:
+\begin{enumerate}
+\item $G_1$ - половина кола, заданого рівнянням $x^2+y^2 = 4$, з рівняння маємо радіус кола: $R = 2$. Отримуємо:
+$S_{G_1} = \frac{1}{2} \pi R^2 = \frac{1}{2} \cdot 4 \pi = 2\pi$ 
+
+\item $G_2, G_4$ - рівнобедрені прямокутні трикутники. Довжини катетів у них дорівнюють 1, тому $S_{G_2} = S_{G_4} = \frac{1}{2}$
+
+\item $G_3$ - квадрат з довжиною сторони 2, тому $S_{G_3} = 2^2 = 4$ 
+\end{enumerate}
+\end{spacing}
+
+\newpage{}
+
+\begin{spacing}{1.4}
+Отже маємо:
+\begin{center}
+$S_{G} = S_{G_1} + S_{G_2} + S_{G_3} + S_{G_4} = 2\pi + \frac{1}{2} + 4 + \frac{1}{2} = 5 + 2\pi$
+\end{center}
+
+
+Оскільки випадковий вектор рівномірно розподілений в області $G$, то його щільність визначається наступною формулою:
+
+\begin{center}
+$f_{\vec{\xi}}(x,y) =
+\begin{cases}
+\frac{1}{S_G}, (x,y) \in G \\
+0, (x,y) \notin G
+\end{cases}
+=
+\begin{cases}
+\frac{1}{5+2\pi}, (x,y) \in G \\
+0, (x,y) \notin G
+\end{cases}
+$
+\end{center}
+
+Використавши дві наступні формули знайдемо щільнісь першої та другої координати випадкового вектора $\vec{\xi}$:
+\begin{center}
+$f_{\xi_1}(x) = \int \limits_{-\infty}^{+\infty} f_{\vec{\xi}}(x,y)dy \hspace{10mm} f_{\xi_2}(y) = \int \limits_{-\infty}^{+\infty} f_{\vec{\xi}}(x,y)dx$
+\end{center}
+
+$
+f_{\xi_1} (x)= 
+\begin{cases}
+\vspace{3mm}
+0, \quad x \leqslant -2 \\ \vspace{3mm}
+\frac{1}{5+2\pi} \int \limits_{-x-2}^{\sqrt{4-x^2}} dy = \frac{1}{5+2\pi}\left(\sqrt{4-x^2} + x + 2 \right), \quad    -2 < x \leqslant -1 \\\vspace{3mm}
+\frac{1}{5+2\pi}\int \limits_{-2}^{\sqrt{4-x^2}} dy = \frac{1}{5+2\pi} \left( \sqrt{4 - x^2} + 2 \right), \quad  -1 < x \leqslant 1 \\ \vspace{3mm} 
+\frac{1}{5+2\pi}\int \limits_{x-2}^{\sqrt{4-x^2}} dy = \frac{1}{5+2\pi} \left(\sqrt{4-x^2} - x + 2 \right), \quad  1 < x \leqslant 2 \\
+0, \quad x > 2
+\end{cases}
+$
+
+\vspace{4mm}
+
+
+$
+f_{\xi_2} (y)= 
+\begin{cases}
+\vspace{3mm}
+0, \quad y \leqslant -2 \\ \vspace{3mm}
+\frac{1}{5+2\pi} \int \limits_{-1}^{1} dx = \frac{2}{5+2\pi}, \quad -2 < y \leqslant -1 \\ \vspace{3mm}
+\frac{1}{5+2\pi} \int \limits_{-y-2}^{y+2} dx = \frac{2y+4}{5+2\pi} , \quad -1 < y \leqslant 0 \\ \vspace{3mm}
+\frac{1}{5+2\pi} \int \limits_{-\sqrt{4-y^2}}^{\sqrt{4-y^2}} dx = \frac{2\sqrt{4-y^2}}{5+2\pi} ,  \quad 0 < y \leqslant 2 \\ \vspace{3mm}
+0, \quad y > 2
+\end{cases}
+$
+
+\newpage{}
+Перевірка умови нормування $\int \limits_{- \infty}^{+ \infty} f_{\xi_1}(x) dx = \int \limits_{- \infty}^{+ \infty} f_{\xi_2}(y) dy = 1$
+
+\begin{enumerate}
+\item 
+$\int \limits_{- \infty}^{+ \infty} f_{\xi_1}(x) dx = \INT{-2}{-1}{\sqrt{4-x^2} + x + 2} + \INT{-1}{1}{\sqrt{4 - x^2} + 2 } + \INT{1}{2}{\sqrt{4-x^2} -x + 2} = \quad = 
+\frac{1}{5+2\pi} \left(\int \limits_{-2}^{-1} \sqrt{4-x^2} dx + \int \limits_{-2}^{-1} x dx + \int \limits_{-2}^{-1} 2 dx +  \int \limits_{-1}^{1} \sqrt{4-x^2} dx + \int \limits_{-1}^{1}  2 dx +
+\int \limits_{1}^{2} \sqrt{4-x^2} dx - \int \limits_{1}^{2} x dx + \int \limits_{1}^{2} 2 dx\right) =\\
+= \frac{1}{5 + 2\pi} \left( \frac{4\pi - \sqrt{3}}{6} + \left. \frac{x^2}{2} \right|_{-2}^{-1} + 2x  \Big|_{-2}^{-1} + \frac{2\pi+ \sqrt{3}}{3}  
++ 2x \Big|_{-1}^{1} + \frac{4\pi - \sqrt{3}}{6} - \frac{x^2}{2}\Big|_{1}^{2} + 2x \Big|_{1}^{2} \right) = \\
+= \frac{1}{5+2\pi} \left( \frac{4\pi - \sqrt{3} +4 \pi + 2 \sqrt{3} + 4 \pi - \sqrt{3}}{6} - \frac{3}{2} + 2 + 4 - \frac{3}{2} + 2 \right) =
+\frac{1}{5+2\pi} \left(2 \pi + 5 \right) = \nolinebreak1$ 
+
+
+\textit{Зауваження.} Визначені інтеграли: $\int \limits_{-2}^{1} \sqrt{4-x^2} dx, \int \limits_{-1}^{1} \sqrt{4-x^2} dx, \int \limits_{1}^{2} \sqrt{4-x^2} dx$ 
+розв'язані в додатку, сторінка ~
+
+\vspace{4mm}
+
+\item $\int \limits_{- \infty}^{+ \infty} f_{\xi_2}(y) dy =  \int \limits_{-2}^{-1} \frac{2dy}{5+2\pi} + \int \limits_{-1}^{0} \frac{(2y+4)dy}{5+2\pi} + \int \limits_{0}^{2} \frac{2\sqrt{4-y^2} dy}{5+2\pi} = \frac{2}{5+2\pi} \int \limits_{-2}^{-1} dy + \frac{2}{5+2\pi} \int \limits_{-1}^{0} y dy + \frac{2}{5+2\pi} \int \limits_{-1}^{0}2 dy             
++ \frac{2}{5+2\pi}\int \limits_{0}^{2} \sqrt{4-y^2} dy=  \frac{2}{5+2\pi} \left( y \Big|_{-2}^{-1} + \frac{y^2}{2} \Big|_{-1}^{0} + 2y\Big|_{-1}^{0}  + \pi \right) = \\ = \frac{2}{5+2\pi} \left(3 - \frac{1}{2} + \pi \right) = \frac{2}{5+2\pi} \cdot \frac{5+2\pi}{2} = 1$
+
+
+\textit{Зауваження.} Визначений інтеграл: $\int \limits_{0}^{2} \sqrt{4-x^2} dy$ 
+розв'язаний в додатку, сторінка ~
+
+\end{enumerate}
+
+\paragraph{2. Функції розподілу координат $\xi_1$ та $\xi_2$.}
+
+\hfill\break
+
+Нехай $F_{\xi_1}(x)$ та $F_{\xi_2}(y)$ -- функції розподілу координат вектора $\vec{\xi}$. Застосуємо формули:
+
+\begin{center}
+$
+\begin{cases}
+F_{\xi_1}(x) = \int \limits_{- \infty}^x f_{\xi_1} (t) dt \\ 
+F_{\xi_2}(y) = \int \limits_{- \infty}^y f_{\xi_2} (s) ds
+\end{cases}
+$
+
+\end{center}
+\vspace{4mm}
+$
+F_{\xi_1}(x) =
+\begin{cases}
+\vspace{4mm}
+\q{- \infty}{x}{0 dt} = 0, \quad x \leqslant -2 \\  
+
+\q{- \infty}{x}{0 dt} + \frac{1}{5+2\pi} \q{-2}{x}{\left(\sqrt{4 - t^2} + t + 2\right) dt}  = \big|[1] \big| = \frac{1}{5+2\pi} \left((\sin(2\arcsin(\frac{t}{2})) +2\arcsin(\frac{t}{2}))\Big|_{-2}^{x} \right) + \\ + \frac{1}{5+2\pi} \left( \frac{t^2}{2} \Big|_{-2}^{x} + 2t \Big|_{-2}^{x} \right)=
+\frac{1}{5+2\pi}\left(\sin(2 \arcsin(\frac{x}{2})) + 2\arcsin(\frac{x}{2}) + \pi) \right) + \\  +
+\frac{1}{5+2\pi}\left( \frac{x^2}{2} - 2 + 2x +4 \right) = \\ \vspace{4mm} = \frac{1}{5+2\pi}\left( \sin(2\arcsin(\frac{x}{2})) + 2\arcsin(\frac{x}{2}) + \pi + \frac{x^2}{2} + 2 + 2x)\right),  -2 < x \leqslant -1 \\ 
+
+\q{- \infty}{x}{0 dt} + \frac{1}{5+2\pi} \q{-2}{-1}{\left(\sqrt{4 - t^2} + t + 2\right) dt} + \frac{1}{5+2\pi} \q{-1}{x}{\left(\sqrt{4-t^2} + 2  \right) dt} = [1] = \\ = 
+\frac{1}{5+2\pi} \left((\sin(2\arcsin(\frac{t}{2})) +2\arcsin(\frac{t}{2}))\Big|_{-2}^{-1}  + \frac{t^2}{2} \Big|_{-2}^{-1} + 2t \Big|_{-2}^{-1} \right) + \\ + \frac{1}{5+2\pi} \left((\sin(2\arcsin(\frac{t}{2})) +2\arcsin(\frac{t}{2}))\Big|_{-1}^{x}  + 2t\Big|_{-1}^{x} \right) = \\
+= \frac{1}{5+2\pi} \left(\frac{2\pi}{3} - \frac{\sqrt{3}}{2} + \frac{1}{2} + \sin(2\arcsin(\frac{x}{2})) +2\arcsin(\frac{x}{2}) + \frac{\sqrt{3}}{2} + \frac{\pi}{3} +2x + 2\right) = \\ \vspace{4mm}=
+\frac{1}{5+2\pi} \left( \pi + \frac{5}{2} + 2x + \sin(2\arcsin(\frac{x}{2})) +2 \arcsin(\frac{x}{2}) \right),  -1 < x \leqslant 1 \\
+
+\q{- \infty}{x}{0 dt} + \frac{1}{5+2\pi} \q{-2}{-1}{\left(\sqrt{4 - t^2} + t + 2\right) dt} + \frac{1}{5+2\pi} \q{-1}{1}{\left(\sqrt{4-t^2} + 2  \right) dt} 
++ \q{1}{x}{(\sqrt{4-t^2} - t + 2) dt} = \\ = [1] = \frac{1}{5+2\pi} \left((\sin(2\arcsin(\frac{t}{2})) +2\arcsin(\frac{t}{2}))\Big|_{-2}^{-1}  + \frac{t^2}{2} \Big|_{-2}^{-1}  + 2t \Big|_{-2}^{-1} \right) + \\
++ \frac{1}{5+ 2\pi} \left((\sin(2\arcsin(\frac{t}{2})) +2\arcsin(\frac{t}{2}))\Big|_{-1}^{1} + 2t \Big|_{-1}^{1} \right) + \\ +
+\frac{1}{5+2\pi} \left((\sin(2\arcsin(\frac{t}{2})) +2\arcsin(\frac{t}{2}))\Big|_{1}^{x} - \frac{t^2}{2} \Big|_{1}^{x}  + 2t \Big|_{1}^{x}\right) = \\
+=\frac{1}{5+2\pi} \left(\frac{2 \pi}{3} - \frac{\sqrt{3}}{2} + \frac{1}{2} \right) + \frac{1}{5+2\pi}\left(\frac{2\pi}{3} + \sqrt{3} + 4  \right) + \\ +
+\frac{1}{5+2\pi} \left(\sin(2\arcsin(\frac{x}{2})) +2\arcsin(\frac{x}{2}) - \frac{\sqrt{3}}{2} - \frac{\pi}{3} -  \frac{1}{2} x^2 + \frac{1}{2} + 2x -2\right) = \\ \vspace{4mm}=
+\frac{1}{5+2\pi} \left( \pi + 3 - \frac{x^2}{2} + 2x + (\sin(2\arcsin(\frac{x}{2})) +2\arcsin(\frac{x}{2}) \right), 1 < x \leqslant 2 \\
+
+\q{- \infty}{x}{0 dt} + \frac{1}{5+2\pi} \q{-2}{-1}{\left(\sqrt{4 - t^2} + t + 2\right) dt} + \frac{1}{5+2\pi} \q{-1}{1}{\left(\sqrt{4-t^2} + 2  \right) dt} 
++ \frac{1}{5+2\pi}\q{1}{x}{(\sqrt{4-t^2} - t + 2) dt} + \\ + \q{2}{x}{0 dt} = [1] = \frac{1}{5+2\pi} \left((\sin(2\arcsin(\frac{t}{2})) +2\arcsin(\frac{t}{2}))\Big|_{-2}^{-1}  + \frac{t^2}{2} \Big|_{-2}^{-1}  + 2t \Big|_{-2}^{-1} \right) + \\
++ \frac{1}{5+ 2\pi} \left((\sin(2\arcsin(\frac{t}{2})) +2\arcsin(\frac{t}{2}))\Big|_{-1}^{1} + 2t \Big|_{-1}^{1} \right) + \\ +
+\frac{1}{5+2\pi} \left((\sin(2\arcsin(\frac{t}{2})) +2\arcsin(\frac{t}{2}))\Big|_{1}^{2} - \frac{t^2}{2} \Big|_{1}^{2}  + 2t \Big|_{1}^{2}\right) = \\ =
+\frac{1}{5+2\pi}\left(\frac{2 \pi}{3} - \frac{\sqrt{3}}{2} + \frac{1}{2} \right) + \frac{1}{5+2\pi}\left(\frac{2\pi}{3} + \sqrt{3} + 4  \right) + \frac{1}{5+2\pi}\left( \frac{2\pi}{3} - \frac{\sqrt{3}}{2} + \frac{1}{2}\right) = \\ =
+\frac{1}{5+2\pi} (2\pi +5) = 1, x > 2
+\end{cases}
+$ 
+
+\newpage{}
+Отже:
+
+
+
+\vspace{3mm}
+
+$
+F_{\xi_1}(x) =
+\begin{cases}
+\vspace{4mm}
+0, \quad x \leqslant -1 \\ \vspace{4mm}
+\frac{1}{5+2\pi}\left( \sin(2\arcsin(\frac{x}{2})) + 2\arcsin(\frac{x}{2}) + \pi + \frac{x^2}{2} + 2 + 2x)\right),  -2 < x \leqslant -2 \\ \vspace{4mm}
+
+\frac{1}{5+2\pi} \left( \pi + \frac{5}{2} + 2x + \sin(2\arcsin(\frac{x}{2})) +2 \arcsin(\frac{x}{2}) \right),  -1 < x \leqslant 1 \\ \vspace{4mm}
+
+\frac{1}{5+2\pi} \left( \pi + 3 - \frac{x^2}{2} + 2x + (\sin(2\arcsin(\frac{x}{2})) +2\arcsin(\frac{x}{2}) \right), 1 < x \leqslant 2 \\ \vspace{4mm}
+
+1, \quad x > 2
+\end{cases}
+$
+
+
+Перевірка:
+
+
+
+Оскільки функція розподілу неперервної випадкової величини є неперервною, тому перевіримо неперервність отриманої функції розподілу. $D(F_{\xi_1}(x)) = \mathbb{R}$. Перевіримо неперервніть функції розподілу у ймовірних точках розриву(точках стику кривих, тобто точках з абсцисами $x = -2, x = -1, \\x = 1, x = 2$): 
+
+\begin{enumerate}
+\begin{spacing}{1.8}
+\item $x = -2$:
+
+$\lim \limits_{x \to -2-0} F_{\xi_1}(x) = \lim \limits_{x\to -2+0} 0 = 0$
+\vspace{2mm}
+
+$\lim \limits_{x \to -2+0} F_{\xi_1}(x) = \lim \limits_{x\to 2-0}  = \frac{1}{5+2\pi}\left( \sin(2\arcsin(\frac{x}{2})) + 2\arcsin(\frac{x}{2}) + \pi + \frac{x^2}{2} + 2 + 2x)\right) = \frac{1}{5+2\pi}\cdot \left(\sin(2\cdot (-\frac{\pi}{2})) - 2\cdot \frac{\pi}{2} + 2 + 2 - 4 \right) = \frac{1}{5+ 2\pi} \cdot 0 = 0$
+
+\vspace{2mm}
+$\lim \limits_{x \to -2-0} F_{\xi_1}(x) = \lim \limits_{x \to -2+0} F_{\xi_1}(x), $ отже, точка $(-2; 0)$ - не є точкою розриву
+
+\item $x = -1$:
+
+$\lim \limits_{x \to -1-0} F_{\xi_1}(x)=  \lim \limits_{x\to -1-0}  \frac{1}{5+2\pi}\left( \sin(2\arcsin(\frac{x}{2})) + 2\arcsin(\frac{x}{2}) + \pi + \frac{x^2}{2} + 2 + 2x)\right) = \quad = \frac{1}{5+2\pi} \left( \sin(-2 \cdot \frac{\pi}{6}) - 2 \cdot \frac{\pi}{6} + \pi + \frac{1}{2} + 2 - 2\right) = 
+\frac{1}{5+2\pi} \left(-\frac{\sqrt{3}}{2} + \frac{2\pi}{3} + \frac{1}{2} \right)$
+\vspace{-5mm}
+
+$\lim \limits_{x \to -1+0} F_{\xi_1}(x)=  \lim \limits_{x\to -1+0} \frac{1}{5+2\pi} \left( \pi + \frac{5}{2} + 2x + \sin(2\arcsin(\frac{x}{2})) +2 \arcsin(\frac{x}{2}) \right) = \quad = \frac{1}{5+2\pi} \left(\pi + \frac{5}{2} -2 - \frac{\sqrt{3}}{2} - \frac{\pi}{3} \right) = \frac{1}{5+ 2\pi} \left( -\frac{\sqrt{3}}{2} + \frac{2\pi}{3} + \frac{1}{2}  \right)$
+
+$\lim \limits_{x \to -1-0} F_{\xi_1}(x) = \lim \limits_{x \to -1+0} F_{\xi_1}(x), $ отже, точка $\left(-1;  \frac{1}{5+ 2\pi} \left( -\frac{\sqrt{3}}{2} + \frac{2\pi}{3} + \frac{1}{2}  \right) \right)$ - не є точкою розриву
+
+\item  x = 1:
+
+$\lim \limits_{x \to 1-0} F_{\xi_1}(x)=  \lim \limits_{x\to 1-0} \frac{1}{5+2\pi} \left( \pi + \frac{5}{2} + 2x + \sin(2\arcsin(\frac{x}{2})) +2 \arcsin(\frac{x}{2}) \right) = \quad = \frac{1}{5+ 2\pi}\left(\pi + \frac{5}{2} + 2 +  \sin(\frac{\pi}{3}) + \frac{\pi}{3}\right) = \frac{1}{5+2\pi} \left(\frac{4 \pi}{3} + \frac{9}{2} + \frac{\sqrt{3}}{2}\right)$
+
+$\lim \limits_{x \to 1+0} F_{\xi_1}(x)=  \lim \limits_{x\to 1+0} \frac{1}{5+2\pi} \left( \pi + 3 - \frac{x^2}{2} + 2x + (\sin(2\arcsin(\frac{x}{2})) +2\arcsin(\frac{x}{2}) \right) = \quad = \frac{1}{5+ 2\pi} \left( \pi + 3 - \frac{1}{2} + 2 + \frac{\sqrt{3}}{2} + \frac{\pi}{3} 
+\right) = \frac{1}{5+ 2\pi} \left( \frac{4\pi}{3} + \frac{9}{2} + \frac{\sqrt{3}}{2} \right)$
+\vspace{3mm}
+
+$\lim \limits_{x \to 1-0} F_{\xi_1}(x) = \lim \limits_{x \to 1+0} F_{\xi_1}(x), $ отже, точка $\left(1;  \frac{1}{5+ 2\pi} \left( \frac{4\pi}{3} + \frac{9}{2} + \frac{\sqrt{3}}{2} \right) \right)$ - не є точкою розриву
+
+\item x = 2:
+
+$\lim \limits_{x \to 2-0} F_{\xi_1}(x)=  \lim \limits_{x \to 2-0} \frac{1}{5+2\pi} \left( \pi + 3 - \frac{x^2}{2} + 2x + (\sin(2\arcsin(\frac{x}{2})) +2\arcsin(\frac{x}{2}) \right) = \quad =  \frac{1}{5+2\pi} \left(\pi + 3 - 2 + 4 + 0 + \pi \right) = \frac{1}{5+2\pi} \left( 5 + 2\pi \right) = 1$
+
+$\lim \limits_{x \to 2+0} F_{\xi_1}(x)=  \lim \limits_{x \to 2+0} 1 = 1$
+
+$\lim \limits_{x \to 2-0} F_{\xi_1}(x) = \lim \limits_{x \to 2+0} F_{\xi_1}(x), $ отже, точка $(2; 1)$ - не є точкою розриву
+\end{spacing}
+\end{enumerate}
+
+У всіх інших точках $F_{\xi_1}(x)$ - неперервна, оскільки в цих точках вона задана неперервними функціями.
+
+%--------------------------------------------------------------------------------------------------------------------
+\begin{comment}
+\item Монотонна неспадна поведінка функції:
+
+\begin{enumerate}
+\item $x \leqslant -2:$ 
+\begin{center}
+$\frac{d F_{\xi_1}}{dx} = f_{\xi_1}(x) = 0 \geqslant 0$
+\end{center}
+
+\item $-2 < x \leqslant -1: $
+
+\begin{center}
+$\frac{d F_{\xi_1}}{dx} = f_{\xi_1}(x) =\frac{1}{5+2\pi} \int \limits_{-x-2}^{\sqrt{4-x^2}} dy = \frac{1}{5+2\pi}\left(\sqrt{4-x^2} + x + 2 \right) \geqslant 0$
+\end{center} 
+
+\item $-1 < x \leqslant 1: $
+
+\begin{center}
+$\frac{d F_{\xi_1}}{dx} = f_{\xi_1}(x) =\frac{1}{5+2\pi} \int \limits_{-x-2}^{\sqrt{4-x^2}} dy = \frac{1}{5+2\pi}\left(\sqrt{4-x^2} + x + 2 \right) \geqslant 0$
+\end{center} 
+\end{enumerate}
+\end{comment}
+%----------------------------------------------------------------------------------------------------------------------------------
+
+Також перевіримо поведінку функції розподілу при $x \to - \infty$, та $x \to +\infty$  
+
+$ \lim \limits_{x \to - \infty} F_{\xi_1}(x)= \lim \limits_{x \to -\infty}0 = 0$
+
+\vspace{3mm}
+$ \lim \limits_{x \to +\infty} F_{\xi_1}(x)= \lim \limits_{x \to +\infty}1 = 1$
+
+\newpage{}
+
+$
+F_{\xi_2}(y) =
+\begin{cases}
+\vspace{4mm}
+\q{- \infty}{y}{0ds} = 0, y \leqslant -2 \\ \vspace{4mm}
+
+\q{- \infty}{-2}{0ds} + \q{-2}{y}{\frac{2}{5+2\pi}  ds} = \frac{2(y+2)}{5+2\pi}, -2 < y \leqslant -1 \\ 
+
+\q{- \infty}{-2}{0ds} + \q{-2}{-1}{\frac{2}{5+2\pi}  ds} + \q{-1}{y}{\frac{2s+4}{5+2\pi} ds} =
+\frac{2}{5+2\pi} + \frac{2}{5+2\pi}\left( \q{-1}{y}{s ds} + \q{-1}{y}{2dy} \right)  = \\ \vspace{4mm}=
+\frac{2}{5+2\pi}+\frac{2}{5+2\pi}\left(\frac{y^2}{2} - \frac{1}{2} +2y + 2\right) = \frac{2}{5+2\pi} \left(\frac{y^2}{2} + \frac{5}{2} + 2y \right), -1 < y \leqslant 0 \\ 
+
+\q{- \infty}{-2}{0ds} + \q{-2}{-1}{\frac{2}{5+2\pi}  ds} + \q{-1}{0}{\frac{2s+4}{5+2\pi} ds} + \frac{2}{5+2\pi} \int \limits_{0}^{y} \sqrt{4-s^2} ds = [1] = \\ = \frac{2}{5+2\pi} + \frac{3}{5+2\pi} + \frac{2}{5+2\pi}\left(\sin(2\arcsin(\frac{s}{2})) +2 \arcsin(\frac{s}{2})\Big|_{0}^{y} \right) = \\ \vspace{4mm}=
+\frac{1}{5+2\pi}\left(5 +  2\sin(2\arcsin(\frac{y}{2})) + 4\arcsin(\frac{y}{2}) \right), 0 < y \leqslant 2 \\
+
+\q{- \infty}{-2}{0ds} + \q{-2}{-1}{\frac{2}{5+2\pi}  ds} + \q{-1}{0}{\frac{2s+4}{5+2\pi} ds} + \frac{2}{5+2\pi} \int \limits_{0}^{2} \sqrt{4-y^2} dy + \q{2}{y}{0ds}= [1] = \\ = \frac{2}{5+2\pi} + \frac{3}{5+2\pi} + \frac{2}{5+2\pi}\left(\sin(2\arcsin(\frac{s}{2})) +2 \arcsin(\frac{s}{2})\Big|_{0}^{2} \right) = \\ =
+\frac{1}{5+2\pi}\left(5 + 2\sin(2\arcsin(\frac{s}{2})) +4\arcsin(\frac{s}{2}) \right) = \frac{1}{5+2\pi}(5+2\pi) = 1, y > 2
+\end{cases}
+$
+
+\vspace{4mm}
+Отже:
+
+$
+F_{\xi_2}(y) =
+\begin{cases}
+\vspace{3mm}
+0, y \leqslant -2 \\ \vspace{3mm}
+\frac{2(y+2)}{5+2\pi}, -2 < y \leqslant -1 \\ \vspace{3mm}
+\frac{2}{5+2\pi} \left( \frac{y^2}{2} + \frac{5}{2} + 2y \right),  -1 < y \leqslant 0 \\ \vspace{3mm}
+\frac{1}{5+2\pi} \left(5+ 2\sin(2\arcsin(\frac{y}{2})) + 4\arcsin(\frac{y}{2}) \right), 0 < y \leqslant 2 \\ \vspace{3mm}
+1, y > 2
+\end{cases}
+$
+
+
+Перевірка:
+
+
+
+Оскільки функція розподілу неперервної випадкової величини є неперервною, тому перевіримо неперервність отриманої функції розподілу. $D(F_{\xi_2}(y)) = \mathbb{R}$. Перевіримо неперервніть функції розподілу у ймовірних точках розриву(точках стику кривих, тобто точках з абсцисами $y = -2, y =-1, y = 0, y =2$): 
+
+\begin{enumerate}
+
+\item$ y = -2$
+
+$\lim \limits_{y \to -2 -0} F_{\xi_2}(y) = \lim \limits_{y \to -2 -0} 0 = 0$
+
+$\lim \limits_{y \to -2 +0} F_{\xi_2}(y) = \lim \limits_{y \to -2 +0}  \frac{2(y+2)}{5+2\pi} = \frac{0}{5+2\pi} = 0$
+
+$\lim \limits_{y \to -2 -0} F_{\xi_2}(y) = \lim \limits_{y \to -2 +0} F_{\xi_2}(y)$, тому точка $(-2, 0)$ не є точкою розриву
+
+\item $y = -1$
+
+$\lim \limits_{y \to -1 -0} F_{\xi_2}(y) = \lim \limits_{y \to -2 -0} \frac{2(y+2)}{5+2\pi} = \frac{2}{5+2\pi}$
+
+$\lim \limits_{y \to -1 +0} F_{\xi_2}(y) = \lim \limits_{y \to -2 +0}  \frac{2}{5+2\pi} \left( \frac{y^2}{2} + \frac{5}{2} + 2y \right) = \frac{2}{5+2\pi}$
+
+$\lim \limits_{y \to -1 -0} F_{\xi_2}(y) = \lim \limits_{y \to -1 +0} F_{\xi_2}(y)$, тому точка $(-1, \frac{2}{5+2\pi})$ не є точкою розриву
+
+\item $y = 0$
+
+$\lim \limits_{y \to 0 -0} F_{\xi_2}(y) = \lim \limits_{y \to 0 -0} \frac{2}{5+2\pi} \left( \frac{y^2}{2} + \frac{5}{2} + 2y \right)  = \frac{5}{5+ 2\pi}$
+
+$\lim \limits_{y \to 0 +0} F_{\xi_2}(y) = \lim \limits_{y \to 0 +0}  \frac{1}{5+2\pi} \left(5+ 2\sin(2\arcsin(\frac{s}{2})) + 2\arcsin(\frac{s}{2}) \right) = \frac{5}{5+2\pi}$
+
+$\lim \limits_{y \to 0 -0} F_{\xi_2}(y) = \lim \limits_{y \to 0 +0} F_{\xi_2}(y)$, тому точка $(0, \frac{5}{5+2\pi})$ не є точкою розриву
+
+\item $y = 2$
+
+$\lim \limits_{y \to 2 -0} F_{\xi_2}(y) = \lim \limits_{y \to 2 -0}  \frac{1}{5+2\pi} \left(5+ 2\sin(2\arcsin(\frac{s}{2})) + 2\arcsin(\frac{s}{2}) \right)  = \\ =
+\frac{1}{5+2\pi}(5+ 2\pi) = 1$
+
+$\lim \limits_{y \to 2 +0} F_{\xi_2}(y) = \lim \limits_{y \to 2 +0}$  1 = 1
+
+$\lim \limits_{y \to 2 -0} F_{\xi_2}(y) = \lim \limits_{y \to 2 +0} F_{\xi_2}(y)$, тому точка $(2, 1)$ не є точкою розриву
+
+\vspace{4mm}
+Також перевіримо поведінку функції розподілу при $x \to - \infty$, та \\ $x \to +\infty$  
+
+$ \lim \limits_{x \to - \infty} F_{\xi_1}(x)= \lim \limits_{x \to -\infty}0 = 0$
+
+\vspace{3mm}
+$ \lim \limits_{x \to +\infty} F_{\xi_1}(x)= \lim \limits_{x \to +\infty}1 = 1$
+
+\end{enumerate}
+
+\vspace{3mm}
+\paragraph{3. Сумісна функція розподілу випадкового вектора $\vec{\xi}$}
+\hfill \break
+
+Координатну площину xOy розіб’ємо на області які між собою попарно не перетинаються та в об’єднанні дають $\mathbb{R}^2 $
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$X$},
+	ylabel = {$Y$},
+	width = 8 cm,	
+	height =8 cm,
+]
+
+\begin{comment}
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+\addplot[domain = -2:2, draw = none, name path = a]{0};
+\addplot[domain = -2:-1, draw = none, name path = a1]{0};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+\end{comment}
+
+%\addplot [blue, opacity = 0.2] fill between [of = k and a];
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+\addplot[domain = -2:-1, samples = 400, color = black, thick, name path = k1]{(4-x^2)^0.5};
+\addplot[domain = -1:0, samples = 400, color = black, thick, name path = k2]{(4-x^2)^0.5};
+\addplot[domain = 0:1, samples = 400, color = black, thick, name path = k3]{(4-x^2)^0.5};
+\addplot[domain = 1:2, samples = 1000, color = black, thick, name path = k4]{(4-x^2)^0.5};
+
+\addplot[domain = -2:-1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:0, samples = 400, color = black, thick, name path = c1]{-1};
+\addplot[domain = 0:1, samples = 400, color = black, thick, name path = c2]{-1};
+\addplot[domain = -1:0, samples = 400, color = black, thick, name path = cc1]{-2};
+\addplot[domain = 0:1, samples = 400, color = black, thick, name path = cc2]{-2};
+\addplot[domain = 1:2, draw = none, name path = c3]{-2};
+\addplot[domain = 2:3, draw = none, name path = c4]{-2};
+
+\addplot[domain = -2:-1, draw = none, name path = a1]{0};
+\addplot[domain = -1:0, draw = none, name path = a2]{0};
+\addplot[domain = 0:1, draw = none, name path = a3]{0};
+\addplot[domain = 1:2, draw = none, name path = a4]{0};
+\addplot[domain = 2:3, draw = none, name path = a5]{0};
+
+\addplot[domain = -3:-2, draw = none, name path = b0]{3};
+\addplot[domain = -2:-1, draw = none, name path = b1]{3};
+\addplot[domain = -1:0, draw = none, name path = b2]{3};
+\addplot[domain = 0:1, draw = none, name path = b3]{3};
+\addplot[domain = 1:2, draw = none, name path = b4]{3};
+\addplot[domain = 2:3, draw = none, name path = b5]{3};
+
+\addplot[domain = -3:-2, draw = none, name path = n0]{-3};
+\addplot[domain = -2:-1, draw = none, name path = n1]{-3};
+\addplot[domain = -1:0, draw = none, name path = n2]{-3};
+\addplot[domain = 0:1, draw = none, name path = n3]{-3};
+\addplot[domain = 1:2, draw = none, name path = n4]{-3};
+\addplot[domain = 2:3, draw = none, name path = n5]{-3};
+
+\addplot[domain = -3:-2, draw = none, name path = m0]{2};
+\addplot[domain = -2:-1, draw = none, name path = m1]{2};
+\addplot[domain = -1:0, draw = none, name path = m2]{2};
+\addplot[domain = 0:1, draw = none, name path = m3]{2};
+\addplot[domain = 1:2, draw = none, name path = m4]{2};
+\addplot[domain = 2:3, draw = none, name path = m5]{2};
+
+
+\addplot[domain = 1:2, draw = none, name path = d1]{-1};
+\addplot[domain = 2:3, draw = none, name path = d2]{-1};
+\addplot[domain = 1:2, draw = none, name path = d3]{-2};
+\addplot[domain = 2:3, draw = none, name path = d4]{-2};
+
+
+%G1
+\addplot [blue, opacity = 0.2] fill between [of = k1 and b1];
+\addplot [violet, opacity = 0.2] fill between [of = k3 and m3];
+\addplot [yellow, opacity = 0.2] fill between [of = k2 and b2];
+\addplot [green, opacity = 0.2] fill between [of = k4 and m4];
+\addplot [red, opacity = 0.2] fill between [of = b0 and n0];
+\addplot [red, opacity = 0.2] fill between [of = l and n1];
+\addplot [red, opacity = 0.2] fill between [of = c1 and n2];
+\addplot [red, opacity = 0.2] fill between [of = c2 and n3];
+\addplot [red, opacity = 0.2] fill between [of = c3 and n4];
+\addplot [red, opacity = 0.2] fill between [of = c4 and n5];
+\addplot [orange, opacity = 0.2] fill between [of = m3 and b3];
+\addplot [pink, opacity = 0.2] fill between [of = m4 and b4];
+\addplot [blue, opacity = 0.2] fill between [of = a5 and m5];
+\addplot [yellow, opacity = 0.2] fill between [of = m5 and b5];
+\addplot [green, opacity = 0.2] fill between [of = k1 and a1];
+\addplot [pink, opacity = 0.2] fill between [of = k2 and a2];
+\addplot [pink, opacity = 0.2] fill between [of = k3 and a3];
+\addplot [gray, opacity = 0.2] fill between [of = k4 and a4];
+\addplot [yellow, opacity = 0.2] fill between [of = l and a1];
+\addplot [yellow, opacity = 0.2] fill between [of = r and a4];
+\addplot [violet, opacity = 0.2] fill between [of = c1 and a2];
+\addplot [violet, opacity = 0.2] fill between [of = c2 and a3];
+\addplot [green, opacity = 0.2] fill between [of =d1 and  d3];
+\addplot [green, opacity = 0.2] fill between [of = d2 and d4];
+\addplot [orange, opacity = 0.2] fill between [of = cc1 and c1];
+\addplot [orange, opacity = 0.2] fill between [of = cc2 and c2];
+
+
+
+\node[above] at (-1.5, 2) {$D_2$};
+\node[above] at (-0.5, 2) {$D_3$};
+\node[above] at (0.7, 1.7) {$D_4$};
+\node[above] at (1.5, 1.6) {$D_5$};
+\node[above] at (-2, -2) {$D_1$};
+\node[above] at (0.7, 2.3) {$D_6$};
+\node[above] at (2.3, 1) {$D_8$};
+\node[above] at (1.5, 2.3) {$D_7$};
+\node[above] at (2.3, 2.1) {$D_9$};
+\node[above] at (-1.5, 0.5) {$D_{10}$};
+\node[above] at (-0.5, 1) {$D_{11}$};
+\node[above] at (1.5, 0.5) {$D_{12}$};
+\node[above] at (1.5, -0.5) {$D_{14}$};
+\node[above] at (-1.5, -0.5) {$D_{13}$};
+\node[above] at (-0.5, -0.5) {$D_{15}$};
+\node[above] at (-0.5, -1.5) {$D_{16}$};
+\node[above] at (1.5, -1.6) {$D_{17}$};
+\node[above] at (2.2, -0.5) {$D_{18}$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+
+$D_1 = \biggl\{ (x,y) \biggm| ((x \leqslant -2)\vee(y \leqslant -2))\vee((-2 < x \leqslant -1)\wedge(-2 < y \leqslant \nolinebreak -2-x)) \biggr\}$
+
+$D_2 = \biggl\{ (x,y) \biggm| (-2  < x  \leqslant -1 )\wedge(y \geqslant \sqrt{4-x^2}) \biggr\}$
+
+$D_3 = \biggl\{ (x,y) \biggm| (-1 < x \leqslant 0) \wedge (y \geqslant \sqrt{4-x^2})  \biggr\}$
+
+$D_4 = \biggl\{ (x,y) \biggm| (0 < x \leqslant 1) \wedge (\sqrt{4-x^2})  \leqslant y \leqslant  2 \biggr\}$
+
+$D_5 = \biggl\{ (x,y) \biggm| (1 < x \leqslant 2) \wedge (\sqrt{4-x^2})  \leqslant y \leqslant  2  \biggr\}$
+
+$D_6 = \biggl\{ (x,y) \biggm|  (0 < x \leqslant 1) \wedge (y > 2)\biggr\}$
+
+$D_7 = \biggl\{ (x,y) \biggm| (1 < x \leqslant 2) \wedge (y > 2) \biggr\}$
+
+$D_8 = \biggl\{ (x,y) \biggm|(x > 2)\wedge(0 \leqslant y < 2)  \biggr\}$
+
+$D_9 = \biggl\{ (x,y) \biggm| (x > 2)\wedge(y \geqslant 2)\biggr\}$
+
+$D_{10} = \biggl\{ (x,y) \biggm| ( -2 < x \leqslant -1)\wedge(0 \leqslant y < \sqrt{4-x^2})  \biggr\}$
+
+$D_{11} = \biggl\{ (x,y) \biggm|  (-1 <  x \leqslant 1)\wedge(0 \leqslant y < \sqrt{4-x^2})  \biggr\}$
+
+$D_{12} = \biggl\{ (x,y) \biggm| (1 <  x \leqslant 2) \wedge (0 \leqslant y < \sqrt{4-x^2})  \biggr\}$
+
+$D_{13} = \biggl\{ (x,y) \biggm|  (-2 < x \leqslant -1) \wedge (-x-2 < y < 0)  \biggr\}$
+
+$D_{14} = \biggl\{ (x,y) \biggm| (-1 < x \leqslant 2) \wedge (x-2 < y < 0)   \biggr\}$
+
+$D_{15} = \biggl\{ (x,y) \biggm| (-1 < x \leqslant 1) \wedge (-1 < y < 0) \biggr\}$
+
+$D_{16} = \biggl\{ (x,y) \biggm| (-1 < x \leqslant 1) \wedge (-2 < y \leqslant -1) \biggr\}$
+
+$D_{17} = \biggl\{ (x,y) \biggm| (x > 1) \wedge ( -2 < y \leqslant -1) \biggr\}$
+
+$D_{18} = \biggl\{ (x,y) \biggm| (x > 1) \wedge ((-1 < y < 0)\vee(-1 < y \leqslant x-2 )) \biggr\}$
+
+\vspace{5mm}
+Перейдемо до системи координат $tOs,$ оскільки $x$ та $y$ тут є параметрами. Позначимо:
+
+\begin{center}
+$G_i = G \cap \{(t,s)| (t < x)\wedge(s < y) \}$
+\end{center}
+
+\begin{enumerate}
+
+\item $(x, y) \in D_1$
+
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$t$},
+	ylabel = {$s$},
+	width = 8 cm,	
+	height =8 cm,
+]
+
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+\addplot[domain = -2:2, draw = none, name path = a]{0};
+\addplot[domain = -2:-1, draw = none, name path = a1]{0};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+
+\kut{-1.5}{-1.5}
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+$G_1 = \varnothing$
+\vspace{3mm}
+
+$F_{\vec{\xi}}(x,y) = \int_{- \infty}^{x} dt \int_{- \infty}^{y} 0 ds = 0$
+
+
+
+
+\item $(x, y) \in D_2$
+
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$t$},
+	ylabel = {$s$},
+	width = 8 cm,	
+	height =8 cm,
+]
+
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+\addplot[domain = -2:2, draw = none, name path = a0]{0};
+\addplot[domain = -2:-1.5, draw = none, name path = a1]{0};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+
+
+
+\addplot[domain = -2:-1.5, draw = none, name path = a]{-x-2};
+\addplot[domain = -2:-1.5, draw = none, name path = b]{(4-x^2)^0.5};
+
+\addplot [orange, opacity = 0.2] fill between [of = a1 and b];
+\addplot [yellow, opacity = 0.2] fill between [of = a and a1];
+
+\kut{-1.5}{2}
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+$G_2 =  G'_2 \cup G''_2 =
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-2<  &t  \leqslant x) \wedge \\
+	(0 \leqslant &s  < \sqrt{4-x^2})
+\end{aligned}
+\Biggr\} 
+\cup
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-2<  &t  \leqslant x) \wedge \\
+	( \leqslant &s  < 0)
+\end{aligned}
+\Biggr\} 
+$
+\vspace{3mm}
+
+$F_{\vec{\xi}}(x,y) = \frac{1}{5+2\pi} \iint_{G_2} = \frac{1}{5+2\pi}\iint_{G'_2} dtds + \frac{1}{5+2\pi}\iint_{G''_2} dtds  = \frac{1}{5+2\pi} \int \limits_{-2}^{x} dt
+\int \limits_{-2-t}^{0} ds + \frac{1}{5+2\pi} \int \limits_{-2}^{x} dt \int \limits_{0}^{\sqrt{4-t^2}} ds = \frac{1}{5+2\pi} \int \limits_{-2}^{x}(2+t)dt +\frac{1}{5+2\pi} \int \limits_{\sqrt{4-x^2}}^{x} \sqrt{4-t^2} dt =  +[1] 
+ = \frac{1}{5+2\pi} \left(2x + \frac{x^2}{2} + 2 \right)  + \frac{1}{5+2\pi} \left(\sin(2\arcsin(\frac{x}{2})) + 2\arcsin(\frac{x}{2}) + \pi \right)$
+
+
+
+
+\item $(x, y) \in D_3$
+
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$t$},
+	ylabel = {$s$},
+	width = 8 cm,	
+	height =8 cm,
+]
+
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+\addplot[domain = -2:-1, draw = none, name path = a1]{0};
+\addplot[domain = -1:-0.5, draw = none, name path = a2]{0};
+\addplot[domain = -1:-0.5, draw = none, name path = a3]{0};
+\addplot[domain = -2:-0.5, draw = none, name path = a]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, draw = none, name path = b]{-x-2};
+\addplot[domain = -1:-0.5, draw = none, name path = c]{-2};
+
+\addplot [orange, opacity = 0.2] fill between [of = a3 and a];
+\addplot [yellow, opacity = 0.2] fill between [of = a1 and b];
+\addplot [green, opacity = 0.2] fill between [of = a2 and c];
+\kut{-0.5}{2.3}
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+$G_3 = G'_3 \cup G''_3 \cup G'''_3 = 
+ \Biggl\{ (x,y) \biggm|
+\begin{aligned} 
+	(-2<  &t  \leqslant 0) \wedge \\
+	(0 \leqslant &s  \leqslant \sqrt{4-x^2})
+\end{aligned}
+\Biggr\} 
+\cup
+ \Biggl\{ (x,y) \biggm|
+\begin{aligned} 
+	(-2<  &t  \leqslant -1) \wedge \\
+	(-2-x \leqslant &s  \leqslant 0) 
+\end{aligned}
+\Biggr\} 
+ \cup \\ \cup
+\Biggl\{ (x,y) \biggm|
+\begin{aligned} 
+	(-1<  &t \leqslant 0) \wedge \\
+	(-2 \leqslant &s  \leqslant 0)
+\end{aligned}
+\Biggr\} 
+$
+
+\vspace{3mm}
+
+$F_{\vec{\xi}} (x,y) = \frac{1}{5+2\pi} \iint_{G_3}= \frac{1}{5+2\pi} \Biggl( \iint_{G'_3} dtds + \iint_{ G''_3 } dtds + \iint_{ G'''_3 } dtds \Biggr)= \frac{1}{5+2\pi}\int \limits_{-2}^{x}dt \int \limits_{0}^{\sqrt{4-t^2}} ds+ \quad +
+\frac{1}{5+2\pi}\int \limits_{-2}^{-1}dt \int \limits_{-t-2}^{0} ds+ \frac{1}{5+2\pi}\int \limits_{-1}^{x}dt \int \limits_{-2}^{0} ds =  
+\frac{1}{5+2\pi} \left(\sin(2\arcsin(\frac{x}{2})) + 2\arcsin(\frac{x}{2}) + \pi\right) + \\ + \frac{0.5}{5+2\pi} + \frac{2(x+1)}{5+2\pi}
+$
+
+
+
+\newpage{}
+
+\item $(x, y) \in D_4$
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$t$},
+	ylabel = {$s$},
+	width = 8 cm,	
+	height =8 cm,
+]
+
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+\addplot[domain = -2:2, draw = none, name path = a0]{0};
+\addplot[domain = -2:-1.5, draw = none, name path = a1]{0};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+
+
+
+\addplot[domain = -2:-1.5, draw = none, name path = a]{-x-2};
+\addplot[domain = -2:-1.5, draw = none, name path = b]{(4-x^2)^0.5};
+
+
+
+\kut{0.7}{1.95}
+0.44440972086
+
+\addplot[domain = 0.44440972086:0.7, draw = none, name path = k3]{(4-x^2)^0.5};
+\addplot[domain = 0.44440972086:0.7, draw = none, name path = a3]{0};
+\addplot [yellow, opacity = 0.2] fill between [of = a3 and k3];
+
+\addplot[domain = -1:0.7, draw = none, name path = k2]{(0};
+\addplot[domain = -1:0.7, draw = none, name path = a2]{-2};
+\addplot [green, opacity = 0.2] fill between [of = a2 and k2];
+
+\addplot[domain = -2:-0.44440972086, draw = none, name path = k1]{(4-x^2)^0.5};
+\addplot[domain = -2: -0.44440972086, draw = none, name path = a1]{0};
+\addplot [orange, opacity = 0.2] fill between [of = a1 and k1];
+
+\addplot[domain = -2:-1, draw = none, name path = a0]{0};
+\addplot[domain = -2: -1, draw = none, name path = l]{-x-2};
+\addplot [blue, opacity = 0.2] fill between [of = a0 and l];
+
+\addplot[domain = -0.44440972086:0.44440972086, draw = none, name path = c1]{1.95};
+\addplot[domain = -0.44440972086: 0.44440972086, draw = none, name path = c]{0};
+\addplot [blue, opacity = 0.2] fill between [of = c1 and c];
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\vspace{4mm}
+
+$G_4 = G^{(1)}_4 \cup  G^{(2)}_4 \cup  G^{(3)}_4\cup  G^{(4)}_4 \cup  G^{(5)}_4 = 
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-2 <  &t  \leqslant -\sqrt{4-y^2}) \wedge \\
+	(0 \leqslant &s  \leqslant  \sqrt{4-t^2})
+\end{aligned}
+\Biggr\} 
+\cup
+\quad
+\cup
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-\sqrt{4-y^2} <  &t  \leqslant \sqrt{4-y^2}) \wedge \\
+	(0 \leqslant &s  \leqslant y)
+\end{aligned}
+\Biggr\} 
+\cup 
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	&(\sqrt{4-y^2} <  t  \leqslant x) \wedge \\
+	&(0 \leqslant s  \leqslant \sqrt{4-t^2})
+\end{aligned}
+\Biggr\} 
+\cup 
+\\
+\cup
+\Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	&(-2 <  t  \leqslant -1) \wedge \\
+	&(-t-2 < s  \leqslant 0)
+\end{aligned}
+\Biggr\} 
+\cup
+\Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	&(-1 <  t  \leqslant x) \wedge \\
+	&(-2 < s  \leqslant 0)
+\end{aligned}
+\Biggr\} 
+$
+
+\vspace{5mm}
+\begin{spacing}{2.5}
+$F_{\vec{\xi}} (x,y) =\frac{1}{5+2\pi} \iint_{G_4} = \frac{1}{5+2\pi} \Biggl( \iint_{G^{(1)}_4} dtds + \iint_{G^{(2)}_4} dtds + \iint_{G^{(3)}_4} dtds + \iint_{G^{(4)}_4} dtds  + \iint_{G^{(5)}_4} dtds \Biggr)   = \frac{1}{5+2\pi} \Biggl(\q{-2}{-\sqrt{4-y^2}}{dt}\q{0}{\sqrt{4-t^2}}{ds} 
++ \q{-\sqrt{4-y^2}}{\sqrt{4-y^2}}{dt}\q{0}{y}{ds} + \q{\sqrt{4-y^2}}{x}{dt} \q{0}{\sqrt{4-t^2}}{ds} +
+\q{-2}{-1}{ds}\q{-t-2}{0}{ds} + \q{-1}{x}{dt}\q{-2}{0}{ds} \Biggr) = \frac{1}{5+2\pi} \Biggl( \q{-2}{-\sqrt{4-y^2}}{\sqrt{4-t^2}dt} + 
+2y\sqrt{4-y^2} + \q{\sqrt{4-y^2}}{x}{\sqrt{4-t^2}dt} + \frac{1}{2} +2(x+1) \Biggr) = [1] = \frac{1}{5+2\pi}
+\Biggl( 
+\sin\left(2\arcsin(-\frac{\sqrt{4-y^2}}{2})\right) + 2\arcsin\left(-\frac{\sqrt{4-y^2}}{2}\right) + \pi + 2y\sqrt{4-y^2} + \sin\left(2\arcsin(\frac{x}{2})\right) + 2\arcsin(\frac{x}{2}) - \sin(2\arcsin(\frac{\sqrt{4-y^2}}{2})) -
+2\arcsin(\frac{\sqrt{4-y^2}}{2}) + \frac{1}{2} + 2(x+1)\Biggr) =\frac{1}{5+2\pi} \Biggl( 2\sin\left(2\arcsin(-\frac{\sqrt{4-y^2}}{2})\right)
++ 4\arcsin\left(-\frac{\sqrt{4-y^2}}{2}\right) + 2\sin\left(2\arcsin(\frac{x}{2})\right) + 2\arcsin(\frac{x}{2}) + \pi + 2y\sqrt{4-y^2} + \nopagebreak \frac{1}{2} + 2(x+1) \Biggr)$
+\end{spacing}
+
+\item $(x,y) \in D_5$
+
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$t$},
+	ylabel = {$s$},
+	width = 8 cm,	
+	height =8 cm,
+]
+
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+\addplot[domain = -2:2, draw = none, name path = a0]{0};
+\addplot[domain = -2:-1.5, draw = none, name path = a1]{0};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+
+
+
+\addplot[domain = -2:-1.5, draw = none, name path = a]{-x-2};
+\addplot[domain = -2:-1.5, draw = none, name path = b]{(4-x^2)^0.5};
+
+
+
+\kut{1.4}{1.6}
+
+\addplot[domain = -2:-1.2, draw = none, name path = k1]{(4-x^2)^0.5};
+\addplot[domain = -1.2:1.2, draw = none, name path = k2]{(1.6)};
+\addplot[domain = 1.2:1.4, draw = none, name path = k3]{(4-x^2)^0.5};
+
+\addplot[domain = -2:-1.2, draw = none, name path = ak1]{0};
+\addplot[domain = -1.2:1.2, draw = none, name path = ak2]{0};
+\addplot[domain = 1.2:1.4, draw = none, name path = ak3]{0};
+
+\addplot[domain = -2:-1, draw = none, name path = l]{-x-2};
+\addplot[domain = -1:1, draw = none, name path = c]{-2};
+\addplot[domain = 1:1.4, draw = none, name path = r]{x-2};
+
+\addplot[domain = -2:-1, draw = none, name path = al]{0};
+\addplot[domain = -1:1, draw = none, name path = ac]{0};
+\addplot[domain = 1:1.4, draw = none, name path = ar]{0};
+
+\addplot [orange, opacity = 0.2] fill between [of = ak1 and k1];
+\addplot [yellow, opacity = 0.2] fill between [of = ak2 and k2];
+\addplot [green, opacity = 0.2] fill between [of = ak3 and k3];
+\addplot [blue, opacity = 0.2] fill between [of = al and l];
+\addplot [violet, opacity = 0.2] fill between [of = ar and r];
+\addplot [red, opacity = 0.2] fill between [of = ac and c];
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\vspace{5mm}
+
+$ G_5 = G^{(1)}_5 \cup G^{(2)}_5 \cup G^{(3)}_5 \cup G^{(4)}_5 \cup G^{(5)}_5 \cup G^{(6)}_5 = 
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-2 <  &t  \leqslant -\sqrt{4-y^2}) \wedge \\
+	(0 \leqslant &s  \leqslant  \sqrt{4-t^2})
+\end{aligned}
+\Biggr\} 
+\cup 
+\quad
+\cup
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-\sqrt{4-y^2} <  &t  \leqslant \sqrt{4-y^2}) \wedge \\
+	(0 \leqslant &s  \leqslant  y)
+\end{aligned}
+\Biggr\} 
+\cup
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(\sqrt{4-y^2} <  &t  \leqslant x) \wedge \\
+	(0 \leqslant &s  \leqslant  \sqrt{4-t^2})
+\end{aligned}
+\Biggr\}
+\cup
+\quad
+\cup
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-2 <  &t  \leqslant -1) \wedge \\
+	(-t-2 \leqslant &s  \leqslant  0)
+\end{aligned}
+\Biggr\}
+\cup
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-1 <  &t  \leqslant 1) \wedge \\
+	(-2 \leqslant &s  \leqslant  0)
+\end{aligned}
+\Biggr\}
+\cup
+\\
+\cup
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(1 <  &t  \leqslant x) \wedge \\
+	(t-2 \leqslant &s  \leqslant 0)
+\end{aligned}
+\Biggr\}
+$
+
+\vspace{6mm}
+\begin{spacing}{2.5}
+$F_{\vec{\xi}} (x,y) =\frac{1}{5+2\pi}\iint_{G_5} dtds =\frac{1}{5+2\pi} \Biggl( \iint_{G^{(1)}_5} dtds + \iint_{G^{(2)}_5} dtds + \iint_{G^{(3)}_5} dtds + \iint_{G^{(4)}_5} dtds + \iint_{G^{(5)}_5} dtds + \iint_{G^{(6)}_5} dtds \Biggr)= 
+\frac{1}{5+2\pi} \Biggl(\q{-2}{-\sqrt{4-y^2}}{dt} \q{0}{\sqrt{4-t^2}}{ds}  
++ \q{-\sqrt{4-y^2}}{\sqrt{4-y^2}}{dt} \q{0}{y}{ds}  + \q{\sqrt{4-y^2}}{x}{dt} \q{0}{\sqrt{4-t^2}}{ds} + \q{-2}{-1}{dt} \q{-t-2}{0}{ds} +
+\q{-1}{1}{dt} \q{-2}{0}{ds} + \q{1}{x}{dt} \q{t-2}{0}{ds} \Biggr)  =\frac{1}{5+2\pi} \Biggl( \q{-2}{-\sqrt{4-y^2}}{\sqrt{4-t^2} dt} + 2y\sqrt{4-y^2} + \q{\sqrt{4-y^2}}{x}{\sqrt{4-t^2}dt} + \frac{1}{2} + 4 +
+ 2x - \frac{x^2}{2} -2 + \frac{1}{2} \Biggr) = [1] = \\ =
+\frac{1}{5+2\pi}\Biggl( 2 \sin(2\arcsin(-\frac{\sqrt{4-y^2}}{2})) + 4\arcsin(-\frac{\sqrt{4-y^2}}{2}) + \pi +
+\sin(2\arcsin(\frac{x}{2})) + 2\arcsin(\frac{x}{2}) + 3 + 2x - \frac{x^2}{2} + 2\sqrt{4-y^2}\Biggr)$  
+
+
+\item $(x,y) \in D_6$ 
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$t$},
+	ylabel = {$s$},
+	width = 8 cm,	
+	height =8 cm,
+]
+
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+\addplot[domain = -2:2, draw = none, name path = a0]{0};
+\addplot[domain = -2:-1.5, draw = none, name path = a1]{0};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+
+
+
+\addplot[domain = -2:-1.5, draw = none, name path = a]{-x-2};
+\addplot[domain = -2:-1.5, draw = none, name path = b]{(4-x^2)^0.5};
+
+
+\kut{0.5}{2.1}
+
+
+\addplot[domain = -2:0.5, draw = none, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:0.5, draw = none, name path = ak]{0};
+
+\addplot [orange, opacity = 0.2] fill between [of = ak and k];
+
+\addplot[domain = -1:0.5, draw = none, name path = c]{-2};
+\addplot[domain = -1:0.5, draw = none, name path = ac]{0};
+
+\addplot [green, opacity = 0.2] fill between [of = ac and c];
+
+\addplot[domain = -2:-1, draw = none, name path = l]{-2-x};
+\addplot[domain = -2:-1, draw = none, name path = al]{0};
+
+\addplot [yellow, opacity = 0.2] fill between [of = al and l];
+
+
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\vspace{5mm}
+
+$G_6 = G^{(1)}_{6} \cup G^{(2)}_{6} \cup G^{(3)}_{6} = 
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-2 <  &t  \leqslant x) \wedge 
+	(0 \leqslant &s  \leqslant  \sqrt{4-t^2})
+\end{aligned}
+\Biggr\} 
+\cup
+\\
+\cup 
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-2 <  &t  \leqslant -1) \wedge 
+	(-t-2 \leqslant &s  \leqslant  0)
+\end{aligned}
+\Biggr\} 
+\cup
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-1 <  &t  \leqslant x) \wedge 
+	(-2 \leqslant &s  \leqslant  0)
+\end{aligned}
+\Biggr\} 
+$
+
+\vspace{5mm}
+
+$F_{\vec{\xi}} (x,y) =\frac{1}{5+2\pi} \iint_{G_6} =\frac{1}{5+2\pi} \Biggl( \iint_{G^{(1)}_{6}} dtds + \iint_{G^{(2)}_{6}} dtds + \iint_{G^{(3)}_{6}} dtds \Biggr)= \frac{1}{5+2\pi} \Biggl( \q{-2}{x}{dt} \q{0}{\sqrt{4-t^2}}{ds} + \q{-2}{-1}{dt} \q{-t-2}{0}{ds} +
+\q{-1}{x}{dt} \q{-2}{0}{ds} \Biggr) = \frac{1}{5+2\pi} \Biggl(\sin(2\arcsin(\frac{x}{2})) + 2\arcsin(\frac{x}{2}) + \pi + \frac{1}{2} + 2(x+1) \Biggr)$
+
+\newpage{}
+
+\item $(x,y) \in D_7$ 
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$t$},
+	ylabel = {$s$},
+	width = 8 cm,	
+	height =8 cm,
+]
+
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+\addplot[domain = -2:2, draw = none, name path = a0]{0};
+\addplot[domain = -2:-1.5, draw = none, name path = a1]{0};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+
+
+
+\addplot[domain = -2:-1.5, draw = none, name path = a]{-x-2};
+\addplot[domain = -2:-1.5, draw = none, name path = b]{(4-x^2)^0.5};
+
+
+\kut{1.3}{2.1}
+
+
+\addplot[domain = -2:1.3, draw = none, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:1.3, draw = none, name path = ak]{0};
+
+\addplot [orange, opacity = 0.2] fill between [of = ak and k];
+
+\addplot[domain = -1:1, draw = none, name path = c]{-2};
+\addplot[domain = -1:1, draw = none, name path = ac]{0};
+
+\addplot [green, opacity = 0.2] fill between [of = ac and c];
+
+\addplot[domain = -2:-1, draw = none, name path = l]{-2-x};
+\addplot[domain = -2:-1, draw = none, name path = al]{0};
+
+\addplot [yellow, opacity = 0.2] fill between [of = al and l];
+
+\addplot[domain = 1:1.3, draw = none, name path = r]{x-2};
+\addplot[domain = 1:1.3, draw = none, name path = ar]{0};
+
+\addplot [blue, opacity = 0.2] fill between [of = ar and r];
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+
+$G_7 = G^{(1)}_{7} \cup G^{(2)}_{7} \cup G^{(3)}_{7} \cup G^{(4)}_{7}= 
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-2 <  &t  \leqslant x) \wedge 
+	(0 \leqslant &s  \leqslant  \sqrt{4-t^2})
+\end{aligned}
+\Biggr\} 
+\cup 
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-2 <  &t  \leqslant -1) \wedge 
+	(-t-2 \leqslant &s  \leqslant  0)
+\end{aligned}
+\Biggr\} 
+\cup
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-1 <  &t  \leqslant 1) \wedge 
+	(-2 \leqslant &s  \leqslant  0)
+\end{aligned}
+\Biggr\} 
+\cup
+\quad
+\cup
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-1 <  &t  \leqslant x) \wedge 
+	(t-2 \leqslant &s  \leqslant  0)
+\end{aligned}
+\Biggr\} 
+$
+
+\vspace{5mm}
+
+$F_{\vec{\xi}} (x,y) = \frac{1}{5+2\pi}\iint_{G_7} = \frac{1}{5+2\pi} \Biggl( \iint_{G^{(1)}_{7}} dtds + \iint_{G^{(2)}_{7}} dtds + \iint_{G^{(3)}_{7}} dtds + \iint_{G^{(4)}_{7}} dtds \Biggr) =\frac{1}{5+2\pi} \Biggl( \q{-2}{x}{dt} \q{0}{\sqrt{4-t^2}}{ds} + \q{-2}{-1}{dt} \q{-t-2}{0}{ds} + \q{-1}{1}{dt} \q{0}{2}{ds} + \q{1}{x}{dt} \q{t-2}{0}{ds} \Biggr) = \frac{1}{5+2\pi} \Biggl( \q{-2}{x}{\sqrt{4-t^2}dt} - \frac{1}{2} + 4 + 2x - \frac{x^2}{2} + \frac{1}{2} - 2 \Biggr) = [1] = \frac{1}{5+2\pi} \Biggl(\sin(2\arcsin(\frac{x}{2})) + 2\arcsin(\frac{x}{2}) + \pi +3 + 2x - \frac{x^2}{2} \Biggr)$ 
+
+\newpage{}
+
+
+
+
+
+
+\item $(x,y) \in D_8$
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$t$},
+	ylabel = {$s$},
+	width = 8 cm,	
+	height =8 cm,
+]
+
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+\addplot[domain = -2:2, draw = none, name path = a0]{0};
+\addplot[domain = -2:-1.5, draw = none, name path = a1]{0};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+
+
+
+\addplot[domain = -2:-1.5, draw = none, name path = a]{-x-2};
+\addplot[domain = -2:-1.5, draw = none, name path = b]{(4-x^2)^0.5};
+
+
+\kut{2.5}{1}
+
+\addplot[domain = -2:-1.73205080757, draw = none, name path = k1]{(4-x^2)^0.5};
+\addplot[domain = -1.73205080757:1.73205080757, draw = none, name path = k2]{1};
+\addplot[domain = 1.73205080757:2, draw = none, name path = k3]{(4-x^2)^0.5};
+
+\addplot[domain = -2:-1.73205080757, draw = none, name path = ak1]{0};
+\addplot[domain = -1.73205080757:1.73205080757, draw = none, name path = ak2]{0};
+\addplot[domain = -1:1, draw = none, name path = ak3]{0};
+\addplot[domain = 1.73205080757:2, draw = none, name path = ak4]{0};
+
+\addplot[domain = -2:-1, draw = none, name path = al]{0};
+\addplot[domain = 1:2, draw = none, name path = ar]{0};
+
+\addplot[domain = -2:-1, draw = none, name path = l]{-2-x};
+\addplot[domain = 1:2, draw = none, name path = r]{-2+x};
+
+\addplot[domain = -2:-1, draw = none, name path = al]{0};
+\addplot[domain = 1:2, draw = none, name path = ar]{0};
+\addplot[domain = -1:1, draw = none, name path = ac]{0};
+\addplot[domain = -1:1, draw = none, name path = c]{-2};
+
+
+\addplot [orange, opacity = 0.2] fill between [of = ak1 and k1];
+\addplot [yellow, opacity = 0.2] fill between [of = ak2 and k2];
+\addplot [orange, opacity = 0.2] fill between [of = ak4 and k3];
+\addplot [blue, opacity = 0.2] fill between [of = al and l];
+\addplot [blue, opacity = 0.2] fill between [of = ar and r];
+\addplot [green, opacity = 0.2] fill between [of = ac and c];
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+
+$G_8 = G^{(1)}_{8} \cup G^{(2)}_{8} \cup G^{(3)}_{8} \cup G^{(4)}_{8} \cup G^{(5)}_{8} \cup G^{(6)}_{8}= 
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-2 <  &t  \leqslant -\sqrt{4-y^2}) \wedge 
+	(0 \leqslant &s  \leqslant  \sqrt{4-t^2})
+\end{aligned}
+\Biggr\} 
+\cup 
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-\sqrt{4-y^2} <  &t  \leqslant \sqrt{4-y^2}) \wedge 
+	(0 \leqslant &s  \leqslant  y)
+\end{aligned}
+\Biggr\} 
+\cup
+\\
+\cup
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(\sqrt{4-y^2} <  &t  \leqslant 2) \wedge 
+	(0 \leqslant &s  \leqslant  \sqrt{4-t^2})
+\end{aligned}
+\Biggr\} 
+\cup
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-2 <  &t  \leqslant -1) \wedge 
+	(t-2 \leqslant &s  \leqslant  0)
+\end{aligned}
+\Biggr\} 
+\cup
+\quad
+\cup
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-1 <  &t  \leqslant 1) \wedge 
+	(-2 \leqslant &s  \leqslant  0)
+\end{aligned}
+\Biggr\}
+\cup
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(1 <  &t  \leqslant 2) \wedge 
+	(-2+t \leqslant &s  \leqslant  0)
+\end{aligned}
+\Biggr\} 
+$
+
+
+\vspace{5mm}
+
+$F_{\vec{\xi}} (x,y) = \frac{1}{5+2\pi} \iint_{G_8} = [1] = \frac{1}{5+2\pi} \Biggl(\q{0}{y}{ds}\q{-\sqrt{4-s^2}}{\sqrt{4-s^2}}{dt} + 5\Biggr) =
+\frac{1}{5+2\pi} \Biggl(2\sin(2\arcsin(\frac{y}{2})) + 4 \arcsin(\frac{y}{2}) + 5
+\Biggr)$
+
+
+
+\newpage{}
+
+\item $ (x,y) \in D_{9}$
+
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$t$},
+	ylabel = {$s$},
+	width = 8 cm,	
+	height =8 cm,
+]
+
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+
+\addplot[domain = -2:2, draw = none, name path = a]{0};
+\addplot[domain = -2:-1, draw = none, name path = a1]{0};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+
+\addplot[domain = -2:-1, draw = none, name path = k1]{(4-x^2)^0.5};
+\addplot[domain = 1:2, draw = none, name path = k2]{(4-x^2)^0.5};
+\addplot[domain = -1:1, draw = none, name path = k3]{(4-x^2)^0.5};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+
+\addplot [orange, opacity = 0.2] fill between [of = l and k1];
+\addplot [orange, opacity = 0.2] fill between [of = r and k2];
+\addplot [blue, opacity = 0.2] fill between [of = c and a2];
+\addplot [blue, opacity = 0.2] fill between [of = k3 and a2];
+
+\kut{2.3}{2.3}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+$G_8 = G^{(1)}_{9} \cup G^{(2)}_{9} \cup G^{(3)}_{9} = 
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-2 <  &t  \leqslant -1) \wedge 
+	(-t-2 \leqslant &s  \leqslant  \sqrt{4-t^2})
+\end{aligned}
+\Biggr\} 
+\cup \quad \cup
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-1 <  &t  \leqslant 1) \wedge 
+	(-2 \leqslant &s  \leqslant  \sqrt{4-t^2})
+\end{aligned}
+\Biggr\} 
+\cup
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(1 <  &t  \leqslant 2) \wedge 
+	(t-2 \leqslant &s  \leqslant  \sqrt{4-t^2})
+\end{aligned}
+\Biggr\} 
+$
+
+\vspace{5mm}
+
+$F_{\vec{\xi}} (x,y) = \frac{1}{5+2\pi}\iint_{G_9} = \frac{1}{5+2\pi} \Biggl(\q{-2}{-1}{dt} \q{-t-2}{\sqrt{4-t^2}}{ds} + \q{-1}{1}{dt} \q{-2}{\sqrt{4-t^2}}{ds} + \q{1}{2}{dt} \q{-2+t}{\sqrt{4-t^2}}{ds} \Biggr)
+=  \frac{1}{5+2\pi} \Biggl( \frac{2\pi}{3} - \frac{\sqrt{3}}{2} + \frac{1}{2} +\frac{2\pi}{3} + \sqrt{3} + 4 + \frac{2\pi}{3} - \frac{\sqrt{3}}{2} + \frac{1}{2}\Biggr)= \frac{1}{5+2\pi}(2 + \pi 5) = 1$
+
+
+
+
+
+
+
+
+
+\item $ (x,y) \in D_{10}$
+
+
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$t$},
+	ylabel = {$s$},
+	width = 8 cm,	
+	height =8 cm,
+]
+
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+\addplot[domain = -2:2, draw = none, name path = a0]{0};
+\addplot[domain = -2:-1.5, draw = none, name path = a1]{0};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+
+
+
+\addplot[domain = -2:-1.5, draw = none, name path = a]{-x-2};
+\addplot[domain = -2:-1.5, draw = none, name path = b]{(4-x^2)^0.5};
+
+
+\kut{-1.5}{1}
+
+\addplot[domain = -2:-1.5, draw = none, name path = a]{-x-2};
+\addplot[domain = -2:-1.5, draw = none, name path = a]{-x-2};
+
+\addplot[domain = -2:-1.73205080757, draw = none, name path = k1]{(4-x^2)^0.5};
+\addplot[domain = -2:-1.73205080757, draw = none, name path = lk1]{-x-2};
+\addplot[domain = -1.73205080757:-1.5, draw = none, name path = rk2]{1};
+\addplot[domain = -1.73205080757:-1.5, draw = none, name path = k2]{-x-2};
+
+\addplot[ orange, opacity = 0.2] fill between [of = k1 and lk1];
+\addplot[ green, opacity = 0.2] fill between [of = k2 and rk2];
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+$G_{10}= G_{10}^{(1)} \cup G_{10}^{(2)} 
+=
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-2 <  &t  \leqslant -\sqrt{4-y^2}) \wedge 
+	(-t-2 \leqslant &s  \leqslant  \sqrt{4-t^2})
+\end{aligned}
+\Biggr\} 
+\cup 
+ \Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-\sqrt{4-y^2} <  &t  \leqslant x) \wedge 
+	(-t-2 \leqslant &s  \leqslant  y)
+\end{aligned}
+\Biggr\} 
+$
+
+\vspace{5mm}
+
+$F_{\vec{\xi}} (x,y) = \frac{1}{5+2\pi}\iint_{G_{10}} = \frac{1}{5+2\pi}\Biggl(  \q{-2}{-\sqrt{4-y^2}}{dt} \q{-t-2}{\sqrt{4-t^2}}{ds} + \q{-\sqrt{4-y^2}}{x}{dt} \q{-t-2}{y}{ds}\Biggl)
+\frac{1}{5+2\pi} + \\ + \Biggl(\q{-2}{-\sqrt{4-y^2}}{(\sqrt{4-t^2}+t+2)dt} +\q{-\sqrt{4-y^2}}{x}{(y+t+2)dt} \Biggr) = \frac{1}{5+2\pi} \Biggl(-\sin(2\arcsin(\frac{\sqrt{4-y^2}}{2})) - 2\arcsin(\frac{\sqrt{4-y^2}}{2})  + \pi + \frac{1}{2}(4-y^2) - 2\sqrt{4-y^2} + 2 + yx + \frac{x^2}{2} + 2x + y\sqrt{4-y^2} - \frac{1}{2}(4-y^2) + 2\sqrt{4-y^2} \Biggr) \frac{1}{5+2\pi}= \frac{1}{5+2\pi} \Biggl(-\sin(2\arcsin(\frac{\sqrt{4-y^2}}{2})) - 2\arcsin(\frac{\sqrt{4-y^2}}{2})  + \pi + 2 + yx + \frac{x^2}{2} + 2x + y\sqrt{4-y^2}\Biggr)$
+
+
+
+
+\item $ (x,y) \in D_{11}$
+
+
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$t$},
+	ylabel = {$s$},
+	width = 8 cm,	
+	height =8 cm,
+]
+
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+\addplot[domain = -2:2, draw = none, name path = a0]{0};
+\addplot[domain = -2:-1.5, draw = none, name path = a1]{0};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+
+
+
+\addplot[domain = -2:-1.5, draw = none, name path = a]{-x-2};
+\addplot[domain = -2:-1.5, draw = none, name path = b]{(4-x^2)^0.5};
+
+
+\kut{-0.5}{1}
+
+\addplot[domain = -2:-1.73205080757, draw = none, name path = k1]{(4-x^2)^0.5};
+\addplot[domain = -2:-1.73205080757, draw = none, name path = lk1]{-x-2};
+\addplot[domain = -1.73205080757:-1, draw = none, name path = rk2]{1};
+\addplot[domain = -1.73205080757:-1, draw = none, name path = k2]{-x-2};
+\addplot[domain = -1.73205080757:-1, draw = none, name path = rk2]{1};
+\addplot[domain = -1.73205080757:-1, draw = none, name path = k2]{-x-2};
+\addplot[domain = -1:-0.5, draw = none, name path = rk3]{1};
+\addplot[domain = -1:-0.5, draw = none, name path = k3]{-2};
+
+\addplot[ orange, opacity = 0.2] fill between [of = k1 and lk1];
+\addplot[ green, opacity = 0.2] fill between [of = k2 and rk2];
+\addplot[ blue, opacity = 0.2] fill between [of = k3 and rk3];
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+
+
+$G_{11} = G_{11}^{(1)} \cup G_{11}^{(2)} \cup G_{11}^{(3)} =
+\Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-2 <  &t  \leqslant -\sqrt{4-y^2}) \wedge 
+	(-t-2 \leqslant &s  \leqslant  \sqrt{4-t^2})
+\end{aligned}
+\Biggr\} 
+\cup 
+\Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-\sqrt{4-y^2} <  &t  \leqslant -1) \wedge 
+	(-t-2 \leqslant &s  \leqslant  y)
+\end{aligned}
+\Biggr\} 
+\cup  
+\Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-1 <  &t  \leqslant x) \wedge 
+	(-2 \leqslant &s  \leqslant  y)
+\end{aligned}
+\Biggr\} 
+$
+
+\newpage{}
+
+$F_{\vec{\xi}} (x,y) = \frac{1}{5+2\pi} \iint_{G_{11}} = \frac{1}{5+2\pi} \Biggl( \q{-2}{-\sqrt{4-y^2}}{dt} \q{-t-2}{\sqrt{4-t^2}}{ds} + \q{-\sqrt{4-y^2}}{-1}{dt} \q{-t-2}{y}{ds} + \q{-1}{x}{dt} \q{-2}{y}{ds} \Biggr) =
+\frac{1}{5+2\pi} \Biggl(\q{-2}{-\sqrt{4-y^2}}{(\sqrt{4-y^2} + t + 2)dt} + \q{-\sqrt{4-y^2}}{-1}{(y+t+2)dt}+ (y+2)(x+1) \Biggr) = [1] =\frac{1}{5+2\pi} \Biggl( -\sin(2\arcsin(\frac{\sqrt{4-y^2}}{2})) - 2\arcsin(\frac{\sqrt{4-y^2}}{2}) +\pi + \frac{1}{2}(4-y^2) - 2\sqrt{4-y^2} + 2 - y + \frac{1}{2} - 2
++ y\sqrt{4-y^2} -\frac{1}{2} (4-y^2) + 2\sqrt{4-y^2} + (y+2)(x+1)\Biggr) = 
+\frac{1}{5+2\pi} \Biggl(-\sin(2\arcsin(\frac{\sqrt{4-y^2}}{2})) -2\arcsin(\frac{\sqrt{4-y^2}}{2}) + \pi - y
++\frac{1}{2} + y\sqrt{4-y^2} + xy + 2x + y + 2\Biggr) = \frac{1}{5+2\pi} \Biggl(-\sin(2\arcsin(\frac{\sqrt{4-y^2}}{2})) -2\arcsin(\frac{\sqrt{4-y^2}}{2}) + \pi + y\sqrt{4-y^2} + xy + 2x + \frac{5}{2} \Biggr)$
+
+
+\item $ (x,y) \in D_{12}$
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$t$},
+	ylabel = {$s$},
+	width = 8 cm,	
+	height =8 cm,
+]
+
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+\addplot[domain = -2:2, draw = none, name path = a0]{0};
+\addplot[domain = -2:-1.5, draw = none, name path = a1]{0};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+
+
+
+\addplot[domain = -2:-1.5, draw = none, name path = a]{-x-2};
+\addplot[domain = -2:-1.5, draw = none, name path = b]{(4-x^2)^0.5};
+
+
+\kut{1.5}{1}
+
+\addplot[domain = -2:-1.73205080757, draw = none, name path = k1]{(4-x^2)^0.5};
+\addplot[domain = -2:-1.73205080757, draw = none, name path = lk1]{-x-2};
+\addplot[domain = -1.73205080757:-1, draw = none, name path = rk2]{1};
+\addplot[domain = -1.73205080757:-1, draw = none, name path = k2]{-x-2};
+\addplot[domain = -1.73205080757:-1, draw = none, name path = rk2]{1};
+\addplot[domain = -1.73205080757:-1, draw = none, name path = k2]{-x-2};
+\addplot[domain = -1:1, draw = none, name path = rk3]{1};
+\addplot[domain = -1:1, draw = none, name path = k3]{-2};
+\addplot[domain = 1:1.5, draw = none, name path = k4]{1};
+\addplot[domain = 1:1.5, draw = none, name path = rk4]{x-2};
+
+\addplot[ orange, opacity = 0.2] fill between [of = k1 and lk1];
+\addplot[ green, opacity = 0.2] fill between [of = k2 and rk2];
+\addplot[ blue, opacity = 0.2] fill between [of = k3 and rk3];
+\addplot[ orange, opacity = 0.2] fill between [of = k4 and rk4];
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+
+$G_{11} = G_{12}^{(1)} \cup G_{12}^{(2)} \cup G_{12}^{(3)} \cup G_{12}^{(3)} =
+\Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-2 <  &t  \leqslant -\sqrt{4-y^2}) \wedge 
+	(-t-2 \leqslant &s  \leqslant  \sqrt{4-t^2})
+\end{aligned}
+\Biggr\} 
+\cup 
+\Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-\sqrt{4-y^2} <  &t  \leqslant -1) \wedge 
+	(-t-2 \leqslant &s  \leqslant  y)
+\end{aligned}
+\Biggr\}
+\cup
+\Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-1 <  &t  \leqslant 1) \wedge 
+	(-2 &s  \leqslant  y)
+\end{aligned}
+\Biggr\} 
+\cup
+\Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(1 <  &t  \leqslant x) \wedge 
+	(t-2 \leqslant &s  \leqslant  \sqrt{4-t^2})
+\end{aligned}
+\Biggr\} 
+$
+
+
+
+\newpage
+
+
+$F_{\vec{\xi}} (x,y) = \frac{1}{5+2\pi}\iint_{G_{12}} = \frac{1}{5+2\pi} \Biggl(\q{-2}{-\sqrt{4-y^2}}{dt} \q{-t-2}{\sqrt{4-t^2}}{ds} + \q{-\sqrt{4-y^2}}{-1}{dt} \q{-t-2}{y}{ds} + \q{-1}{1}{dt} \q{-2}{y}{ds} 
++\q{1}{x}{dt} \q{t-2}{y}{ds} \Biggr) = \frac{1}{5+2\pi} \Biggl(  -\sin(2\arcsin(\frac{\sqrt{4-y^2}}{2})) - 2\arcsin(\frac{\sqrt{4-y^2}}{2}) +\pi + \frac{1}{2}(4-y^2) - 2\sqrt{4-y^2} + 2 - y + \frac{1}{2} - 2
++ y\sqrt{4-y^2} -\frac{1}{2} (4-y^2) + 2\sqrt{4-y^2} + 2(y+2)  + yx - \frac{x^2}{2} + 2x -y + \frac{1}{2} -2 \Biggl) = \frac{1}{5+2\pi} \Biggl(-\sin(2\arcsin(\frac{\sqrt{4-y^2}}{2})) - 2\arcsin(\frac{\sqrt{4-y^2}}{2}) +\pi +
+ 3 + y\sqrt{4-y^2} + yx - \frac{x^2}{2} + 2x\Biggr)$
+
+\item $(x,y) \in D_{13}$
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$t$},
+	ylabel = {$s$},
+	width = 8 cm,	
+	height =8 cm,
+]
+
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+\addplot[domain = -2:2, draw = none, name path = a0]{0};
+\addplot[domain = -2:-1.5, draw = none, name path = a1]{0};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+
+
+
+\addplot[domain = -2:-1.5, draw = none, name path = a]{-x-2};
+\addplot[domain = -2:-1.5, draw = none, name path = b]{(4-x^2)^0.5};
+
+
+\kut{-1.3}{-0.3}
+
+\addplot[domain = -1.7:-1.3, draw = none, name path = l]{-0.3};
+\addplot[domain = -1.7:-1.3, draw = none, name path = al]{-x-2};
+
+\addplot[ orange, opacity = 0.2] fill between [of = l and al];
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+$G_{13} =
+\Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-2-y <  &t  \leqslant x) \wedge 
+	(-t-2 \leqslant &s  \leqslant  y)
+\end{aligned}
+\Biggr\} 
+$
+
+
+$F_{\vec{\xi}} (x,y) = \frac{1}{5+2\pi}\iint_{G_{13}} =\frac{1}{5+2\pi} \q{-2-y}{x}{dt} \q{-t-2}{y}{ds} =
+\q{-2-y}{x}{(yt + \frac{t^2}{2} + 2t)dt} =\frac{1}{5+2\pi}(\frac{x^2}{2} + (y+2)x + \frac{y^2}{2} + 2x + 2) $
+
+
+\newpage
+\item $(x,y) \in D_{14}$
+
+
+
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$t$},
+	ylabel = {$s$},
+	width = 8 cm,	
+	height =8 cm,
+]
+
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+\addplot[domain = -2:2, draw = none, name path = a0]{0};
+\addplot[domain = -2:-1.5, draw = none, name path = a1]{0};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+
+
+
+\addplot[domain = -2:-1.5, draw = none, name path = a]{-x-2};
+\addplot[domain = -2:-1.5, draw = none, name path = b]{(4-x^2)^0.5};
+
+
+\kut{1.3}{-0.3}
+
+\addplot[domain = -1.7:-1, draw = none, name path = l]{-0.3};
+\addplot[domain = -1.7:-1, draw = none, name path = al]{-x-2};
+
+\addplot[domain = -1:1, draw = none, name path = c]{-2};
+\addplot[domain = -1:1, draw = none, name path = ac]{-0.3};
+
+\addplot[domain = 1:1.3, draw = none, name path = r]{x-2};
+\addplot[domain = 1:1.3, draw = none, name path = ar]{-0.3};
+
+\addplot[ orange, opacity = 0.2] fill between [of = l and al];
+\addplot[ blue, opacity = 0.2] fill between [of = c and ac];
+\addplot[ yellow, opacity = 0.2] fill between [of = r and ar];
+
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+$G_{14} =
+\Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-2-y <  &t  \leqslant -1) \wedge 
+	(-t-2 \leqslant &s  \leqslant  y)
+\end{aligned}
+\Biggr\}
+\cup
+\\
+\cup
+\Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-1 <  &t  \leqslant 1) \wedge 
+	(-2 \leqslant &s  \leqslant  y)
+\end{aligned}
+\Biggr\} 
+\cup
+\Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(1 <  &t  \leqslant 2+y) \wedge 
+	(t-2 \leqslant &s  \leqslant  y)
+\end{aligned}
+\Biggr\} 
+$
+
+\vspace{5mm}
+
+$F_{\vec{\xi}} (x,y) =\frac{1}{5+2\pi} \iint_{G_{14}} = \frac{1}{5+2\pi} \Biggl(\q{-2-y}{-1}{dt} \q{t-2}{y}{ds}  + \q{-1}{1}{dt} \q{-2}{y}{ds} + \q{1}{x}{dt} \q{-t-2}{y}{ds}\Biggr) =
+\frac{1}{5+2\pi} \Biggl( \frac{y^2+2y +1}{2} + 2(y+2) - \frac{x^2}{2} + (y+2)x + y - \frac{3}{2} \Biggr)$
+
+
+
+
+
+
+\item $(x,y) \in D_{15}$
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$t$},
+	ylabel = {$s$},
+	width = 8 cm,	
+	height =8 cm,
+]
+
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+\addplot[domain = -2:2, draw = none, name path = a0]{0};
+\addplot[domain = -2:-1.5, draw = none, name path = a1]{0};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+
+
+
+\addplot[domain = -2:-1.5, draw = none, name path = a]{-x-2};
+\addplot[domain = -2:-1.5, draw = none, name path = b]{(4-x^2)^0.5};
+
+
+\kut{0.5}{-0.3}
+
+\addplot[domain = -1.7:-1, draw = none, name path = l]{-0.3};
+\addplot[domain = -1.7:-1, draw = none, name path = al]{-x-2};
+
+\addplot[domain = -1:0.5, draw = none, name path = c]{-2};
+\addplot[domain = -1:0.5, draw = none, name path = ac]{-0.3};
+
+
+\addplot[ orange, opacity = 0.2] fill between [of = l and al];
+\addplot[ blue, opacity = 0.2] fill between [of = c and ac];
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+
+$G_{15} =
+\Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-2-y <  &t  \leqslant -1) \wedge 
+	(-t-2 \leqslant &s  \leqslant  y)
+\end{aligned}
+\Biggr\}
+\cup
+\\
+\cup
+\Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-1 <  &t  \leqslant x) \wedge 
+	(-2 \leqslant &s  \leqslant  y)
+\end{aligned}
+\Biggr\} 
+$
+
+\vspace{5mm}
+
+$F_{\vec{\xi}} (x,y) =\frac{1}{5+2\pi} \iint_{G_{15}} = \frac{1}{5+2\pi} \Biggl(\frac{y^2+2y+1}{2} +
+(x+1)(y+2) \Biggr)$
+
+
+\item $(x,y) \in D_{16}$
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$t$},
+	ylabel = {$s$},
+	width = 8 cm,	
+	height =8 cm,
+]
+
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+\addplot[domain = -2:2, draw = none, name path = a0]{0};
+\addplot[domain = -2:-1.5, draw = none, name path = a1]{0};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+
+
+
+\addplot[domain = -2:-1.5, draw = none, name path = a]{-x-2};
+\addplot[domain = -2:-1.5, draw = none, name path = b]{(4-x^2)^0.5};
+
+
+\kut{0.5}{-1.3}
+
+
+\addplot[domain = -1:0.5, draw = none, name path = c]{-1.3};
+\addplot[domain = -1:0.5, draw = none, name path = ac]{-2};
+
+
+\addplot[ orange, opacity = 0.2] fill between [of = l and al];
+\addplot[ blue, opacity = 0.2] fill between [of = c and ac];
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+$G_{16} =
+\Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-1 <  &t  \leqslant x) \wedge 
+	(-2 \leqslant &s  \leqslant  y)
+\end{aligned}
+\Biggr\}
+$
+
+
+\vspace{5mm}
+
+$F_{\vec{\xi}} (x,y) =\frac{1}{5+2\pi} \iint_{G_{16}} = \frac{1}{5+2\pi} (x+1)(y+2)$
+
+\newpage{}
+
+\item $(x,y) \in D_{17}$ 
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$t$},
+	ylabel = {$s$},
+	width = 8 cm,	
+	height =8 cm,
+]
+
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+\addplot[domain = -2:2, draw = none, name path = a0]{0};
+\addplot[domain = -2:-1.5, draw = none, name path = a1]{0};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+
+
+
+\addplot[domain = -2:-1.5, draw = none, name path = a]{-x-2};
+\addplot[domain = -2:-1.5, draw = none, name path = b]{(4-x^2)^0.5};
+
+
+\kut{1.5}{-1.3}
+
+
+\addplot[domain = -1:1, draw = none, name path = c]{-1.3};
+\addplot[domain = -1:1, draw = none, name path = ac]{-2};
+
+
+\addplot[ orange, opacity = 0.2] fill between [of = l and al];
+\addplot[ blue, opacity = 0.2] fill between [of = c and ac];
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+$G_{17} =
+\Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-1 <  &t  \leqslant 1) \wedge 
+	(-2 \leqslant &s  \leqslant  y)
+\end{aligned}
+\Biggr\}
+$
+
+\vspace{5mm}
+
+$F_{\vec{\xi}} (x,y) =\frac{1}{5+2\pi} \iint_{G_{17}} = \frac{2}{5+2\pi}(y+2)$
+
+
+
+
+\item $(x,y) \in D_{18} $
+
+
+
+\begin{center}
+\begin{tikzpicture}
+	\begin{axis}[
+	axis lines = middle,
+	xmin = -3 , xmax = 3,
+	ymin = -3, ymax = 3,
+	%
+	% тіки
+	ytick = \empty,
+	xtick = \empty,
+	extra x ticks = {0},
+	extra x tick labels = {\!\!\!\!\!\!\! 0},
+	% підпис осей	
+	xlabel style={below right},
+	xlabel = {$t$},
+	ylabel = {$s$},
+	width = 8 cm,	
+	height =8 cm,
+]
+
+\addplot[domain = -2:2, restrict y to domain = 0:2, samples = 400, color = black, thick, name path = k]{(4-x^2)^0.5};
+\addplot[domain = -2:-1, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = l]{-x-2};
+\addplot[domain = 1:2, restrict y to domain = -1:1, samples = 400, color = black, thick, name path = r]{x-2};
+\addplot[domain = -1:1,  samples = 400, color = black, thick, name path = c, name path = c]{-2};
+\addplot[color = black, thick] coordinates {(-1,-1) (-1,-2)};
+\addplot[color = black, thick] coordinates { (1, -2) (1, -1)};
+
+\addplot[domain = -2:2, draw = none, name path = a0]{0};
+\addplot[domain = -2:-1.5, draw = none, name path = a1]{0};
+\addplot[domain = -1:1, draw = none, name path = a2]{0};
+\addplot[domain = 1:2, draw = none, name path = a3]{0};
+
+
+
+\addplot[domain = -2:-1.5, draw = none, name path = a]{-x-2};
+\addplot[domain = -2:-1.5, draw = none, name path = b]{(4-x^2)^0.5};
+
+
+\kut{2.5}{-0.3}
+
+
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+$G_{18} =
+\Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-1 <  &t  \leqslant 1) \wedge 
+	(-2 \leqslant &s  \leqslant  y)
+\end{aligned}
+\Biggr\}
+\cup
+\Biggl\{ (t,s) \biggm|
+\begin{aligned} 
+	(-1 <  &s  \leqslant y) \wedge 
+	(-2-s \leqslant &t  \leqslant  s+2)
+\end{aligned}
+\Biggr\}
+$
+
+\vspace{5mm}
+
+$F_{\vec{\xi}} (x,y) =\frac{1}{5+2\pi} \iint_{G_{18}} = \frac{1}{5+2\pi} \Biggl(2 + \q{-1}{y}{(2s+4)ds} \Biggr)= \frac{1}{5+2\pi} (y^2+4y+5)$
+
+\end{spacing}
+\end{enumerate}
+Отримуємо:
+
+$F_{\vec{\xi}}(x,y)
+=
+\begin{cases}
+\vspace{5mm} 
+0, (x,y) \in D_1  \\ \vspace{5mm}
+\frac{1}{5+2\pi} \left(2x + \frac{x^2}{2} + 2 \right)  + \frac{1}{5+2\pi} \left(\sin(2\arcsin(\frac{x}{2})) + 2\arcsin(\frac{x}{2}) + \pi \right), (x,y) \in D_2 \\ \vspace{2mm}
+\frac{1}{5+2\pi} \left(\sin(2\arcsin(\frac{x}{2})) + 2\arcsin(\frac{x}{2}) + \pi\right) + \frac{0.5}{5+2\pi} + \frac{2(x+1)}{5+2\pi}, (x,y) \in D_3 \\ \vspace{2mm}
+\frac{1}{5+2\pi} \Biggl( 2\sin\left(2\arcsin(-\frac{\sqrt{4-y^2}}{2})\right)
++ 4\arcsin\left(-\frac{\sqrt{4-y^2}}{2}\right) + 2\sin\left(2\arcsin(\frac{x}{2})\right) + 2\arcsin(\frac{x}{2}) + \pi + 2y\sqrt{4-y^2} + \nopagebreak \frac{1}{2} + 2(x+1) \Biggr) , (x,y) \in D_4 \\ \vspace{2mm}
+\frac{1}{5+2\pi}\Biggl( 2 \sin(2\arcsin(-\frac{\sqrt{4-y^2}}{2})) + 4\arcsin(-\frac{\sqrt{4-y^2}}{2}) + \pi +
+\sin(2\arcsin(\frac{x}{2})) + 2\arcsin(\frac{x}{2}) + 3 + 2x - \frac{x^2}{2} + 2\sqrt{4-y^2}\Biggr), (x,y) \in D_5 \\ \vspace{2mm}
+\frac{1}{5+2\pi} \Biggl(\sin(2\arcsin(\frac{x}{2})) + 2\arcsin(\frac{x}{2}) + \pi + \frac{1}{2} + 2(x+1) \Biggr), (x,y) \in D_6 \\ \vspace{2mm}
+\frac{1}{5+2\pi} \Biggl(\sin(2\arcsin(\frac{x}{2})) + 2\arcsin(\frac{x}{2}) + \pi +3 + 2x - \frac{x^2}{2} \Biggr), (x,y) \in D_7 \\ \vspace{2mm} 
+\frac{1}{5+2\pi} \Biggl(2\sin(2\arcsin(\frac{y}{2})) + 4 \arcsin(\frac{y}{2}) + 5
+\Biggr), (x,y) \in D_8  \\ \vspace{2mm}
+1, (x,y)\in D_9 \\ \vspace{2mm}
+\frac{1}{5+2\pi} \Biggl(-\sin(2\arcsin(\frac{\sqrt{4-y^2}}{2})) - 2\arcsin(\frac{\sqrt{4-y^2}}{2})  + \pi + 2 + yx + \frac{x^2}{2} + 2x + y\sqrt{4-y^2}\Biggr), (x,y)\in D_{10} \\ \vspace{2mm}
+\frac{1}{5+2\pi} \Biggl(-\sin(2\arcsin(\frac{\sqrt{4-y^2}}{2})) -2\arcsin(\frac{\sqrt{4-y^2}}{2}) + \pi + y\sqrt{4-y^2} + xy + 2x + \frac{5}{2} \Biggr), (x,y) \in D_{11} \\ \vspace{2mm}
+\frac{1}{5+2\pi} \Biggl(-\sin(2\arcsin(\frac{\sqrt{4-y^2}}{2})) - 2\arcsin(\frac{\sqrt{4-y^2}}{2}) +\pi +
+ 3 + y\sqrt{4-y^2} + yx - \frac{x^2}{2} + 2x\Biggr),(x,y) \in D_{12} \\ \vspace{2mm}
+\frac{1}{5+2\pi}(\frac{x^2}{2} + (y+2)x + \frac{y^2}{2} + 2x + 2), (x,y) \in D_{13}\\ \vspace{2mm}
+\frac{1}{5+2\pi} \Biggl( \frac{y^2+2y +1}{2} + 2(y+2) - \frac{x^2}{2} + (y+2)x + y - \frac{3}{2} \Biggr), (x,y) \in D_{14}\\ \vspace{2mm}
+ \frac{1}{5+2\pi} \Biggl(\frac{y^2+2y+1}{2} +
+(x+1)(y+2) \Biggr), (x,y) \in D_{15} \\ \vspace{2mm}
+\frac{1}{5+2\pi} (x+1)(y+2), \quad \quad (x,y) \in D_{16} \\ \vspace{2mm}
+\frac{2}{5+2\pi}(y+2), (x,y) \in D_{17} \\ \vspace{2mm}
+\frac{1}{5+2\pi} \Biggl(2 + \q{-1}{y}{(2s+4)ds} \Biggr)= \frac{1}{5+2\pi} (y^2+4y+5), (x,y) \in D_{18}
+\end{cases} 
+$
+\newpage{}
+
+
+
+\paragraph{Математичні сподівання координат та кореляційна матриця.}
+\hfill \break
+
+Обчислимо математичні сподівання координат $\xi_1$ та $\xi_2$:
+
+$E\xi_1 = \q{- \infty}{+ \infty}{x f_{\xi_1}(x)dx} = \frac{1}{2\pi+5} \Biggl( \q{-2}{-1}{(x\sqrt{4-x^2})dx} + \q{-2}{-1}{(x^2+2x)} +
++ \q{-1}{1}{x\sqrt{4-x^2}dx} + \q{-1}{1}{2xdx} + \q{1}{2}{x\sqrt{4-x^2}dx}+ \q{1}{2}{(2x-x^2)dx}   \Biggr)
+ = \frac{1}{2\pi+5} \Biggl( -\sqrt{3} - \frac{2}{3} + 0 + 0 + \sqrt{3} + \frac{2}{3} \Biggr) = 0$
+
+\vspace{5mm}
+
+$E\xi_2 =  \q{- \infty}{+ \infty}{y f_{\xi_2}(y)dy} = \frac{2}{2\pi+ 5} \Biggl(\q{-2}{-1}{ydy} + \q{-1}{0}{(y^2+2y)dy}  + \q{0}{2}{y\sqrt{4-y^2}dy} \Biggr) =  \frac{2}{2\pi+ 5} \Biggl( -\frac{3}{2} - \frac{2}{3} + \frac{8}{3}\Biggr)
+= \frac{1}{2\pi+5}$
+
+Отже, центр розсіювання випадкового вектора $\vec{\xi}$ має координати $(0,\frac{1}{5+2\pi})$
+
+\vspace{5mm}
+
+Побудуємо кореляційну та нормовану кореляційну матриці. Спочатку побудуємо кореляційну матрицю:
+
+ \begin{center}
+$
+K = 
+\begin{pmatrix}
+D \xi_1 & K(\xi_1,\xi_2) \\
+K(\xi_1, \xi_2) & D\xi_2 
+\end{pmatrix}
+$
+\end{center}
+де $D \xi_i$ - диспресія випадкової величини $\xi_i, i =1,2. \,\,  K(\xi_1,\xi_2)$ - кореляційний момент $\xi_1$ та $\xi_2$.
+
+
+$E \xi_1^2 = \q{-\infty}{\infty}{x^2 f_{\xi_1}(x)dx} = \frac{1}{5+2\pi} \Biggl(\q{-2}{-1}{x^2\sqrt{4-x^2}dx } + \q{-2}{-1}{(x^3 + 2x^2)dx}  + \q{-1}{1}{x^2\sqrt{4-x^2} dx} + \q{-1}{1}{2x^2dx} + \q{1}{2}{x^2\sqrt{4-x^2}dx} + \q{1}{2}{2x^2-x^3}\Biggr)  
+=\frac{1}{5+2\pi} \Biggl( \frac{2\pi}{3} + \frac{\sqrt{3}}{4} + \frac{11}{12} + \frac{2\pi}{3} - \frac{\sqrt{3}}{2} + \frac{4}{3} 
++ \frac{2\pi}{3} + \frac{\sqrt{3}}{4}  + \frac{11}{12}\Biggr)  = \frac{1}{5+2\pi} \Biggl( 2\pi + \frac{38}{12}\Biggl)$
+
+
+\vspace{6mm}
+
+$E \xi_2^2 = \q{-\infty}{\infty}{x^2 f_{\xi_2}(y)dy} = \frac{2}{5+2\pi} \Biggl( \q{-2}{-1}{y^2dy} + \q{-1}{0}{(y^3+2y^2)dy} +
+\q{0}{2}{y^2\sqrt{4-y^2}dy}\Biggr) = \frac{2}{5+2\pi} \Biggl( \frac{7}{3} + \frac{5}{12} + \pi\Biggr)
+= \frac{2}{5+2\pi} \Biggl(\frac{11}{4} + \pi \Biggr)$
+
+\newpage{}
+
+$E \xi_1 \xi_2 = \q{-\infty}{+\infty}{}\q{-\infty}{+\infty}{xyf_{\vec{\xi}}(x,y)} = \frac{1}{5+2\pi} \Biggl( \q{-2}{-1}{ydy} 
+\q{-1}{1}{xdx} +  \q{-1}{0}{ydy} \q{-y-2}{y+2}{xdx} + \q{0}{2}{ydy} \q{-\sqrt{4-y^2}}{\sqrt{4-y^2}}{xdx} =
+\frac{1}{5+2\pi}\Biggl(\q{-2}{-1}{0dy} + \q{-1}{0}{0dy} + \q{0}{2}{0dy} \Biggr) = 0
+$
+
+\vspace{4mm}
+
+$D \xi_1 = E \xi_1^2 - (E\xi_1)^2 = \frac{1}{5+2\pi} \Biggl( 2\pi + \frac{38}{12}\Biggl) \approx 0.8375$ 
+
+\vspace{4mm}
+
+$D \xi_2 = E \xi_2^2 - (E\xi_2)^2 = \frac{2}{5+2\pi} \Biggl(\frac{11}{4} + \pi \Biggr) - \frac{1}{(2\pi+5)^2}=
+\frac{1}{(5+2\pi)^2}\Biggl((\frac{11}{2} + 2\pi )(2\pi+5) - 1\Biggr) \approx 1.0365$ 
+
+\vspace{4mm}
+
+$K(\xi_1, \xi_2) = E \xi_1 \xi_2 - E \xi_1 \cdot E \xi_2 = 0$
+
+\vspace{3mm}
+Бачимо, що випадкові величини є некорельованими
+
+Отже кореляційна матриця має вигляд:
+
+ \begin{center}
+$
+K = 
+\begin{pmatrix}
+0.8375 & 0 \\
+0 & 1.0365 
+\end{pmatrix}
+$
+\end{center}
+
+Перевіримо матрицю на додатну визначеність:
+
+\begin{center}
+0.8375 > 0; \quad \quad $
+\begin{vmatrix}
+0.8375 & 0 \\
+0 & 1.0365
+\end{vmatrix}
+= 0.8375 \cdot  1.0365 > 0
+$
+\end{center}
+Отже за критерієм Сильвестра - матриця додатньо визначена
+Обчислимо коєфіцієнт кореляції:
+\begin{center}
+$
+r(\xi_1,\xi_2) = \frac{K(\xi_1, \xi_2)}{\sqrt{D \xi_1\cdot D \xi_2}} = 0
+$
+\end{center}
+
+Тоді побудуємо нормовану кореляційну матрицю:
+ \begin{center}
+$
+R = 
+\begin{pmatrix}
+1& 0 \\
+0 &1
+\end {pmatrix}
+$
+\end{center}
+
+\newpage{}
+
+\paragraph{5. Умовні щільності розподілу для кожної координати. }
+За допомогою формул  $f_{\xi_1}(x/y)=\frac{f_{\vec{\xi}}(x,y)}{f_{\xi_2}(y)}$ та $f_{\xi_2}(y/x)=\frac{f_{\vec{\xi}}(x,y)}{f_{\xi_1}(x)}$ обчислимо умовні щільності
+
+\begin{equation*}
+f_{\vec{\xi}}(x;y)=
+    \begin{cases}
+    \frac{1}{5+2\pi}&,\quad (x;y)\in G,\\
+    0            &,\quad (x;y)\notin G.
+    \end{cases}
+\end{equation*}
+$
+f_{\xi_1} (x)= 
+\begin{cases}
+\vspace{3mm}
+0, \quad x \leqslant -2 \\ \vspace{3mm}
+\frac{1}{5+2\pi} \int \limits_{-x-2}^{\sqrt{4-x^2}} dy = \frac{1}{5+2\pi}\left(\sqrt{4-x^2} + x + 2 \right), \quad    -2 < x \leqslant -1 \\\vspace{3mm}
+\frac{1}{5+2\pi}\int \limits_{-2}^{\sqrt{4-x^2}} dy = \frac{1}{5+2\pi} \left( \sqrt{4 - x^2} + 2 \right), \quad  -1 < x \leqslant 1 \\ \vspace{3mm} 
+\frac{1}{5+2\pi}\int \limits_{x-2}^{\sqrt{4-x^2}} dy = \frac{1}{5+2\pi} \left(\sqrt{4-x^2} - x + 2 \right), \quad  1 < x \leqslant 2 \\
+0, \quad x > 2
+\end{cases}
+$
+\vspace{4mm}
+
+$
+f_{\xi_2} (y)= 
+\begin{cases}
+\vspace{3mm}
+0, \quad y \leqslant -2 \\ \vspace{3mm}
+\frac{1}{5+2\pi} \int \limits_{-1}^{1} dx = \frac{2}{5+2\pi}, \quad -2 < y \leqslant -1 \\ \vspace{3mm}
+\frac{1}{5+2\pi} \int \limits_{-y-2}^{y+2} dx = \frac{2y+4}{5+2\pi} , \quad -1 < y \leqslant 0 \\ \vspace{3mm}
+\frac{1}{5+2\pi} \int \limits_{-\sqrt{4-y^2}}^{\sqrt{4-y^2}} dx = \frac{2\sqrt{4-y^2}}{5+2\pi} ,  \quad 0 < y \leqslant 2 \\ \vspace{3mm}
+0, \quad y > 2
+\end{cases}
+$
+
+\begin{equation*}
+f_{\xi_1}(x/y)=
+    \begin{cases}
+    0,\quad & y\leq -2,\\
+    \frac{1}{2},\quad &y\in(-2;-1], x\in[-1;1],\\
+    0,\quad &y\in(-2;-1], x\notin[-1;1],\\
+    \frac{1}{2y+4},\quad &y\in(-1,0], x\in [-y-2;y+2]\\
+    0,\quad &y\in(-1;0], x\notin[-y-2;y+2],\\
+    \frac{1}{2\sqrt{4-y^2}},\quad &y\in(0,2], x\in [-\sqrt{4-y^2};\sqrt{4-y^2}]\\
+    0,\quad &y\in(0,2], x\notin [-\sqrt{4-y^2};\sqrt{4-y^2}]\\
+    0            ,\quad &y>2.
+    \end{cases}
+\end{equation*}
+
+\begin{equation*}
+f_{\xi_2}(y/x)=
+    \begin{cases}
+    0,\quad & x\leq -2,\\
+    \frac{1}{\sqrt{4-x^2}+x+2},\quad &x\in(-2;-1], y\in[-x-2;\sqrt{4-x^2}],\\
+    0,\quad &x\in(-2;-1], y\notin[-x-2;\sqrt{4-x^2}],\\
+    \frac{1}{\sqrt{4-x^2}+2},\quad &x\in(-1,1], y\in [-2;\sqrt{4-x^2}]\\
+    0,\quad &x\in(-1;1], y\notin[-2;\sqrt{4-x^2}],\\
+    \frac{1}{\sqrt{4-x^2}-x+2},\quad &x\in(1,2], y\in [x-2;\sqrt{4-x^2}]\\
+    0,\quad &x\in(1,2], y\notin [x-2;\sqrt{4-x^2}]\\
+    0            ,\quad &x>2.
+    \end{cases}
+\end{equation*}
+Перевіримо чи виконуються умови нормування
+\[\int_{-\infty}^{+\infty}f_{\xi_1}(x/y)dx=\frac{\int_{-\infty}^{+\infty} f_{\vec{\xi}}(x,y) dx}{f_{\xi_2}(y)}=\frac{ f_{\xi_2}(y)}{f_{\xi_2}(y)}=1.\]
+\[\int_{-\infty}^{+\infty}f_{\xi_2}(y/x)dy=\frac{\int_{-\infty}^{+\infty} f_{\vec{\xi}}(x,y) dy}{f_{\xi_1}(x)}=\frac{ f_{\xi_1}(x)}{f_{\xi_1}(x)}=1.\]
+У нашому випадку очевидно, що
+\[\int_{-1}^{1}\frac{1}{2} dx=\int_{-y-2}^{y+2}\frac{1}{2y+4} dx=\int_{-\sqrt{4-y^2}}^{\sqrt{4-y^2}}\frac{1}{2\sqrt{4-y^2}} dx=1\]
+\[\int_{-x-2}^{\sqrt{4-x^2}}\frac{1}{\sqrt{4-x^2}+x+2} dy=\int_{-2}^{\sqrt{4-x^2}}\frac{1}{\sqrt{4-x^2}+2} dy=\]\[=\int_{x-2}^{\sqrt{4-x^2}}\frac{1}{\sqrt{4-x^2}-x+2} dy=1\]
+
+
+
+\paragraph{6. Умовні математичні сподівання для кожної координати з перевіркою.}
+\hfill \break
+
+Для пошуку умовних математичних сподівань скористаємося формулами:
+
+\begin{center}
+$E(\xi_2/\xi_1 = x) = \q{-\infty}{+\infty}{y f_{\xi_2}(y/x)dy}$ \\ \vspace{5mm}
+$E(\xi_1/\xi_2 = y) = \q{-\infty}{+\infty}{y f_{\xi_1}(x/y)dx}$
+\end{center}
+
+$
+E(\xi_2/\xi_1 =x )= 
+\begin{cases}
+\vspace{4mm}
+0, \quad x \leq -2 \\ \vspace{4mm}
+\q{-x-2}{\sqrt{4-x^2}}{\frac{ydy}{\sqrt{4-x^2} +x + 2}} = \frac{-x^2-2x}{\sqrt{4-x^2} +x + 2}, x \in (-2;-1]  \\ \vspace{4mm}
+\q{-2}{\sqrt{4-x^2}}{\frac{ydy}{\sqrt{4-x^2}+2}} = \frac{-\frac{1}{2}x^2}{\sqrt{4-x^2}+2}, x \in (-1;1] \\ \vspace{4mm}
+\q{x-2}{\sqrt{4-x^2}}{\frac{ydy}{\sqrt{4-x^2} -x + 2} } = \frac{-x^2 + 2x}{\sqrt{4-x^2} -x + 2}, x \in (1;2] \\ \vspace{4mm}
+0, \quad x > 2
+\end{cases}
+$
+
+\vspace{5mm}
+
+$
+E(\xi_1/\xi_2 =y )= 
+\begin{cases}
+\vspace{4mm}
+0, \quad y \leq -2 \\ \vspace{4mm}
+\q{-1}{1}{\frac{xdx}{2}} = 0, y \in (-2;-1] \\ \vspace{4mm}
+\q{-y-2}{y+2}{\frac{xdx}{2y+4}} = 0, y \in (-1;0] \\ \vspace{4mm}
+\q{-\sqrt{4-y^2}}{\sqrt{4-y^2}}{\frac{xdx}{2\sqrt{4-y^2}}} = 0, y \in (0;2] \\ \vspace{4mm} 
+0, y > 2
+\end{cases}
+$
+
+Виконаємо перевірку, використовуючи формули повного мат сподівання
+$$
+\begin{cases}
+E(E(\xi_1/\xi_2)) = E\xi_1 \\ 
+E(E(\xi_2/\xi_1)) = E\xi_2
+\end{cases}
+$$
+Перша рівність очевидна. Друга:
+
+$E(E(\xi_2/\xi_1)) = \q{-\infty}{+\infty}{(E(\xi_2)/\xi_1 = x)f_{\xi_1}(x))dx} = \frac{1}{5+2\pi} \Biggl(\q{-2}{-1}{\frac{-x^2-2x}{\sqrt{4-x^2} + x+2}  \cdot (\sqrt{4-x^2} + x+2)dx + \q{-1}{1}{\frac{-\frac{x^2}{2}}{\sqrt{4-x^2} + 2}} (\sqrt{4-x^2} + 2) +
+\q{1}{2}{(-x^2+2x)} \Biggr) = \frac{1}{5+2\pi} \cdot (\frac{2}{3}} - \frac{1}{3} + \frac{2}{3}) = \frac{1}{5+2\pi} = E\xi_2$
+
+
+
+
+\newpage{}
+
+\paragraph{додаток 1:}
+\hfill \break
+
+\[\int_{x_1}^{x_2}\sqrt{4-x^2}dx=\]
+Заміна $x=2\sin{t};\quad dx=2\cos{t}\;dt$
+\begin{center}
+    \begin{tabular}{|c|c|c|}
+            \hline
+            $x$ & $x_1$ & $x_2$  \\
+            \hline
+            $t$ & $t_1$ & $t_2$  \\
+            \hline
+    \end{tabular}
+\end{center}
+
+\[=4\int_{t_1}^{t_2}\cos^2{t}dt=2\int_{t_1}^{t_2}(1+\cos{2t})dt=2(t_2-t_1)+\int_{t_1}^{t_2}\cos{2t}d(2t)=\]\[=\sin{2t_2}-\sin{2t_1}+2(t_2-t_1)=\sin{\left(2\arcsin{\frac{x_2}{2}}\right)}-\sin{\left(2\arcsin{\frac{x_1}{2}}\right)}+\]\[+2\arcsin{\frac{x_2}{2}}-2\arcsin{\frac{x_1}{2}}.\]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{spacing}
+\end{document}
