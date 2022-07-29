@@ -1,0 +1,1083 @@
+\documentclass[a5paper, 20pt]{article}
+\def\MakeUppercaseUnsupportedInPdfStrings{\scshape}
+\usepackage[warn]{mathtext}
+\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage[ warn ]{ mathtext }
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[normalem]{ulem}
+\usepackage[pdftex]{graphics}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{amsmath,systeme}
+\usepackage{comment}
+\usepackage{slashbox}
+\usepackage{pgfplots}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage[unicode, pdftex]{hyperref}
+\usepackage{yfonts}
+\newtheorem{theorem}{Теорема}
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{fillbetween}
+\geometry{verbose,a4paper,tmargin=2cm,bmargin=2cm,lmargin=2.5cm,rmargin=1.5cm}
+\setcounter{MaxMatrixCols}{25}
+\hypersetup{
+    colorlinks = true,
+    linkbordercolor = {white},
+    linkcolor=blue
+}
+
+\setstretch{1.25}
+
+\begin{document}
+
+
+\paragraph{Завдання.}
+
+
+$$
+\begin{matrix}
+2 & 0 & 0 & 1 & 0 & 0 & 0 & 2 & 2 & 2 & 0 & 0 & 0 & 0 & 0 & 3 & 0 & 3 & 2 & 0 & 1 & 1 & 0 & 0 & 4 \\
+3 & 0 & 2 & 2 & 5 & 0 & 6 & 0 & 5 & 0 & 11 & 0 & 2 & 1 & 0 & 2 & 2 & 3 & 4 & 0 & 0 & 1 & 4 & 1 &  1 \\ 
+1 & 0 & 1 & 0 & 2 & 2 & 0 & 0 & 1 & 2 & 0 & 1 & 1 & 0 & 3 & 0 & 1 & 0 & 4 & 2 & 5 & 1 & 2 & 0 & 1 \\ 
+1 & 0 & 0 & 1 & 4 & 1 & 1 & 3 & 0 & 2 & 7 & 3 & 0 & 1 & 0 & 2 & 1 & 0 & 2 & 0 & 0 & 0 & 2 & 0 & 2 
+\end{matrix}
+$$
+
+Для конкретної реалізації вибірки виконати:
+
+\begin{enumerate}
+\item Побудувати варіаційний (дискретний або інтервальний) ряд наданої вибірки.
+\item Зробити графічне зображення вибірки.
+\item Побудувати емпіричну функцію розподілу.
+\item Знайти незміщену оцінку математичного сподівання та дисперсії.
+\item Обчислити значення вибіркової медіани, моди, асиметрії.
+\item Висунути гіпотезу про розподіл, за яким отримано вибірку.
+\item Знайти точкові оцінки параметрів гіпотетичного закону розподілу та перевірити їх властивості.
+\item Перевірити за допомогою критерію $\chi^2$ (Пірсона) гіпотезу про розподіл з рівнем значущості  $\alpha = 0.05$.
+\item Знайти довірчий інтервал для параметрів гіпотетичного закону розподілу, взяв рівень надійності $\gamma = 0.95$.
+\item Висновки.
+\end{enumerate}
+
+
+\section{Побудувати варіаційний (дискретний або інтервальний) ряд наданої вибірки.}
+
+Для початку відсортуємо нашу реалізацію вибірки:
+
+$$
+\begin{matrix}
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2 \\
+2 & 2 & 2 & 2 & 2 & 2 & 2 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 4 & 4 & 4 & 4 & 4 & 5 & 5 & 5 & 6 & 7 & 11
+\end{matrix}
+$$
+
+Як бачимо, в вибірці досить мало унікальних значень, а саме 9, тому побудуємо дискретний варіаційний ряд:
+
+
+\begin{center}
+\begin{tabular}{| c | c | c | c | c | c | c | c | c | c | }
+	\hline
+	варіанти & 0 & 1 & 2 & 3  & 4 & 5 & 6 & 7 & 11\\ \hline
+	частоти $n_i$ & 41 & 21 & 20 & 7 & 5 & 3 & 1 & 1 & 1\\ \hline
+	частості $\omega_i$ & 0.41 & 0,21 & 0,2 & 0,07 & 0.05 & 0.03 & 0.01 & 0.01 & 0.01  \\ \hline
+\end{tabular}
+\end{center}
+
+Зробимо перевірку, сумма всіх частот має дорівнювати обсягу вибірки(100) , а сума всіх частостей має дорівнювати одиниці:
+
+\vspace{3mm}
+
+$\displaystyle{\sum_{i=1}^{10} n_i = 41 + 21 + 20 + 7 + 5 + 3 + 1 + 1 + 1 = 100}$
+
+\vspace{3mm}
+
+$\displaystyle{\sum_{i=1}^{10} \omega_i = 0.41 + 0.21 + 0.2 + 0.07 + 0.05 + 0.03 + 0.01 + 0.01 + 0.01 = 1 }$
+
+\newpage{}
+
+\section{Зробити графічне зображення вибірки.}
+
+
+Побудуємо за дискретним варіаційним рядом полігон відносних частот:
+
+\vspace{4mm}
+\begin{tikzpicture}
+	\begin{axis}[
+		axis lines = middle,
+		xmin = -1 , xmax = 13,
+		ymin = -0.15, ymax = 0.42,
+	%
+	% тіки
+		ytick = {-0.2, -0.1, 0.1, 0.2, 0.3, 0.41},
+		xtick = {0, 1,2,3,4,5,6,7,11},
+		extra x ticks = {0},
+		extra x tick labels = {\!\!\!\!\!\!\! 0},
+	%
+	% підпис осей	
+		xlabel style={below right},
+		xlabel = {$x$},
+		ylabel = {$\omega$},
+		width = 17 cm,	
+		height =11cm,
+		title  = полігон відносних частот ,
+		title style={yshift= - 10 cm}
+	%
+	]
+
+
+\addplot[color = black, mark = *, only marks, mark size = 1.25pt] coordinates {(0, 0.41) (1, 0.21) (2,0.2) (3, 0.07) (4,0.05) (5,0.03) (6, 0.01) (7,0.01) (11,0.01)};
+\addplot[color = cyan, ultra thick] coordinates {(0, 0.41) (1, 0.21) (2,0.2) (3, 0.07) (4,0.05) (5,0.03) (6, 0.01) (7,0.01) (11,0.01) };
+\node[above] at (1, 0.21) {$0.21$};
+\node[above] at (2,0.2) {$0.2$};
+\node[above] at (3, 0.07) {$0.07$};
+\node[above] at (4,0.05) {$0.05$};
+\node[above] at (5,0.03) {$0.03$};
+\node[above] at (6, 0.01) {$0.01$};
+\node[above] at (7,0.01) {$0.01$};
+\node[above] at (11,0.01) {$0.01$};
+	\end{axis}
+\end{tikzpicture}
+
+\vspace{4mm}
+
+Тут числа над точками це ординати відповідних точок, тобто значення частостей.
+
+
+\section{Побудувати емпіричну функцію розподілу}
+
+За дискретним варіаційним рядом побудуємо емпіричну функцію розподілу. Для ДВР вона визначається наступним чином:
+
+$$
+F_n^*(x) =
+\begin{cases}
+\begin{aligned}
+&0,  \qquad & x \leqslant x_1^* \\
+&\omega_1^{нак} = \cfrac{n_1}{n},  &x_1^* < x \leqslant x_2^*\\
+&\omega_2^{нак} = \cfrac{n_1 + n_2}{n}, &x_2^* < x \leqslant x_3^*\\
+&...\\
+&1 , &x > x_r^*\\
+\end{aligned}
+\end{cases}
+$$
+
+Отже маємо:
+
+\vspace{4mm}
+
+$
+F_n^*(x) =
+\begin{cases}
+\begin{aligned}
+&0,  \qquad & x \leqslant 0 \\
+&0.41,  &0 < x \leqslant 1\\
+&0.41 + 0.21 = 0.62, & 1 < x \leqslant 2\\
+&0.41 + 0.21 + 0.2 = 0.82, & 2 < x \leqslant 3\\
+&0.41 + 0.21 + 02 + 0.07 = 0.89, & 3 < x \leqslant 4\\
+&0.41 + 0.21 + 02 + 0.07 + 0.05 = 0.94, & 4 < x \leqslant 5\\
+&0.41 + 0.21 + 02 + 0.07 + 0.05  + 0.03 = 0.97, & 5 < x \leqslant 6\\
+&0.41 + 0.21 + 02 + 0.07 + 0.05  + 0.03 + 0.01 = 0.98, & 6 < x \leqslant 7\\
+&0.41 + 0.21 + 02 + 0.07 + 0.05  + 0.03 + 0.01  + 0.01 = 0.99, & 7 < x \leqslant 11\\
+&1 , &x > 11\\
+\end{aligned}
+\end{cases}
+$
+
+\vspace{4mm}
+
+
+
+
+\hypertarget{dfunc}{Побудуємо графік емпіричної функції розподілу}
+
+\vspace{4mm}
+
+\begin{tikzpicture}
+	\begin{axis}[
+		axis lines = middle,
+		xmin = -1 , xmax = 13,
+		ymin = -0.15, ymax = 1.05,
+	%
+	% тіки
+		ytick = {0.41, 0.5, 1},
+		xtick = {0, 1,2,3,4,5,6,7,11},
+		extra x ticks = {0},
+		extra x tick labels = {\!\!\!\!\!\!\! 0},
+	%
+	% підпис осей	
+		xlabel style={below right},
+		ylabel style={below left},
+		xlabel = {$x$},
+		ylabel = {$F_n^*(x)$},
+		width = 17 cm,	
+		height =14cm,
+		title  = емпірична функція розподілу ,
+		title style={yshift= - 13 cm}
+	%
+	]
+
+
+\addplot[color = cyan, ultra thick, <-] coordinates {(0, 0.41 ) (1, 0.41)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(1, 0.62 ) (2, 0.62)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(2, 0.82 ) (3, 0.82)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(3, 0.89 ) (4, 0.89)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(4, 0.94 ) (5, 0.94)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(5, 0.97 ) (6, 0.97)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(6, 0.98 ) (7, 0.98)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(7, 0.99 ) (11, 0.99)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(11, 1 ) (13, 1)};
+\addplot[color = cyan, ultra thick] coordinates {(-1, 0 ) (0, 0)};
+
+
+\addplot[color = black, dashed] coordinates {(1, 0.62) (1, 0)};
+\addplot[color = black, dashed] coordinates {(2, 0.82) (2, 0)};
+\addplot[color = black, dashed] coordinates {(3, 0.89) (3, 0)};
+\addplot[color = black, dashed] coordinates {(4, 0.94) (4, 0)};
+\addplot[color = black, dashed] coordinates {(5, 0.97) (5, 0)};
+\addplot[color = black, dashed] coordinates {(6, 0.98) (6, 0)};
+\addplot[color = black, dashed] coordinates {(7, 0.99) (7, 0)};
+\addplot[color = black, dashed] coordinates {(11, 1) (11, 0)};
+\addplot[color = black, dashed] coordinates {(0,1) (11, 1)};
+
+\end{axis}
+\end{tikzpicture}
+
+\newpage{}
+\section{Знайти незміщену оцінку математичного сподівання та дисперсії.}
+
+Як відомо з лекцій: незміщеною оцінкою математичного сподівання є вибіркове середнє \hyperlink{d1}{[1]}. А при невідомому математичному сподіванні незміщеною оцінкою дисперсії є виправлена вибіркова дисперсія \hyperlink{d1}{[1]}. Вибіркове середнє і виправлена вибіркова дисперсія задаються наступним \hypertarget{variance}{чином:}
+
+$$ \bar \xi = \cfrac{1}{n} \sum_{i=1}^n \xi_i    \qquad \qquad \qquad \qquad  \mathbb{D}^{**} \xi = \cfrac{n}{n-1} \mathbb{D}^* \xi = \cfrac{1}{n-1} \sum_{i = 1}^{n} \left ( \xi_i - \bar \xi \right)^2, \quad (4.1)$$ де $ \mathbb{D}^* \xi$  \nolinebreak це вибіркова дисперсія.
+
+Для нашої реалізації вибірки знайдемо значення вибіркового середнього та виправленої вибіркової дисперсії:
+
+$$\bar x = \cfrac{1}{100} \sum_{i = 1}^{100} x_i =  \cfrac{1}{100} \left( 0\cdot41 + 1 \cdot 21 + 2 \cdot 20 + 3 \cdot 7 + 4 \cdot 5 + 5 \cdot 3 + 6 + 7 + 11  \right)= 1.41$$
+
+$$ (\mathbb{D}^{**} \xi)_{\text{зн}} = \cfrac{1}{99} \sum_{i = 1}^{100} \left ( x_i - \bar x \right)^2 = 41 \cdot (0 - 1.41 )^2 + 21 \cdot (1 - 1.41)^2 + 20 \cdot (2 - 1.41)^2 + 7 \cdot (3-1.41)^2 + ... + (11 - 1.41)^2 =  3.29(48) $$
+
+
+\section{Обчислити значення вибіркової медіани, моди, асиметрії.}
+
+Знайдемо значення вибіркової медіани $\left( Me^* \xi \right)_{\text{зн}}$. У випадку побудови ДВР вона визначається як середня за розташуванням варіанта(або середнє арифметичне варіант, якщо їх парна кількість), тобто в нашому випадку маємо: $\left( Me^* \xi \right)_{\text{зн}} = x_5^* = 4$. Є ще один спосіб знайти значення вибіркової медіани, це знаходження першої варіанти, накопичена частість якої перевищила $0.5$. Тоді за \hyperlink{dfunc}{графіком ЕФР} маємо: $\left( Me^* \xi \right)_{\text{зн}} = x_1^* = 2$ 
+
+
+\hspace{4mm}
+
+Вибіркова мода у випадку побудови ДВР визначається як варінта з найбільшою частістю, тобто у нашому випадку: $\left( Mo^* \xi \right)_{\text{зн}} = x_1^* = 0$.
+
+\hspace{4mm}
+
+Вибіркова асиметрія визначається наступною формулою:
+
+$$ As^* \xi = \cfrac{\frac{1}{n} \sum \limits_{i = 1}^n \left( \xi_i - \bar \xi \right)^3}{\left( \mathbb{D}^* \xi \right)^{3 /2}} $$
+
+Для знаходження значення вибіркової асиметрії знайдемо значення вибіркової дисперсії. З \hyperlink{variance}{формули 4.1}, виправленої вибіркової дисперсії отримаємо:
+
+$$\left( \mathbb{D}^* \xi \right)_{\text{зн}} = \cfrac{n-1}{n} \left( \mathbb{D}^{**} \xi \right)_{\text{зн}} = \cfrac{99}{100} \cdot 3.29(48) = 3.2619$$
+
+Тепер можемо знайти значення вибркової асиметрії:
+
+$$  \left( As^* \xi \right)_{\text{зн}} = \cfrac{\frac{1}{100} \sum \limits_{i = 1}^{100} \left( x_i - \bar x \right)^3}{\left( \mathbb{D}^* \xi \right)_{\text{зн}}^{3 /2}} = \cfrac{12.9489}{(3.2619)^{3/2}} = 2.198$$
+
+\newpage{}
+
+\section{Висунути гіпотезу про розподіл, за яким отримано вибірку.}
+
+Розглянемо розподіл Паскаля. Нагадаємо, ДВВ $\zeta$ розподiлена за Законом Паскаля, якщо набуває значень $0, 1, 2, \dots$  з ймовiрностями:
+
+$$ \mathbb{P}(\zeta = k) = \cfrac{1}{1+\theta} \left(\cfrac{\theta}{1+\theta} \right)^k, \quad \theta > 0$$
+ 
+\begin{enumerate}
+
+\item \hypertarget{pol_rosp}{Розглянемо полігон розподілу ймовірностей закону Паскаля для різних параметрів}  
+
+\vspace{4mm}
+\begin{tikzpicture}
+	\begin{axis}[
+		legend style={at={(1,0.9)},	
+				    anchor=north east},
+		axis lines = middle,
+		xmin = -1 , xmax = 13,
+		ymin = -0.15, ymax = 0.55,
+	%
+	% тіки
+		ytick = {-0.2, -0.1, 0.1, 0.2, 0.3, 0.41, 0.5},
+		xtick = {0, 1,2,3,4,5,6,7,11},
+		extra x ticks = {0},
+		extra x tick labels = {\!\!\!\!\!\!\! 0},
+	%
+	% підпис осей	
+		xlabel style={below right},
+		xlabel = {$x$},
+		%ylabel = {$\omega$},
+		width = 17 cm,	
+		height =11cm,
+		title  = {полігон відносних частот та полігон розподілу ймовірностей закону Паскаля  для $\theta=1$} ,
+		title style={yshift= - 10.5 cm}
+	%
+	]
+
+\addplot[color = cyan,  mark = *, ultra thick,  mark size = 2pt] coordinates {(0, 0.41) (1, 0.21) (2,0.2) (3, 0.07) (4,0.05) (5,0.03) (6, 0.01) (7,0.01) (11,0.01) };
+\addplot[color = red,  mark = *, ultra thick,  mark size = 2pt] coordinates { (0,0.5) (1,0.25) (2,0.125) (3,0.0625) (4,0.03125) (5,0.015625) (6,0.0078125) (7,0.00390625) (8,0.001953125) (9,0.0009765625) (10,0.00048828125) (11,0.000244140625) };
+		
+
+\legend{полігон відносних частот, полігон розподілу ймовірностей закону Паскаля  для $\theta = 1$}
+
+\addplot[color = black, dashed] coordinates {(1, 0) (1,0.25)};
+\addplot[color = black, dashed] coordinates {(2, 0) (2,0.2) };
+\addplot[color = black, dashed] coordinates {(3, 0) (3, 0.07)};
+\addplot[color = black, dashed] coordinates {(4, 0) (4,0.05)};
+\addplot[color = black, dashed] coordinates {(5, 0) (5,0.03)};
+
+\node [rotate = 90 ] at (-0.9, 0.25) {частість / ймовірність};
+\end{axis}
+\end{tikzpicture}
+
+
+\vspace{4mm}
+\begin{tikzpicture}
+	\begin{axis}[
+		legend style={at={(1,0.9)},	
+				    anchor=north east},
+		axis lines = middle,
+		xmin = -1 , xmax = 13,
+		ymin = -0.15, ymax = 0.55,
+	%
+	% тіки
+		ytick = {-0.2, -0.1, 0.1, 0.2, 0.3, 0.41, 0.5},
+		xtick = {0, 1,2,3,4,5,6,7,11},
+		extra x ticks = {0},
+		extra x tick labels = {\!\!\!\!\!\!\! 0},
+	%
+	% підпис осей	
+		xlabel style={below right},
+		xlabel = {$x$},
+		%ylabel = {$\omega$},
+		width = 17 cm,	
+		height =11cm,
+		title  = {полігон відносних частот та полігон розподілу ймовірностей закону Паскаля  для $\theta=1.5$} ,
+		title style={yshift= - 10.5 cm}
+	%
+	]
+
+\addplot[color = cyan,  mark = *, ultra thick,  mark size = 2pt] coordinates {(0, 0.41) (1, 0.21) (2,0.2) (3, 0.07) (4,0.05) (5,0.03) (6, 0.01) (7,0.01) (11,0.01) };
+\addplot[color = red,  mark = *, ultra thick,  mark size = 2pt] coordinates { (0,0.4) (1,0.24) (2,0.144) (3,0.0864) (4,0.05184) (5,0.031104) (6,0.0186624) (7,0.01119744) (8,0.006718464) (9,0.0040310784) (10,0.00241864704) (11,0.001451188224)};
+
+
+\legend{полігон відносних частот, полігон розподілу ймовірностей закону Паскаля  для $\theta = 1.5$}
+
+\addplot[color = black, dashed] coordinates {(1, 0) (1,0.24)};
+\addplot[color = black, dashed] coordinates {(2, 0) (2,0.2) };
+\addplot[color = black, dashed] coordinates {(3, 0) (3, 0.07)};
+\addplot[color = black, dashed] coordinates {(4, 0) (4,0.05) };
+\addplot[color = black, dashed] coordinates {(5, 0) (5,0.03)};
+
+\node [rotate = 90 ] at (-0.9, 0.25) {частість / ймовірність};
+\end{axis}
+\end{tikzpicture}
+
+
+\vspace{4mm}
+\begin{tikzpicture}
+	\begin{axis}[
+		legend style={at={(1,0.9)},	
+				    anchor=north east},
+		axis lines = middle,
+		xmin = -1 , xmax = 13,
+		ymin = -0.15, ymax = 0.55,
+	%
+	% тіки
+		ytick = {-0.2, -0.1, 0.1, 0.2, 0.3, 0.41, 0.5},
+		xtick = {0, 1,2,3,4,5,6,7,11},
+		extra x ticks = {0},
+		extra x tick labels = {\!\!\!\!\!\!\! 0},
+	%
+	% підпис осей	
+		xlabel style={below right},
+		xlabel = {$x$},
+		%ylabel = {$\omega$},
+		width = 17 cm,	
+		height =11cm,
+		title  = {полігон відносних частот та полігон розподілу ймовірностей закону Паскаля  для $\theta=2$} ,
+		title style={yshift= - 10.5 cm}
+	%
+	]
+
+\addplot[color = cyan,  mark = *, ultra thick,  mark size = 2pt] coordinates {(0, 0.41) (1, 0.21) (2,0.2) (3, 0.07) (4,0.05) (5,0.03) (6, 0.01) (7,0.01) (11,0.01) };
+\addplot[color = red,  mark = *, ultra thick,  mark size = 2pt] coordinates { (0,0.3333333333333333) (1,0.2222222222222222) (2,0.14814814814814814) (3,0.09876543209876543) (4,0.06584362139917696) (5,0.0438957475994513) (6,0.029263831732967534) (7,0.01950922115531169) (8,0.01300614743687446) (9,0.008670764957916306) (10,0.0057805099719442045) (11,0.0038536733146294698) };
+
+
+\legend{полігон відносних частот, полігон розподілу ймовірностей закону Паскаля  для $\theta = 2$}
+
+\addplot[color = black, dashed] coordinates {(1, 0) (1,0.2222222222222222)};
+\addplot[color = black, dashed] coordinates {(2, 0) (2,0.2) };
+\addplot[color = black, dashed] coordinates {(3, 0) (3,0.09876543209876543)};
+\addplot[color = black, dashed] coordinates {(4, 0) (4,0.06584362139917696) };
+\addplot[color = black, dashed] coordinates {(5, 0) (5,0.0438957475994513)};
+
+\node [rotate = 90 ] at (-0.9, 0.25) {частість / ймовірність};
+
+\end{axis}
+\end{tikzpicture}
+
+\textit{Зауваження} Червоні графіки не перетинають вісь абсцис. Це просто дефект відображення LaTeX. 
+
+Отже, з графіків видно, що при певних значеннях параметра $\theta$(а саме 1, 1.5, 2) закону Паскаля його полігон розподілу схожий на полігон відносних частот нашої реалізації вибірки. 
+
+\vspace{3mm}
+\item \hypertarget{dfunc2}{Розглянемо графіки функцій розподілу Паскаля при різних значеннях параметра $\theta$}
+
+
+\vspace{4mm}
+
+\begin{tikzpicture}
+	\begin{axis}[
+		axis lines = middle,
+		xmin = -1 , xmax = 13,
+		ymin = -0.15, ymax = 1.3,
+	%
+	% тіки
+		ytick = {0.41, 0.5, 1},
+		xtick = {0, 1,2,3,4,5,6,7, 8, 9, 10, 11, 12},
+		extra x ticks = {0},
+		extra x tick labels = {\!\!\!\!\!\!\! 0},
+	%
+	% підпис осей	
+		xlabel style={below right},
+		ylabel style={below left},
+		xlabel = {$x$},
+		%ylabel = {$F_n^*(x)$},
+		width = 17 cm,	
+		height =13cm,
+		title  = {ЕФР та функція розподілу Паскаля при $\theta = 1$} ,
+		title style={yshift= - 12 cm}
+	%
+	]
+
+
+\addplot[color = cyan, ultra thick, <-] coordinates {(0, 0.41 ) (1, 0.41)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(1, 0.62 ) (2, 0.62)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(2, 0.82 ) (3, 0.82)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(3, 0.89 ) (4, 0.89)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(4, 0.94 ) (5, 0.94)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(5, 0.97 ) (6, 0.97)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(6, 0.98 ) (7, 0.98)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(7, 0.99 ) (11, 0.99)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(11, 1 ) (13, 1)};
+\addplot[color = cyan, ultra thick] coordinates {(-1, -0.000001 ) (0, -0.000001)};
+
+
+\addplot[color = black, dashed] coordinates {(0,0.5) (0,0)};
+\addplot[color = black, dashed] coordinates {(1,0.75) (1,0)};
+\addplot[color = black, dashed] coordinates {(2,0.875) (2,0)};
+\addplot[color = black, dashed] coordinates {(3,0.9375) (3,0)};
+\addplot[color = black, dashed] coordinates {(4,0.96875) (4,0)};
+\addplot[color = black, dashed] coordinates {(5,0.984375) (5,0)};
+\addplot[color = black, dashed] coordinates {(6,0.9921875) (6,0)};
+\addplot[color = black, dashed] coordinates {(7,0.99609375) (7,0)};
+\addplot[color = black, dashed] coordinates {(8,0.998046875) (8,0)};
+\addplot[color = black, dashed] coordinates {(9,0.9990234375) (9,0)};
+\addplot[color = black, dashed] coordinates {(10,0.99951171875) (10,0)};
+\addplot[color = black, dashed] coordinates {(11,0.999755859375) (11,0)};
+\addplot[color = black, dashed] coordinates {(0,1) (11, 1)};
+
+
+\addplot[color = red, ultra thick, <-] coordinates {(0,0.5) (1,0.5)};
+\addplot[color = red, ultra thick, <-] coordinates {(1,0.75) (2,0.75)};
+\addplot[color = red, ultra thick, <-] coordinates {(2,0.875) (3,0.875)};
+\addplot[color = red, ultra thick, <-] coordinates {(3,0.9375) (4,0.9375)};
+\addplot[color = red, ultra thick, <-] coordinates {(4,0.96875) (5,0.96875)};
+\addplot[color = red, ultra thick, <-] coordinates {(5,0.984375) (6,0.984375)};
+\addplot[color = red, ultra thick, <-] coordinates {(6,0.9921875) (7,0.9921875)};
+\addplot[color = red, ultra thick, <-] coordinates {(7,0.99609375) (8,0.99609375)};
+\addplot[color = red, ultra thick, <-] coordinates {(8,0.998046875) (9,0.998046875)};
+\addplot[color = red, ultra thick, <-] coordinates {(9,0.9990234375) (10,0.9990234375)};
+\addplot[color = red, ultra thick, <-] coordinates {(10,0.99951171875) (11,0.99951171875)};
+\addplot[color = red, ultra thick, <-] coordinates {(11,0.999755859375) (12,0.999755859375)};
+\addplot[color = red, thick] coordinates {(-1, 0.001 ) (0, 0.001)};
+
+
+\node [rotate = 90 ] at (-0.86, 0.6) {Функція розподілу зак. Паскаля / ЕФР};
+
+\legend{ЕФР,,,,,,,,,,,,,,,,,,,,,,,,,,,, Функція розподілу закону Паскаля при  $\theta = 1$}
+
+
+\end{axis}
+\end{tikzpicture}
+
+
+\vspace{4mm}
+
+\begin{tikzpicture}
+	\begin{axis}[
+		axis lines = middle,
+		xmin = -1 , xmax = 13,
+		ymin = -0.15, ymax = 1.3,
+	%
+	% тіки
+		ytick = {0.41, 0.5, 1},
+		xtick = {0, 1,2,3,4,5,6,7, 8, 9, 10, 11, 12},
+		extra x ticks = {0},
+		extra x tick labels = {\!\!\!\!\!\!\! 0},
+	%
+	% підпис осей	
+		xlabel style={below right},
+		ylabel style={below left},
+		xlabel = {$x$},
+		%ylabel = {$F_n^*(x)$},
+		width = 17 cm,	
+		height =13cm,
+		title  = {ЕФР та функція розподілу Паскаля при $\theta = 1.5$} ,
+		title style={yshift= - 12 cm}
+	%
+	]
+
+
+\addplot[color = cyan, ultra thick, <-] coordinates {(0, 0.41 ) (1, 0.41)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(1, 0.62 ) (2, 0.62)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(2, 0.82 ) (3, 0.82)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(3, 0.89 ) (4, 0.89)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(4, 0.94 ) (5, 0.94)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(5, 0.97 ) (6, 0.97)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(6, 0.98 ) (7, 0.98)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(7, 0.99 ) (11, 0.99)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(11, 1 ) (13, 1)};
+\addplot[color = cyan, ultra thick] coordinates {(-1, -0.000001 ) (0, -0.000001)};
+
+
+\addplot[color = black, dashed] coordinates {(1, 0.64) (1, 0)};
+\addplot[color = black, dashed] coordinates {(2, 0.82) (2, 0)};
+\addplot[color = black, dashed] coordinates {(3, 0.89) (3, 0)};
+\addplot[color = black, dashed] coordinates {(4, 0.94) (4, 0)};
+\addplot[color = black, dashed] coordinates {(5, 0.97) (5, 0)};
+\addplot[color = black, dashed] coordinates {(6, 0.98) (6, 0)};
+\addplot[color = black, dashed] coordinates {(7, 0.99) (7, 0)};
+\addplot[color = black, dashed] coordinates {(8,0.989922304) (8,0)};
+\addplot[color = black, dashed] coordinates {(9,0.9939533824000001) (9,0)};
+\addplot[color = black, dashed] coordinates {(10,0.9963720294400001) (10,0)};
+\addplot[color = black, dashed] coordinates {(11, 1) (11, 0)};
+\addplot[color = black, dashed] coordinates {(0,1) (11, 1)};
+
+\addplot[color = red, ultra thick, <-] coordinates {(0,0.4) (1,0.4)};
+\addplot[color = red, ultra thick, <-] coordinates {(1,0.64) (2,0.64)};
+\addplot[color = red, ultra thick, <-] coordinates {(2,0.784) (3,0.784)};
+\addplot[color = red, ultra thick, <-] coordinates {(3,0.8704000000000001) (4,0.8704000000000001)};
+\addplot[color = red, ultra thick, <-] coordinates {(4,0.9222400000000001) (5,0.9222400000000001)};
+\addplot[color = red, ultra thick, <-] coordinates {(5,0.9533440000000001) (6,0.9533440000000001)};
+\addplot[color = red, ultra thick, <-] coordinates {(6,0.9720064) (7,0.9720064)};
+\addplot[color = red, ultra thick, <-] coordinates {(7,0.98320384) (8,0.98320384)};
+\addplot[color = red, ultra thick, <-] coordinates {(8,0.989922304) (9,0.989922304)};
+\addplot[color = red, ultra thick, <-] coordinates {(9,0.9939533824000001) (10,0.9939533824000001)};
+\addplot[color = red, ultra thick, <-] coordinates {(10,0.9963720294400001) (11,0.9963720294400001)};
+\addplot[color = red, ultra thick, <-] coordinates {(11,0.9978232176640002) (12,0.9978232176640002)};
+\addplot[color = red, thick] coordinates {(-1, 0.001 ) (0, 0.001)};
+
+
+\node [rotate = 90 ] at (-0.86, 0.6) {Функція розподілу зак. Паскаля / ЕФР};
+
+\legend{ЕФР,,,,,,,,,,,,,,,,,,,,,,,,,,,, Функція розподілу закону Паскаля при  $\theta = 1.5$}
+
+
+\end{axis}
+\end{tikzpicture}
+
+
+
+\vspace{4mm}
+
+\begin{tikzpicture}
+	\begin{axis}[
+		axis lines = middle,
+		xmin = -1 , xmax = 13,
+		ymin = -0.15, ymax = 1.3,
+	%
+	% тіки
+		ytick = {0.41, 0.5, 1},
+		xtick = {0, 1,2,3,4,5,6,7, 8, 9, 10, 11, 12},
+		extra x ticks = {0},
+		extra x tick labels = {\!\!\!\!\!\!\! 0},
+	%
+	% підпис осей	
+		xlabel style={below right},
+		ylabel style={below left},
+		xlabel = {$x$},
+		%ylabel = {$F_n^*(x)$},
+		width = 17 cm,	
+		height =13cm,
+		title  = {ЕФР та функція розподілу Паскаля при $\theta = 1.5$} ,
+		title style={yshift= - 12 cm}
+	%
+	]
+
+
+\addplot[color = cyan, ultra thick, <-] coordinates {(0, 0.41 ) (1, 0.41)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(1, 0.62 ) (2, 0.62)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(2, 0.82 ) (3, 0.82)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(3, 0.89 ) (4, 0.89)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(4, 0.94 ) (5, 0.94)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(5, 0.97 ) (6, 0.97)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(6, 0.98 ) (7, 0.98)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(7, 0.99 ) (11, 0.99)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(11, 1 ) (13, 1)};
+\addplot[color = cyan, ultra thick] coordinates {(-1, -0.000001 ) (0, -0.000001)};
+
+
+\addplot[color = black, dashed] coordinates {(1,0.62 ) (1, 0)};
+\addplot[color = black, dashed] coordinates {(2, 0.82) (2, 0)};
+\addplot[color = black, dashed] coordinates {(3, 0.89) (3, 0)};
+\addplot[color = black, dashed] coordinates {(4, 0.94) (4, 0)};
+\addplot[color = black, dashed] coordinates {(5, 0.97) (5, 0)};
+\addplot[color = black, dashed] coordinates {(6, 0.98) (6, 0)};
+\addplot[color = black, dashed] coordinates {(7, 0.99) (7, 0)};
+\addplot[color = black, dashed] coordinates {(8,0.989922304) (8,0)};
+\addplot[color = black, dashed] coordinates {(9,0.9939533824000001) (9,0)};
+\addplot[color = black, dashed] coordinates {(10,0.9963720294400001) (10,0)};
+\addplot[color = black, dashed] coordinates {(11, 1) (11, 0)};
+\addplot[color = black, dashed] coordinates {(0,1) (11, 1)};
+
+\addplot[color = red, ultra thick, <-] coordinates {(0,0.3333333333333333) (1,0.3333333333333333)};
+\addplot[color = red, ultra thick, <-] coordinates {(1,0.5555555555555556) (2,0.5555555555555556)};
+\addplot[color = red, ultra thick, <-] coordinates {(2,0.7037037037037037) (3,0.7037037037037037)};
+\addplot[color = red, ultra thick, <-] coordinates {(3,0.8024691358024691) (4,0.8024691358024691)};
+\addplot[color = red, ultra thick, <-] coordinates {(4,0.8683127572016461) (5,0.8683127572016461)};
+\addplot[color = red, ultra thick, <-] coordinates {(5,0.9122085048010974) (6,0.9122085048010974)};
+\addplot[color = red, ultra thick, <-] coordinates {(6,0.9414723365340649) (7,0.9414723365340649)};
+\addplot[color = red, ultra thick, <-] coordinates {(7,0.9609815576893767) (8,0.9609815576893767)};
+\addplot[color = red, ultra thick, <-] coordinates {(8,0.9739877051262511) (9,0.9739877051262511)};
+\addplot[color = red, ultra thick, <-] coordinates {(9,0.9826584700841674) (10,0.9826584700841674)};
+\addplot[color = red, ultra thick, <-] coordinates {(10,0.9884389800561116) (11,0.9884389800561116)};
+\addplot[color = red, ultra thick, <-] coordinates {(11,0.9922926533707411) (12,0.9922926533707411)};
+\addplot[color = red, thick] coordinates {(-1, 0.001 ) (0, 0.001)};
+
+
+\node [rotate = 90 ] at (-0.86, 0.6) {Функція розподілу зак. Паскаля / ЕФР};
+
+\legend{ЕФР,,,,,,,,,,,,,,,,,,,,,,,,,,,, Функція розподілу закону Паскаля при  $\theta = 1.5$}
+
+
+\end{axis}
+\end{tikzpicture}
+
+\textit{Зауваження} Червоні графіки не дотикаються до лінії $y = 1$. Це також дефект відображення LaTeX
+
+\newpage{}
+
+Як бачимо, графік емпіричної функції розподілу закона Паскаля при певних параметрах $\theta$(а саме при 1, 1.5, 2) схожий на графік емпіричної функції розподілу реалізації вибірки.
+
+\item При будь-яких значеннях параметра $\theta$ мода випадкової величини розподіленої за законом Паскаля дорівнює нулю, в той же час значення вибіркової моди для нашої реалізації дорівнює нулю. 
+
+\item Відомо що, якщо $\zeta \sim Pas\left( \theta \right)$, то $\mathbb{E} \zeta = \theta, \mathbb{D} \zeta = \theta + \theta^2$. Якщо замість параметру $\theta$ взяти значення вибіркового середнього(далі буде показано, що вибіркове середнє це незміщена, конзистентна та ефективна точкова оцінка невідомого параметру $\theta$) , то величини $\left( \mathbb{D}^{**} \xi \right)_{\text{зн}}$ і $\bar x + (\bar x)^2$  будуть досить схожими(3.29(48) і 3.3981 відповідно)
+
+\item \hypertarget{link1}{Також, якщо взяти заміть парметру $\theta$ значення вибіркового середнього, то полігон відносних частот і полігон розподілу ймовірностей закону Паскаля будуть досить схожими. Також при такому значенні параметра будуть дуже схожі графіки ЕФР і функція розподілу закону Паскаля.(див. наступні графіки)}
+
+
+
+\vspace{4mm}
+\begin{tikzpicture}
+	\begin{axis}[
+		legend style={at={(1,0.9)},	
+				    anchor=north east},
+		axis lines = middle,
+		xmin = -1 , xmax = 13,
+		ymin = -0.15, ymax = 0.55,
+	%
+	% тіки
+		ytick = {-0.2, -0.1, 0.1, 0.2, 0.3, 0.41, 0.5},
+		xtick = {0, 1,2,3,4,5,6,7,11},
+		extra x ticks = {0},
+		extra x tick labels = {\!\!\!\!\!\!\! 0},
+	%
+	% підпис осей	
+		xlabel style={below right},
+		xlabel = {$x$},
+		%ylabel = {$\omega$},
+		width = 17 cm,	
+		height =11cm,
+		title  = {полігон відносних частот та полігон розподілу ймовірностей закону Паскаля  для $\theta=1.41$} ,
+		title style={yshift= - 10.5 cm}
+	%
+	]
+
+\addplot[color = cyan,  mark = *, ultra thick,  mark size = 2pt] coordinates {(0, 0.41) (1, 0.21) (2,0.2) (3, 0.07) (4,0.05) (5,0.03) (6, 0.01) (7,0.01) (11,0.01) };
+\addplot[color = red,  mark = *, ultra thick,  mark size = 2pt] coordinates { (0,0.41493775933609955) (1,0.24276441521323666) (2,0.14203229271811768) (3,0.08309773142429291) (4,0.04861734494118381) (5,0.02844417276641874) (6,0.01664161145255204) (7,0.009736378484688123) (8,0.005696387412203424) (9,0.003332741183073372) (10,0.0019498610241217653) (11,0.0011407900597558876)};
+
+
+\legend{полігон відносних частот, полігон розподілу ймовірностей закону Паскаля  для $\theta = 1.41$}
+
+\addplot[color = black, dashed] coordinates {(1, 0) (1,0.2222222222222222)};
+\addplot[color = black, dashed] coordinates {(2, 0) (2,0.2) };
+\addplot[color = black, dashed] coordinates {(3, 0) (3,0.09876543209876543)};
+\addplot[color = black, dashed] coordinates {(4, 0) (4,0.06584362139917696) };
+\addplot[color = black, dashed] coordinates {(5, 0) (5,0.0438957475994513)};
+
+\node [rotate = 90 ] at (-0.9, 0.25) {частість / ймовірність};
+
+\end{axis}
+\end{tikzpicture}
+
+
+\vspace{4mm}
+
+\begin{tikzpicture}
+	\begin{axis}[
+		axis lines = middle,
+		xmin = -1 , xmax = 13,
+		ymin = -0.15, ymax = 1.3,
+	%
+	% тіки
+		ytick = {0.41, 0.5, 1},
+		xtick = {0, 1,2,3,4,5,6,7, 8, 9, 10, 11, 12},
+		extra x ticks = {0},
+		extra x tick labels = {\!\!\!\!\!\!\! 0},
+	%
+	% підпис осей	
+		xlabel style={below right},
+		ylabel style={below left},
+		xlabel = {$x$},
+		%ylabel = {$F_n^*(x)$},
+		width = 17 cm,	
+		height =13cm,
+		title  = {ЕФР та функція розподілу Паскаля при $\theta = 1.41$} ,
+		title style={yshift= - 12 cm}
+	%
+	]
+
+
+\addplot[color = cyan, ultra thick, <-] coordinates {(0, 0.41 ) (1, 0.41)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(1, 0.62 ) (2, 0.62)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(2, 0.82 ) (3, 0.82)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(3, 0.89 ) (4, 0.89)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(4, 0.94 ) (5, 0.94)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(5, 0.97 ) (6, 0.97)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(6, 0.98 ) (7, 0.98)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(7, 0.99 ) (11, 0.99)};
+\addplot[color = cyan, ultra thick, <-] coordinates {(11, 1 ) (13, 1)};
+\addplot[color = cyan, ultra thick] coordinates {(-1, -0.000001 ) (0, -0.000001)};
+
+
+\addplot[color = black, dashed] coordinates {(1,0.62 ) (1, 0)};
+\addplot[color = black, dashed] coordinates {(2, 0.82) (2, 0)};
+\addplot[color = black, dashed] coordinates {(3, 0.89) (3, 0)};
+\addplot[color = black, dashed] coordinates {(4, 0.94) (4, 0)};
+\addplot[color = black, dashed] coordinates {(5, 0.97) (5, 0)};
+\addplot[color = black, dashed] coordinates {(6, 0.98) (6, 0)};
+\addplot[color = black, dashed] coordinates {(7, 0.99) (7, 0)};
+\addplot[color = black, dashed] coordinates {(8,0.989922304) (8,0)};
+\addplot[color = black, dashed] coordinates {(9,0.9939533824000001) (9,0)};
+\addplot[color = black, dashed] coordinates {(10,0.9963720294400001) (10,0)};
+\addplot[color = black, dashed] coordinates {(11, 1) (11, 0)};
+\addplot[color = black, dashed] coordinates {(0,1) (11, 1)};
+
+\addplot[color = red, ultra thick, <-] coordinates {(0,0.41493775933609955) (1,0.41493775933609955)};
+\addplot[color = red, ultra thick, <-] coordinates {(1,0.6577021745493362) (2,0.6577021745493362)};
+\addplot[color = red, ultra thick, <-] coordinates {(2,0.7997344672674539) (3,0.7997344672674539)};
+\addplot[color = red, ultra thick, <-] coordinates {(3,0.8828321986917468) (4,0.8828321986917468)};
+\addplot[color = red, ultra thick, <-] coordinates {(4,0.9314495436329306) (5,0.9314495436329306)};
+\addplot[color = red, ultra thick, <-] coordinates {(5,0.9598937163993494) (6,0.9598937163993494)};
+\addplot[color = red, ultra thick, <-] coordinates {(6,0.9765353278519014) (7,0.9765353278519014)};
+\addplot[color = red, ultra thick, <-] coordinates {(7,0.9862717063365896) (8,0.9862717063365896)};
+\addplot[color = red, ultra thick, <-] coordinates {(8,0.991968093748793) (9,0.991968093748793)};
+\addplot[color = red, ultra thick, <-] coordinates {(9,0.9953008349318664) (10,0.9953008349318664)};
+\addplot[color = red, ultra thick, <-] coordinates {(10,0.9972506959559881) (11,0.9972506959559881)};
+\addplot[color = red, ultra thick, <-] coordinates {(11,0.998391486015744) (12,0.998391486015744)};
+\addplot[color = red, thick] coordinates {(-1, 0.001 ) (0, 0.001)};
+
+
+\node [rotate = 90 ] at (-0.86, 0.6) {Функція розподілу зак. Паскаля / ЕФР};
+
+\legend{ЕФР,,,,,,,,,,,,,,,,,,,,,,,,,,,, Функція розподілу закону Паскаля при  $\theta = 1.41$}
+
+
+\end{axis}
+\end{tikzpicture}
+
+\end{enumerate}
+
+\hypertarget{s}{Отже, підсумуємо, що отримали}
+
+\begin{itemize}
+
+\item Полігон відносних частот реалізації вибірки схожий на полігон розподілу ймовірностей закону Паскаля.\hyperlink{pol_rosp}{(див. ст. 5-6 )}
+
+\item Графік емпіричної функції розподілу нашої реалізації вибірки схожий на графік фунції розподілу закону Паскаля \hyperlink{dfunc2}{(див. ст. 6-7)}
+
+
+\item При будь-яких значеннях параметра $\theta$ мода випадкової величини розподіленої за законом Паскаля дорівнює нулю, в той же час значення вибіркової моди для нашої реалізації дорівнює нулю. 
+
+
+\item Відомо що, якщо $\zeta \sim Pas\left( \theta \right)$, то $\mathbb{E} \zeta = \theta, \mathbb{D} \zeta = \theta + \theta^2$. Якщо замість параметру $\theta$ взяти значення вибіркового середнього(далі буде показано, що вибіркове середнє це незміщена, конзистентна та ефективна точкова оцінка невідомого параметру $\theta$) , то величини $\left( \mathbb{D}^{**} \xi \right)_{\text{зн}}$ і $\bar x + (\bar x)^2$  будуть досить схожими(3.29(48) і 3.3981 відповідно)
+
+\item Також, якщо взяти заміть парметру $\theta$ значення вибіркового середнього, то полігон відносних частот і полігон розподілу ймовірностей закону Паскаля будуть досить схожими. Також при такому значенні параметра будуть дуже схожі графіки ЕФР і функція розподілу закону Паскаля. \hyperlink{link1}{(див. ст. 8)}
+
+\end{itemize}
+ 
+
+
+\noindent\rule{4cm}{0.4pt}
+
+Таким чином, на основі вище написаних тверджень мною висувається гіпотеза, що генеральна сукупність, якою породжена данна вибірка, розподілена за законом Паскаля.
+
+
+\newpage{}
+
+\section{Знайти точкову оцінку параметрів гіпотетичного закону розподілу та перевірити їх властивості.}
+
+Знайдемо точкові оцінки невідомого параметра $\theta$ двома способами:
+
+\begin{enumerate}
+
+\item Метод моментів:
+
+Відомо, що для $\xi \sim Pas(\theta):  \mathbb{E} \xi = \theta$. Замінивши початковий момент першого порядку на емпіричний початковий момент першого порядку отримаємо рівняння Пірсона:
+
+$$ (\theta^*)_{\text{мм}} = \mathbb{E^*} \xi \quad \Rightarrow{} \quad (\theta^*)_{\text{мм}} = \cfrac{1}{n} \sum \limits_{i=1}^{n} \xi_i = \bar \xi$$
+
+
+
+\item Метод максимальної правдоподібності:
+
+Спочатку знайдемо функцію правдоподібності закону Паскаля:
+
+$$ \mathcal{L}(\vec x; \theta) = \prod \limits_{k = 1}^{n} \mathbb{P}\{ \xi = x_k \} = \prod \limits_{k =1 }^{n} \cfrac{1}{1+\theta} \left(
+\cfrac{\theta}{1 + \theta} \right)^{x_k} = \left(\cfrac{1}{1+\theta} \right)^n \left(\cfrac{\theta}{1+\theta} \right)^{\sum \limits_{k=1}^{n} x_k} = 
+\cfrac{\theta^{\sum \limits_{k=1}^{n} x_k}}{\left( 1 + \theta\right)^{n + \sum \limits_{k=1}^{n} x_k}}$$
+
+Тепер знайдемо логарифмічну функцію правдоподібності закону Паскаля:
+
+$$ \ln \mathcal{L} (\vec x; \theta) = \ln{\cfrac{\theta^{\sum \limits_{k=1}^{n} x_k}}{\left( 1 + \theta\right)^{n + \sum \limits_{k=1}^{n} x_k}}} 
+= \ln \theta \cdot \sum \limits_{k=1}^{n} x_k - \ln (1+\theta) \cdot \left(n + \sum \limits_{k=1}^{n} x_k\right)$$
+ 
+\hypertarget{derr_lfunc}{Тепер знайдемо частинну похідну} $\cfrac{\partial \ln \mathcal{L} (\vec x; \theta)}{\partial \theta}$ і прирівняємо її до нуля(таким чином отримаємо рівняння правдоподібності):
+
+$$ \cfrac{\partial \ln \mathcal{L} (\vec x; \theta)}{\partial \theta} = \cfrac{1}{\theta} \sum \limits_{k=1}^{n} x_k - \cfrac{\left(n + \sum \limits_{k=1}^{n} x_k\right)}{1+\theta} = \cfrac{\sum \limits_{k=1}^{n} x_k  + \theta \cdot \sum \limits_{k=1}^{n} x_k  - \theta \cdot n - \theta \cdot \sum \limits_{k=1}^{n} x_k }{\theta (1+\theta)} = \cfrac{- \theta \cdot n + \sum \limits_{k=1}^{n} x_k }{\theta (1 + \theta)} = 0$$
+
+Тоді:
+
+$$- \theta \cdot n + \sum \limits_{k=1}^{n} x_k  = \quad \Rightarrow{} \quad \theta = \cfrac{1}{n} \sum \limits_{k=1}^{n} x_k$$
+
+
+Отримали $\theta_{\text{кр}} =  \frac{1}{n} \sum \limits_{k=1}^{n} x_k $ - критична точка функції $ \ln \mathcal{L} (\vec x; \theta)$. Тепер перевіримо чи є ця точка саме максимумом цієї функції. Для цього має виконуватись умова:
+
+$$\left. \cfrac{\partial^2  \ln \mathcal{L} (\vec x; \theta)}{\partial \theta^2} \right|_{\theta =\frac{1}{n} \sum \limits_{k=1}^{n} x_k} < 0$$
+
+
+\newpage{}
+
+маємо:
+
+$$ \cfrac{\partial^2  \ln \mathcal{L} (\vec x; \theta)}{\partial \theta^2} = \cfrac{-n \cdot (\theta + \theta^2) - (1+2 \theta) \cdot \left( - \theta \cdot n + \sum \limits_{k=1}^{n} x_k  \right)}{\theta^2 (1+ \theta)^2} = \cfrac{- n \cdot \theta^2  -  \sum \limits_{k=1}^{n} x_k + 2 n \cdot \theta^2  - 2\theta  \sum \limits_{k=1}^{n} x_k  }{\theta^2 (1+ \theta)^2}$$
+
+
+$$\left. \cfrac{\partial^2  \ln \mathcal{L} (\vec x; \theta)}{\partial \theta^2} \right|_{\theta =\frac{1}{n} \sum \limits_{k=1}^{n} x_k}  = 
+\frac{-\frac{1}{n} \left(\sum \limits_{k=1}^{n} x_k \right)^2 - \sum \limits_{k=1}^{n} x_k  + \frac{2}{n} \left(\sum \limits_{k=1}^{n} x_k \right)^2 - \frac{2}{n} \left(\sum \limits_{k=1}^{n} x_k \right)^2}{\left(\frac{1}{n}\sum \limits_{k=1}^{n} x_k \right)^2 \cdot \left(1 + \frac{1}{n}\sum \limits_{k=1}^{n} x_k \right)^2} = \cfrac{-\left(\frac{1}{n} \left(\sum \limits_{k=1}^{n} x_k \right)^2 + \sum \limits_{k=1}^{n} x_k \right)}{\left(\frac{1}{n}\sum \limits_{k=1}^{n} x_k \right)^2 \cdot \left(1 + \frac{1}{n}\sum \limits_{k=1}^{n} x_k \right)^2}$$
+
+\noindent\rule{4cm}{0.4pt}
+
+\hspace{5mm}
+
+Оскільки $\sum \limits_{k=1}^{n} x_k > 0, \quad n > 0$, то :
+
+$$ \left. \cfrac{\partial^2  \ln \mathcal{L} (\vec x; \theta)}{\partial \theta^2} \right|_{\theta =\frac{1}{n} \sum \limits_{k=1}^{n} x_k} < 0 $$
+
+Отримали, що $\theta_{\text{кр}} =  \frac{1}{n} \sum \limits_{k=1}^{n} x_k $ - точка максимуму  функції $ \ln \mathcal{L} (\vec x; \theta)$. Отже, отримали точкову оцінку невідомого параметру $\theta$  розподілу Паскаля за методом максимальної правдоподібності:
+
+$$ \left( \theta^* \right)_{\text{ммп}} = \sum \limits_{k=1}^{n} \xi_k = \bar \xi$$
+
+\end{enumerate}
+
+Обома методами отримали однакові точкові оцінки невідомого параметру $\theta:$
+
+$$\theta^* =  (\theta^*)_{\text{мм}} = \left( \theta^* \right)_{\text{ммп}} = \cfrac{1}{n} \sum \limits_{k=1}^{n} \xi_k = \bar \xi $$
+
+\noindent\rule{4cm}{0.4pt}
+
+\hspace{5mm}
+
+Перевіримо властивості точкової оцінки $\theta^*:$ 
+
+
+\begin{enumerate}
+
+\item \textbf{Незміщеність}
+
+$$ \mathbb{E} \theta^* = \mathbb{E} \cfrac{1}{n} \sum \limits_{k=1}^{n} \xi_k  = \cfrac{1}{n} \sum \limits_{k=1}^{n} \mathbb{E} \xi_k  = \Biggl| \text{всі $\xi_k$ розподілені як $\xi$} \Biggl| = \cfrac{1}{n} \cdot n \cdot \mathbb{E} \xi = \theta$$
+
+Отже, точкова оцінка $\theta^*$ - незміщена
+
+
+\item \textbf{Конзистентність}
+
+$\{ \xi_k \}^{n}_{k=1}$ - незалежні та однаково розподілені випадкові величини. Для них існують математичні сподівання $\mathbb{E} \xi_k = \theta$ та дисперсії $\mathbb{D} \xi_k = \theta + \theta^2$. При чому всі дисперсії - рівномірно обмежені. Тоді за Законом Великих Чисел у формі Чебишова маємо:
+
+$$ \cfrac{1}{n} \sum_{k=1}^{n} \xi_k \xrightarrow{\text{P}} \cfrac{1}{n} \sum \limits_{k=1}^{n} \mathbb{E} \xi_k, \quad n \to \infty \quad \Rightarrow{} \quad \Biggl|  \cfrac{1}{n} \sum_{k=1}^{n} = \theta^*;  \cfrac{1}{n} \sum \limits_{k=1}^{n} \mathbb{E} \xi_k = \theta \Biggl|  \quad \Rightarrow{} \quad \theta^* \xrightarrow{\text{P}} \theta, \quad n \to \infty $$
+
+
+Отже, точкова оцінка - конзистентна. До речі, за Посиленим законом Великих Чисел точкова оцінка $\theta^*$ є навіть сильно конзистентною, тобто $ \theta^* \xrightarrow{\text{P1}} \theta,  n \to \infty $.
+
+\item \textbf{Ефективність}
+
+На \hyperlink{derr_lfunc}{ст. 10} Отримали значення виразу: 
+
+$$ \cfrac{\partial \ln \mathcal{L} (\vec x; \theta)}{\partial \theta} =  \cfrac{- \theta \cdot n + \sum \limits_{k=1}^{n} x_k }{\theta (1 + \theta)} $$
+
+Тепер перейдемо до випадкової вибірки:
+
+$$ \cfrac{\partial \ln \mathcal{L} (\vec \xi; \theta)}{\partial \theta} =  \cfrac{- \theta \cdot n + \sum \limits_{k=1}^{n} \xi_k }{\theta (1 + \theta)} 
+= \cfrac{1}{\theta(1+\theta) } \cdot \cfrac{1}{n} \left( \theta^* - \theta \right) = C(n, \theta) \cdot(\theta^*-\theta)$$
+
+Отже, за наслідком з нерівності Рао-Крамера оцінка $\theta^* = \bar \xi$ є ефективною.
+
+
+\item \hypertarget{asd}{\textbf{Асимптотична нормальність}}
+
+
+
+$$ \cfrac{\theta^* - \theta}{\sqrt{\mathbb{D} \theta^*}} = \cfrac{\frac{1}{n} \sum \limits_{k = 1}^{n} \xi_k - \frac{1}{n} \cdot n \cdot \mathbb{E} \xi}{\sqrt{\mathbb{D}\frac{1}{n} \sum \limits_{k=1}^{n} \xi_k }} = \Biggl| \text{всі $\xi_k$ незалежні та однаково розподілені} \Biggl| = 
+\cfrac{\frac{1}{n} \sum \limits_{k=1}^{n} \left( \xi_k - \mathbb{E} \xi_k \right)}{\sqrt{\frac{1}{n^2} \cdot \sum \limits_{k=1}^{n} \mathbb{D} \xi_k}} = $$
+
+$$ = \cfrac{\sum \limits_{k=1}^{n} \left( \xi_k - \mathbb{E} \xi_k \right)}{\sum \limits_{k=1}^{n}\sigma_k^2} \xrightarrow{F} \nu \sim N(0,1), n \to \infty$$
+
+Останній граничний перехід був записаний за наслідком до теореми Ляпунова: "Якщо всі $\xi_k$ однаково розподілені, то умова Ляпунова виконується автоматично".
+
+\end{enumerate}
+
+\noindent\rule{4cm}{0.4pt}
+
+\hspace{5mm}
+
+Підсумуємо. В цьому розділі ми знайшли точкову оцінку невідомого параметру закону Паскаля: $\theta^* = \bar \xi$, а  також довели, шо ця точкова оцінка є незміщеною, конзистентною, ефективною, а також асимптотично нормальною. 
+
+
+
+\section{Перевірити за допомогою критерію $\chi^2$ (Пірсона) гіпотезу про розподіл з рівнем значущості  $\alpha = 0.05$.}
+
+Критерій $\chi^2$ опирається на теорему Пірсона. Вона формулюється так:
+
+\begin{theorem}
+(теорема Пірсона) 
+
+\begin{enumerate}
+\item Якщо \textbf{проста} гіпотеза $H_0$ щодо закону розподілу ГС справджується, то статистика $\eta$ прямує за розподілом до розподілу $\chi_{r-1}^2$ (розподіл $\chi^2$ з $r-1$ ступенями вільності) при $n \to \infty$
+
+\item Якщо \textbf{складна} гіпотеза $H_0$ щодо закону розподілу ГС справджується, то статистика $\eta$ прямує за розподілом до розподілу $\chi_{r-s-1}^2$(розподіл $\chi^2$ з $r-s-1$ ступенями вільності) при $n \to \infty$. Тут $s$ - кількість невідомих параметрів розподілу, які оцінюються.
+\end{enumerate} 
+
+Статистика $\eta$ визначається як:
+
+$$ \eta = \sum \limits_{i=1}^{r} \cfrac{n}{p_i} \left( \cfrac{n_i}{n} - p_i \right)^2 = \sum \limits_{i=1}^{r} \cfrac{\left( n_i - np_i \right)^2}{np_i} $$ 
+
+\end{theorem}
+
+Згідно з \hyperlink{s}{висновками} розділу 6 висувається гіпотеза $H_0: \xi \sim Pas(1.41)$. За нашою гіпотезою генеральна сукупність може приймати такі значення $X = \{0, 1, 2, 3 \dots \}$. Розіб'ємо множину $X$ на $r$ підмножин за таким правилом:
+
+\begin{enumerate}
+
+\item Якщо $r \geqslant 20$, то потрібно, щоб виконувалсь $np_i \geqslant 5$
+
+\item Якщо $r < 20$, то потрібно, щоб виконувалсь $np_i \geqslant 20$
+
+\end{enumerate}
+
+Отже, маємо таке розбиття $X$:
+\vspace{5mm}
+$$X_0 = \{0\}; \quad X_1 = \{1\}; \quad X_2 = \{2 \};  \quad X_3 = \{3,4,5 \dots \}$$
+
+\vspace{5mm}
+Обчислимо ймовірності $p_i = \mathbb{P} \{\xi \in X / H_0\}$. тут $n_i$ це кількість значень з реалізації вибірки, які попали в множину $X_i$. 
+
+\begin{center}
+\begin{tabular}{| c | c | c | c | c |}
+\hline
+$X_i$ & \{0\} & \{1\} & \{2\} & \{3, 4 , 5 ...\} \\ \hline
+$p_i$ & 0.41494 & 0.24276 & 0.14203 & 0.20027 \\ \hline
+$np_i$ & 41.494 & 24.276 & 14.203 & 20.027 \\ \hline
+$n_i$ & 41 & 21 & 20 & 18 \\ \hline
+\end{tabular}
+\end{center}
+
+Виконаємо перевірку для значень $p_i$:
+
+$$ \sum \limits_{i=1}^{4} p_i = 0.41494 + 0.24276 + 0.14203 + 0.20027 = 1$$
+
+
+Тепер обчислимо значення статистики $\eta$ взятої з теореми Пірсона:
+
+$$ \eta_{\text{зн}} = \cfrac{(41 - 41.494)^2}{41.494} + \cfrac{(21-24.276)^2}{24.276} + \cfrac{(20 - 14.203)^2}{14.203} + \cfrac{(18 - 20.027)^2}{20.027} \approx 3.0191$$
+
+\vspace{4mm}
+
+Тепер за таблицею розподілу Пірсона знайдемо значення $t_{\text{кр}}$. $ \quad r-s-1 = 4 - 1 - 1 = 2$, тому оскільки $\alpha = 0.05$ маємо:
+$t_{\text{кр}} = 5.99$. Отримали $\eta_{\text{кр}} < t_{\text{кр}}$, отже, на рівні значущості 0.05 дані не суперечать висунутій гіпотезі про те, що генеральна сукупність розподілена за законом Паскаля$(\xi \sim Pas(1.41))$.
+
+\section{Знайти довірчий інтервал для параметрів гіпотетичного закону розподілу, взяв рівень надійності $\gamma = 0.95$.}
+
+Побудуємо довірчий інтерал такий, що: $\mathbb{P} \left\{ |\theta^* - \theta| < \varepsilon \right\} = \gamma = 0.95$. В розділі 6 було \hyperlink{asd}{доведено}, що точкова оцінка $\theta^* = \bar \xi$ є асимптотично нормальною, тому розподіл $\frac{\theta^*-\theta}{\sqrt{\mathbb{D} \theta}}$ можна вважати приблизно $N(0,1)$. Тоді довірчий інтервал можна знайти з наступної рівності:
+
+$$ \mathbb{P} \left\{ \cfrac{|\theta^*-\theta|}{\sqrt{\mathbb{D} \theta^*}} < t_{\gamma}\right\} \approx 2 \Phi \left( t_{\gamma}\right)$$
+
+Знайдемо $\mathbb{D} \theta^*:$
+
+$$ \mathbb{D} \theta^* = \mathbb{D} \cfrac{1}{n} \sum \limits_{k=1}^{n} \xi_k = \Biggl| \text{всі $\xi_k$ - незалежні та однаково розподілені} \Biggl| = \cfrac{1}{n^2} \cdot n \cdot \mathbb{D} \xi = \cfrac{1}{n}\cdot \left(\theta + \theta^2 \right)$$
+
+\newpage{}
+
+За допомогою таблиці значень функції Лапласа знайдемо таке $t_{\gamma}$, щоб $2\Phi(t_{\gamma}) \approx 0.95:  \quad t_{\gamma} \approx 1.44$
+
+Тепер розв'яжемо нерівність $ \cfrac{|\theta^*-\theta|}{\sqrt{\mathbb{D} \theta^*}} < t_{\gamma}$ відносно $\theta$: 
+
+
+$$ \cfrac{|\theta^*-\theta|}{\sqrt{\mathbb{D} \theta^*}} < t_{\gamma} \quad \Rightarrow{} \quad \cfrac{\left( \theta^* - \theta \right)^2}{\mathbb{D} \theta^*} < t_{\gamma}^2 \quad \Rightarrow{} \quad \left( \theta^* - \theta \right)^2 < t_{\gamma}^2 \cdot \cfrac{1}{n}\cdot \left(\theta + \theta^2 \right)$$
+
+$$ (\theta^*)^2 - 2 \cdot \theta \cdot \theta^* + \theta^2 < \cfrac{t_{\gamma}^2}{n} \cdot \theta + \cfrac{t_{\gamma}^2}{n} \cdot \theta^2$$
+
+$$ \left( 1 - \cfrac{t_{\gamma}^2}{n} \right)\cdot \theta^2 - \left( 2 \cdot \theta^* + \cfrac{t_{\gamma}^2}{n} \right) \cdot \theta+ \left( \theta^* \right)^2  < 0 $$
+
+$$ D = \left( 2 \cdot \theta^* + \cfrac{t_{\gamma}^2}{n} \right)^2 - 4 \cdot  \left( 1 - \cfrac{t_{\gamma}^2}{n} \right) \cdot  \left( \theta^* \right)^2 =
+4 \cdot \theta^* \cdot \cfrac{t_{\gamma}^2}{n} +\cfrac{t_{\gamma}^4}{n^2} + \cfrac{t_{\gamma}^2}{n} \cdot \left( \theta^* \right)^2$$
+
+\vspace{4mm}
+
+Отримали такий довірчий інтервал з рівнем надійності $\gamma$:
+
+$$ \left( \cfrac{2 \cdot \theta^* + \frac{t_{\gamma}^2}{n} - \sqrt{4 \cdot \theta^* \cdot \cfrac{t_{\gamma}^2}{n} +\cfrac{t_{\gamma}^4}{n^2} + \cfrac{t_{\gamma}^2}{n} \cdot \left( \theta^* \right)^2}}{2 \cdot \left(1 - \frac{t_{\gamma}^2}{n} \right)} ; \quad \cfrac{2 \cdot \theta^* + \frac{t_{\gamma}^2}{n} + \sqrt{4 \cdot \theta^* \cdot \cfrac{t_{\gamma}^2}{n} +\cfrac{t_{\gamma}^4}{n^2} + \cfrac{t_{\gamma}^2}{n} \cdot \left( \theta^* \right)^2}}{2 \cdot \left( 1 - \frac{t_{\gamma}^2}{n} \right)}  \right) $$
+
+\vspace{4mm}
+
+Підставивши значення отримаємо, що $ \theta \in (1.1792; 1.722) $ з ймовірністю $0.95$
+
+
+\section{Висновки.}
+
+
+Під час виконання данної розрахункової роботи було проведено первинну обробку деякої реалізації вибірки: було побудовано дискретний варіаційний ряд, полігон відносних частот, а також емпіричну функцію розподілу. Було знайдено значення незміщених оцінок математичного сподівання та дисперсії. Було обчислено значення деяких вибіркових характеристик генеральної сукупності, а саме вибіркову моду, вибіркову медіану, а також вибіркову асиметрію. Були порівняні полігони відносних частостей і полігони розподілу закону Паскаля при певних параметрах, а також графіки емпіричної функції розподілу і функції розподілу закону Паскаля. Згодом була висута гіпотеза про те, що генеральна сукупність, якою була отримана реалізація вибірки розподілена за законом Паскаля. Була знайдена точкова оцінка невідомого параметра, а також доведена її незміщеність, конзистнентність, ефективність і асимптотична нормальність. За допомогою криткрію $\chi^2$(Пірсона) було показано, що на рівні значущості 0.05 дані не суперечать висунутій гіпотезі про те, що генеральна сукупність розподілена за законом Паскаля з параметром $\theta = 1.41$. В кінці було отримано довірчий інтервал з рівнем надійності $\gamma = 0.95$ для параметра $\theta$, а також обчислено його межі для нашої реалізації вибірки.
+
+
+\newpage{}
+
+\section*{Додаток}
+
+\hypertarget{d1}{[1]} - Каніовська І.Ю. Конспект з теорії ймовірностей та математичної статистики  ст. 93
+
+
+\end{document}
+
+
+
+
+
+
+
+
+%Якщо $\zeta \sim Pas\left( \theta \right)$, то $\mathbb{E} \zeta = \theta, \mathbb{D} \zeta = \theta + \theta^2$.
+
+
+
+
+
+
