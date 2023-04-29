@@ -1,0 +1,274 @@
+\documentclass[a5paper, 20pt, titlepage]{article}
+\def\MakeUppercaseUnsupportedInPdfStrings{\scshape}
+\usepackage[warn]{mathtext}
+\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage[ warn ]{ mathtext }
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[normalem]{ulem}
+\usepackage[pdftex]{graphics}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{amsmath,systeme}
+\usepackage{comment}
+\usepackage{slashbox}
+\usepackage{pgfplots}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage[unicode, pdftex]{hyperref}
+\usepackage{yfonts}
+\usepackage{mathtools}
+\newtheorem{theorem}{Теорема}
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{fillbetween}
+\geometry{verbose,a4paper,tmargin=2cm,bmargin=2cm,lmargin=2.5cm,rmargin=1.5cm}
+\setcounter{MaxMatrixCols}{25}
+\hypersetup{
+    colorlinks = true,
+    linkbordercolor = {white},
+    linkcolor=blue
+}
+
+
+
+% команда для супремума в першому завданні
+\newcommand{\supp}{\sup \limits_{t \in \left[ 0, +\infty \right)}}
+
+%комани для векторів x та y в другому завданні:
+\newcommand{\x}{\textbf{x}}
+\newcommand{\y}{\textbf{y}}
+\newcommand{\e}{\varepsilon}
+ 
+\setstretch{1.4}
+
+\title{Самостійна робота з функціонального аналізу \\ Варіант 4}
+\author{\vspace{-4mm} КА-02 Козак Назар}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\paragraph{Задача 1.} \hfill \nolinebreak Знайти норму заданого елемента в лінійному просторі $E: E = \mathcal{C} \left( \left[ 0, +\infty \right); \mathbb{C} \right), x(t) = \frac{1}{1+it}.$
+\vspace{3mm}
+
+\noindent\rule{4cm}{0.4pt}
+
+Оскільки нам заданий простір неперервних функцій, то нормою на цьому просторі є супремум-норма, знайдемо її для заданої функції:
+
+\vspace{3mm}
+
+$\|x(t) \|_\infty =\supp |x(t)| = \supp \left| \frac{1}{1 + it} \right| = \supp \left| \frac{1 \cdot (1 - it)}{(1 + it)\cdot(1 - it)} \right| = \supp \left| \frac{1 - it}{1 - (-t^2)} \right| = \supp \left| \frac{1 - it}{1 + t^2} \right| = $ 
+
+\vspace{4mm}
+
+$ \hspace{14mm} = \supp \left| \frac{1}{1+t^2} - \frac{t}{1+t^2} \cdot i \right| = \supp \sqrt{\left( \frac{1}{1+t^2} \right)^2 + \left( \frac{t}{1+t^2}  \right)^2} = \supp \sqrt{\frac{1+t^2}{(1+t^2)^2}} = \supp \sqrt{\frac{1}{1+t^2}} = $
+
+\vspace{4mm}
+
+$\hspace{14mm} = 1$ 
+
+\vspace{4mm}
+\paragraph{Відповідь.}  1
+
+\vspace{7mm}
+
+\paragraph{Задача 2.} \hfill \nolinebreak  З'ясувати чи буде $\left( F, \| \cdot \| \right)$ лінійним нормованим простором, де $F = \left\{ \textbf{x} \in E: 
+\| \textbf{x} \| < \infty  \right\}$ \linebreak $E = \mathbb{R}^\infty, \| \textbf{x} \| = \sum \limits_{k = 1}^{\infty} \left| x_{2k} - x_{2k-1} \right|.$
+
+\vspace{3mm}
+
+\noindent\rule{4cm}{0.4pt}
+
+Спочатку доведемо, що $F$ це лінійний простір. Оскільки $F \subset E$, а $E = \mathbb{R}^\infty$ є лінійним простором, то доведемо, що $F$ це лінійний підпростір простору $E$. Це можливо тоді і тільки тоді виконуються наступні дві умови:
+
+\begin{enumerate}
+\item $\forall \x, \y \in F: \hspace{14mm} \x + \y \in F$
+\item $\forall \lambda \in \mathbb{R} \quad \forall \x \in F: \hspace{3mm} \lambda \cdot \x \in F$
+\end{enumerate}
+
+Перевіримо їх:
+
+\begin{enumerate}
+\item Нехай $\x, \y \in F$, тобто $\| \x \| < \infty, \| \y \| < \infty$, тоді:
+
+$\| \x + \y \| = \sum \limits_{k=1}^{\infty} |x_{2k} + y_{2k} - x_{2k-1} - y_{2k-1}| = \sum \limits_{k=1}^{\infty} \left| (x_{2k} - x_{2k-1}) + (y_{2k} - y_{2k-1}) \right|$
+
+Оскільки для будь-яких $a,b \in \mathbb{R}$ виконується: $|a+b| \leqslant |a| + |b|$, то маємо:
+
+$\sum \limits_{k=1}^{\infty} \left| (x_{2k} - x_{2k-1}) + (y_{2k} - y_{2k-1}) \right| \leqslant \sum \limits_{k = 1}^{\infty} \left( |x_{2k} - x_{2k-1}| +
+|y_{2k} - y_{2k-1}| \right) = \sum \limits_{k=1}^{2k} |x_{2k} - x_{2k-1}| + \linebreak + \sum \limits_{k=1}^{\infty} |y_{2k} - y_{2k-1}| = 
+\| \x \| + \| \y \| < \infty \quad \Rightarrow \quad \x + \y \in F$
+
+\item Нехай $\lambda \in \mathbb{R}, \x \in F$, тоді $\lambda \x = (\lambda x_1, \lambda x_2, \dots)$:
+
+$\| \lambda \x \| = \sum \limits_{k=1}^{\infty} \left| \lambda x_{2k} - \lambda x_{2k-1} \right| = \sum \limits_{k=1}^{\infty} \left| \lambda(x_{2k} - x_{2k-1}) \right| = \sum \limits_{k=1}^{\infty} |\lambda| |x_{2k} - x_{2k-1}|  = |\lambda| \sum \limits_{k=1}^{\infty} |x_{2k} - x_{2k-1}| =$ \newline
+
+\vspace{-5mm}
+
+$\hspace{9mm} =  |\lambda| \| \x \| < \infty \quad \Rightarrow \quad \lambda \x \in F$
+
+
+\end{enumerate}
+
+Отримали те, що $F$ це лінійний підпростір простору $E$. А, отже, $F$ - лінійний простір.
+
+
+
+
+\noindent\rule{4cm}{0.4pt}
+
+Для того, щоб функція $ \| \x \| = \sum \limits_{k = 1}^{\infty} \left| x_{2k} - x_{2k-1} \right|$ була нормою на $F$ потрібно щоб виконувалось 4 умови, а саме:
+
+\begin{enumerate}
+\item $\| \textbf{x} \| \geqslant 0, \hspace{24mm} \forall \x \in F \vspace{- 2mm}$
+\item $\|\lambda \x \| = |\lambda| \| \x \|, \hspace{14mm}  \forall \x \in F, \lambda \in \mathbb{R}  \vspace{- 2mm}$
+\item $\| \x + \y \| \leqslant \| \x \| + \| \y \|,  \hspace{4mm} \forall \x,\y \in F \vspace{- 2mm}$
+\item $\| \x \|  = 0, \text{тоді і тільки тоді, коли } \x = \textbf{0} \vspace{- 2mm}$
+\end{enumerate}
+
+Перевіримо кожну з цих умов окремо:
+
+\begin{enumerate}
+\item Перша умова виконується, це випливає з того, що модуль числа завжди $\geqslant 0$. 
+
+\item  Спочатку нагадаємо, що якщо $\x = (x_1, x_2, \dots)$, то $\lambda \x = (\lambda x_1, \lambda x_2, \dots)$, тоді:
+
+\vspace{3mm}
+
+$\| \lambda \x \| = \sum \limits_{k=1}^{\infty} \left| \lambda x_{2k} - \lambda x_{2k-1} \right| = \sum \limits_{k=1}^{\infty} \left| \lambda(x_{2k} - x_{2k-1}) \right| = \sum \limits_{k=1}^{\infty} |\lambda| |x_{2k} - x_{2k-1}|  = |\lambda| \sum \limits_{k=1}^{\infty} |x_{2k} - x_{2k-1}| = |\lambda| \| \x \|$
+
+Як бачимо друга умова також виконується.
+
+\vspace{3mm}
+
+\item Якщо $\x = (x_1, x_2, \dots), \y = (y_1, y_2, \dots)$, то $\x + \y = (x_1 + y_1, x_2 + y_2, \dots)$, тоді:
+
+$\| \x + \y \| = \sum \limits_{k=1}^{\infty} |x_{2k} + y_{2k} - x_{2k-1} - y_{2k-1}| = \sum \limits_{k=1}^{\infty} \left| (x_{2k} - x_{2k-1}) + (y_{2k} - y_{2k-1}) \right|$
+
+Оскільки для будь-яких $a,b \in \mathbb{R}$ виконується: $|a+b| \leqslant |a| + |b|$, то маємо:
+
+$\sum \limits_{k=1}^{\infty} \left| (x_{2k} - x_{2k-1}) + (y_{2k} - y_{2k-1}) \right| \leqslant \sum \limits_{k = 1}^{\infty} \left( |x_{2k} - x_{2k-1}| +
+|y_{2k} - y_{2k-1}| \right) = \sum \limits_{k=1}^{2k} |x_{2k} - x_{2k-1}| + \linebreak + \sum \limits_{k=1}^{\infty} |y_{2k} - y_{2k-1}| = 
+\| \x \| + \| \y \|$
+
+\vspace{3mm}
+
+Тоді $\| \x + \y \| \leqslant \| \x \| + \| \y \| $, а отже третя умова - виконується.
+
+
+\item Четверта умова не виконується, наведемо контрприклад: нехай $\x^1 = (1, 1, \dots) \in F$, знайдемо його норму:
+
+$\| \x^1 \| = \sum \limits_{k=1}^{\infty} |x_{2k} - x_{2k-1}| = |1-1| + |1-1| + \dots = 0 + 0 + \dots = 0$
+
+\vspace{3mm}
+
+Бачимо, що $\| \x^1 \| = 0$, при цьому $\x^1 \neq \textbf{0}$, тому четверта умова не виконується. Тому $ \| \cdot \|$ не є нормою на $F$. А, отже, $(F, \|\cdot \|)$ не є лінійним нормованим простором.
+\end{enumerate} 
+
+Але варто зазначити, що окільки виконується перші 3 умови, то $\| \cdot \|$ є півнормою на $F$. 
+
+\vspace{4mm}
+\paragraph{Відповідь.} $(F, \|\cdot \|)$ не є лінійним нормованим простором.
+
+\vspace{7mm}
+
+\paragraph{Задача 3.} \hfill \nolinebreak З'ясувати чи є послідовність $(\x^n)_{n \in \mathbb{N}}$ збіжна в лінійному нормованому просторі \newline $E$: $E = \ell_1$, $\x^n = \left(1, -\frac{1}{2}, \dots, (-1)^{n-1}\frac{1}{n}, 0, 0, \dots \right)$
+
+\vspace{3mm}
+
+\noindent\rule{4cm}{0.4pt}
+
+Маємо:
+
+\vspace{3mm}
+
+$
+\begin{aligned}
+\hspace{3mm}
+&\x^1 = (1, 0, 0, 0, \dots) \\
+&\x^2 = (1, -\frac{1}{2}, 0, \dots) \\
+&\x^3 = (1, -\frac{1}{2}, \frac{1}{3}, 0, \dots) \\
+&\vdots \\
+&\x^k = \left(1, -\frac{1}{2}, \dots, (-1)^{k-1}\frac{1}{k}, 0, 0, \dots \right) \\
+&\vdots \\
+\end{aligned}
+$
+
+\vspace{3mm}
+
+Нехай послідовність $(\x^n)_{n=1}^\infty$ - збігається, та нехай $\x^*$ - границя цієї послідовності, де $\x^* = (x^*_1, x^*_2, \dots)$. \newline
+Тоді $x^*_{k} = \lim \limits_{n \to \infty} x_{k}^{n} = (-1)^{k-1} \frac{1}{k}$. Отже ми отримали, що, якщо існує границя послідовності $(\x^n)_{n=1}^{\infty}$, то вона дорівнює вектору $\x^*$, який має вигляд: $$\x^* = \left(1, -\frac{1}{2}, \dots, (-1)^{k-1}\frac{1}{k}, \, (-1)^{k} \frac{1}{k+1}, \dots \right)$$
+
+Границею послідовності $(\x^n)_{n=1}^{\infty}$ в просторі $\ell_1$ є вектор $\x^*$ тоді і тільки тоді, коли виконується наступна умова: 
+$$ \left\| \x^n - \x^* \right\|_{1} \to 0, \hspace{4mm} n \to \infty$$
+
+Перевіримо її:
+
+\vspace{2mm}
+$\| \x^n - \x^* \|_{1} = \left\| (1, -\frac{1}{2}, \dots, (-1)^{n-1}\frac{1}{n}, 0, \dots) - (1, -\frac{1}{2}, \dots,  (-1)^{k-1}\frac{1}{k}, \dots ) \right\|_1 = $
+
+\vspace{3mm}
+
+$\hspace{18mm}  = \left\|(0, 0, \dots, 0, -(-1)^n \frac{1}{n+1}, -(-1)^{n+1} \frac{1}{n+2}, \dots) \right\|_1 = |0| + \dots + |0| \, + \, \left| -(-1)^n \frac{1}{n+1} \right| + $
+
+\vspace{3mm}
+
+$\hspace{18mm} + \left|-(-1)^{n+1} \frac{1}{n+2}\right| + \dots = \frac{1}{n+1} + \frac{1}{n+2} + \frac{1}{n+3} + \dots$ 
+
+\vspace{4mm}
+
+\vspace{3mm}
+
+Тоді:
+
+$$ \| \x^n - \x^* \|_{1} = \sum \limits_{k = n+1}^\infty \frac{1}{k}$$
+
+Отримали те, що члени послідовністі $\| \x^n - \x^* \|_{1}$ це залишки гармонічного ряду. З курсу математичного аналізу відомо, що він розбіжний, тому всі його залишки також розбіжні. Отримуємо те, що  \newline $\| \x^n - \x^* \|_{1} \to \infty, n \to \infty$, тому послідовність $(\x^n)_{n=1}^{\infty}$ не збігається до вектора $x^*$ в просторі $\ell_1$, а, отже, послідовність  $(\x^n)_{n=1}^{\infty}$ не збіжна в просторі $\ell_1$
+\vspace{4mm}
+\paragraph{Відповідь.} ні.
+
+
+\vspace{7mm}
+
+\paragraph{Задача 4.} \hfill \nolinebreak З'ясувати чи є підмножина $G$ лінійного нормованого простору $E$ а) відкритою; б) замкненою, якщо: $E = \mathcal{C} \left( [0, 1]; \mathbb{R} \right), G = \left\{ x \in E: x(0) \leqslant 0, x(1) > 0 \right\}$. 
+
+\vspace{3mm}
+
+\noindent\rule{4cm}{0.4pt}
+
+Нагадаємо, нехай маємо лінійний нормований простір $(E, \| \cdot \|)$ та $\x^0 \in E, \e > 0$, тоді відкритою кулею в $E$ навколо точки $x^0$ радіуса $\e$ називається множина виду:
+
+$$ B(\x^0, \e)  = \left\{ \x \in E: \| \x - \x^0 \| < \e \right\} $$    
+\begin{enumerate}
+\item $G$ - відкрита ?
+
+Для того, щоб $G$ була відкритою потрібно, щоб виконувалась умова: $\forall \x \in G: \exists \varepsilon > 0: B(\x, \varepsilon) \subset G$. 
+\newline Множина $G$ не буде відкритою, наведемо контрприклад. Візьмемо функцію $\x(t) = t$. Вона належить множині $G$, оскільки $\x(0) = 0 \leqslant 0, x(1) = 1 > 0$, а також покладемо $\x^1 = t + \frac{\e}{2}, \e > 0$. Знайдемо супремум-норму для функції $\x^1 - \x:$
+
+$$ \| \x^1 - \x \|_\infty = \sup \limits_{t \in [0, 1]} \left|t + \frac{\e}{2} - t\right| = \sup \limits_{t \in [0, 1]} \left|\frac{\e}{2} \right| = \frac{\e}{2}$$
+
+Як бачимо $\| \x^1 - \x \|_\infty = \frac{\e}{2} < \e$, тому $\x^1 \in B(\x, \e)$. З іншого боку $\x^1(0) = \frac{\e}{2} > 0$, тому $\x^1 \notin G$. З довільності вибору $\e$ випливає те, що для функції $\x \in G$ не існує такого $\e > 0$ , що $B(\x, \varepsilon) \subset G$. Тому множина $G$ - не є відкритою
+
+\item G - замкнена ?
+
+Щоб множина $G$ була замкненою, вона має містити всі свої граничні точки. Множина $G$ не буде замкненою, наведемо контрприклад: візьмемо точку $\x^2 = 0 $. 
+
+Також розглянемо точку $\y = \e t - \frac{\e}{2}, \e > 0$. Знайдемо супремум-норму функції $ \y - \x^2 :$
+
+$$\|\y - \x^2 \|_\infty =  \sup \limits_{t \in [0, 1]} \left| \e t - \frac{\e}{2} \right| = \left| \e - \frac{\e}{2} \right|= \frac{\e}{2}  $$
+
+Бачимо, що $\| \y - \x^2\|_\infty = \frac{\e}{2} < \e$, тому $\y \in B(\x^2, \e)$, навіть $\y \in \mathring{B}(\x^2, \e)$, оскільки $\x^2 \neq \y.$ Також маємо, що $\y \in G$, оскільки $\y(0) = -\frac{\e}{2} \leqslant 0, \quad \y(1) = \frac{\e}{2} > 0$. З довільності $\e$ отримуємо те, що для кожного $\e > 0$ перетин відкритої виколотої кулі навколо точки $\x^2(\mathring{B}(\x^2, \e))$ та множини $G$ містить хоча б одну точку, а отже не є порожньою множиною. З цього, за означенням, випливає те, що $\x^2$ - гранична точка множини $G$. 
+
+З іншого боку маємо: $\x^2(1) = 0 \not > 0$, а, отже, $\x^2 \notin G$.  Маємо те, що множина $G$ не містить свою граничну точку $\x^2$, а, отже, не є замкненою.
+
+\vspace{4mm}
+\paragraph{Відповідь.} множина $G$ не відкрита і не замкнена.
+
+\end{enumerate}
+
+\end{document}

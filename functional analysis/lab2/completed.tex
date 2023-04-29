@@ -1,0 +1,400 @@
+\documentclass[a5paper, 20pt, titlepage]{article}
+\def\MakeUppercaseUnsupportedInPdfStrings{\scshape}
+\usepackage[warn]{mathtext}
+\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage[ warn ]{ mathtext }
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[normalem]{ulem}
+\usepackage[pdftex]{graphics}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{amsmath,systeme}
+\usepackage{comment}
+\usepackage{slashbox}
+\usepackage{pgfplots}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage[unicode, pdftex]{hyperref}
+\usepackage{yfonts}
+\usepackage{mathtools}
+\newtheorem{theorem}{Теорема}
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{fillbetween}
+\geometry{verbose,a4paper,tmargin=2cm,bmargin=2cm,lmargin=2.5cm,rmargin=1.5cm}
+\setcounter{MaxMatrixCols}{25}
+\hypersetup{
+    colorlinks = true,
+    linkbordercolor = {white},
+    linkcolor=blue
+}
+
+\setstretch{1.4}
+
+\title{Самостійна робота 2 з функціонального аналізу \\ Варіант 4}
+\author{\vspace{-4mm} КА-02 Козак Назар}
+\date{}
+
+%комани для векторів x та y
+\newcommand{\x}{\textbf{x}}
+\newcommand{\y}{\textbf{y}}
+
+\newcommand{\Int}[1]{\int \limits_{0}^{1} #1 ds}
+\begin{document}
+
+\maketitle
+
+
+\paragraph{Задача 1.} \hfill \nolinebreak З'ясувати чи буде банаховим лінійний нормований простір $\left( E, \| \cdot \| \right)$, якщо \newline
+$E = \left\{ f \in \mathcal{C}\left([0, 1] \right); \mathbb{C} : f(0)  = e^{-i \frac{\pi}{4}} f(1) \right\}, \| f \| = \| f \|_{\infty}$.
+
+\noindent\rule{4cm}{0.4pt}
+
+Спочатку нагадаємо твердження з лекцій:
+
+\vspace{4mm}
+\textbf{Тверждення.} \quad Нехай $\left( E, \| \cdot \| \right)$ -- банаховий простір, а $E_0$ -- замкнутий лiнiйний пiдпростiр простору $E$.
+Тоді $\left( E_0, \| \cdot \| \right)$ -- банаховий простір. 
+\vspace{4mm}
+
+З нього випливає, що щоб довести, що  $\left( E, \| \cdot \|_\infty \right)$ - банаховий простір нам достатньо довести, що $E$ -- замкнутий лiнiйний пiдпростiр простору $\bar E$, такого що $\left(\bar E, \| \cdot \|_\infty \right)$ -- банаховий простір. Тому розділимо доведення на дві частини:
+
+\begin{enumerate}
+\item Як відомо з лекцій \hyperlink{1}{[1]}: лінійний нормований простір $\mathcal{C}_b \left( \Omega, \mathbb{K} \right)$ є банаховим, коли $\Omega \subset \mathbb{R}^n$. У нашому випадку $\Omega = [0, 1] \subset \mathbb{R}$, тому $\left( \mathcal{C}_b  \left( [0, 1], \mathbb{C} \right), \| \cdot \|_\infty \right)$ є банаховим простором.
+
+З іншого боку $f \in E \Rightarrow{} f \in C([0,1], \mathbb{C})$. Тобто кожна функція з лінійного простору $E$ є неперервною на відрізку $[0, 1]$ з чого за теоремою Вейєрштрасса випливає те, що вона є обмеженою на $[0, 1]$. Отже, $E \subset \mathcal{C}_b  \left( [0, 1], \mathbb{C} \right)$. Тепер доведемо, що $E$ є лінійним підпростором простору $\mathcal{C}_b  \left( [0, 1], \mathbb{C} \right)$, для цього достатньо перевірити дві умови:
+
+\begin{enumerate}
+\item Нехай $\textbf{x}, \textbf{y} \in E$, тобто  $\textbf{x}(0) = e^{-i \frac{\pi}{4}} \textbf{x}(1), \quad \textbf{y}(0) = e^{-i \frac{\pi}{4}} \textbf{y}(1)$ , тоді
+
+\vspace{3mm}
+
+$(\x + \y)(0) = \x(0) + \y(0) = e^{-i \frac{\pi}{4}} \x(1) +  e^{-i \frac{\pi}{4}} \y(1) =  e^{-i \frac{\pi}{4}}(\x(1) + \y(1)) =  e^{-i \frac{\pi}{4}}(\x + \y)(1) 
+\Rightarrow{} \quad \x + \y \in E$
+
+\vspace{4mm}
+\item Нехай $\x \in E$, $\lambda \in \mathbb{C}$, тоді
+
+\vspace{3mm}
+ 
+$(\lambda \x)(0) = \lambda \x(0) = \lambda  e^{-i \frac{\pi}{4}} \x(1) = e^{-i \frac{\pi}{4}} (\lambda \x(1)) = e^{-i \frac{\pi}{4}} (\lambda \x)(1) \quad \Rightarrow \quad (\lambda \x) \in E $
+\end{enumerate}
+
+Отже, маємо: $E$ є лінійним підпростором простору $\mathcal{C}_b  \left( [0, 1], \mathbb{C} \right)$, такого що $\left( \mathcal{C}_b  \left( [0, 1], \mathbb{C} \right), \| \cdot \|_\infty \right)$ є банаховим простом.
+ 
+
+\item Тепер доведемо замкненість $E$:
+
+Нехай $f^* \in E'$. З цього випливає, що $\exists \left( f_n\right)_{n = 1}^{\infty} \in E: \lim \limits_{n \to \infty} f_n = f^* \text{відносно $\| \cdot \|_\infty$}$.
+
+\vspace{-2mm}
+Також маємо що $f_n \in E \Leftrightarrow{} f_n(0) = f_n(1) e^{-i \frac{\pi}{4}}$. Тоді:
+\vspace{-2mm}
+$$\lim \limits_{n \to \infty} f_n = f^* \text{відносно $\| \cdot \|_\infty$} \quad \Leftrightarrow{} \quad \forall \varepsilon >0: \exists N \in \mathbb{N}: \forall n \geqslant N: \| f_n - f^* \|_\infty < \varepsilon \quad \Leftrightarrow $$
+\vspace{-6mm}
+$$\Leftrightarrow{} \quad \forall \varepsilon >0: \exists N \in \mathbb{N}: \forall n \geqslant N: \sup \limits_{t \in [0, 1]}|f_n - f^* | < \varepsilon \quad
+\Leftrightarrow{} \quad  \forall t \in [0, 1]: \forall \varepsilon >0: \exists N \in \mathbb{N}: \forall n \geqslant N: |f_n - f^* | < \varepsilon \,\, (*)$$
+
+Оскільки остання умова виконується для  $\forall t \in [0, 1]$, то розглянемо випадок, коли $t = 0$:
+\vspace{-3mm}
+$$\forall \varepsilon >0: \exists N \in \mathbb{N}: \forall n \geqslant N: |f_n(0) - f^*(0)| < \varepsilon \quad \Leftrightarrow{} \quad
+\forall \varepsilon >0: \exists N \in \mathbb{N}: \forall n \geqslant N: |f_n(1) e^{-i \frac{\pi}{4}} - f^*(0)| < \varepsilon \Leftrightarrow{}$$
+\vspace{-8mm}
+$$\Leftrightarrow{} \lim \limits_{n \to \infty} (f_n(1) e^{-i \frac{\pi}{4}}) = f^*(0) \quad \Leftrightarrow{} \quad e^{-i \frac{\pi}{4}} \lim \limits_{n \to \infty} f_n(1) = f^*(0) \quad \Leftrightarrow{} \quad  \lim \limits_{n \to \infty} f_n(1) =e^{i \frac{\pi}{4}}  f^*(0)  $$
+
+\newpage{}
+
+Тепер доведемо, що $\lim \limits_{n \to \infty} f_n(1) = f^*(1)$, для цього в $(*)$ візьмемо $t = 1 \in [0, 1]$. Маємо:
+\vspace{-3mm}
+$$\forall \varepsilon >0: \exists N \in \mathbb{N}: \forall n \geqslant N: |f_n(1) - f^*(1)| < \varepsilon \quad \Leftrightarrow{} \quad \lim \limits_{n \to \infty} f_n(1) = f^*(1)$$
+\vspace{-3mm}
+Отже, маємо:
+\vspace{2mm}
+$$ \lim \limits_{n \to \infty} f_n(1) = e^{i \frac{\pi}{4}}  f^*(0) \quad \Leftrightarrow{} \quad  f^*(1) = e^{i \frac{\pi}{4}}  f^*(0)  \quad \Leftrightarrow{} \quad f^*(0) =  e^{-i \frac{\pi}{4}} f^*(1) \quad \Leftrightarrow{} \quad f^* \in E \quad \Leftrightarrow{}$$
+\vspace{-8mm}
+$$ \Leftrightarrow{} \quad E \,\,\, \text{є замкнутим}$$
+\end{enumerate}
+
+Остаточно маємо $E$ -- замкнутий лінійний підпростір простору $ \mathcal{C}_b  \left( [0, 1], \mathbb{C} \right)$, такого, що $\left( \mathcal{C}_b  \left( [0, 1], \mathbb{C} \right), \| \cdot \|_\infty \right)$ є банаховим простором, а, отже, $\left( E, \| \cdot \|_\infty \right)$ є банаховим простором.
+
+\paragraph{Відповідь.}  Так,  $\left( E, \| \cdot \|_\infty \right)$ є банаховим простором.
+
+\vspace{4mm}
+
+
+\paragraph{Задача 2.} Для вiдображення $\phi: \mathcal{C} \left( [0, 1]; \mathbb{R} \right) \rightarrow \mathcal{C} \left( [0, 1]; \mathbb{R} \right)$
+знайти а) значення $\lambda$, для яких $\phi$ є стиском; б) знайти розв'язок рівняння $f = \phi(f)$ для одного із знайдених значень $\lambda \neq 0$, якщо: \newline $\phi(f) = \lambda \int \limits_{0}^{1} (t + s)^2 f(s) ds - 2t^2$.
+
+\noindent\rule{4cm}{0.4pt}
+
+\begin{enumerate}
+
+\item Спочатку нагадаємо означення стиску:
+
+\textbf{Означення.} \quad Нехай $\left( E, \| \cdot \| \right)$ - лінійний нормований простір та $X \subset E$. Відображення $\varphi: X \rightarrow X$ називається стиском на $X$, якщо існує таке $q \in (0, 1)$, що 
+\vspace{-3mm}
+$$ \| \varphi(x') - \varphi(x'') \| \leqslant q \| x' - x'' \|, \qquad \text{для всіх $x', x'' \in X$.}$$
+
+Нехай $f, g \in  \mathcal{C} \left( [0, 1]; \mathbb{R} \right)$. Оскільки даний лінійний простір - простір неперервних функцій, тоді розглядаємо супремум-норму, тобто $\| f \|_\infty = \sup \limits_{t \in [0, 1]} |f|$. Розглянемо вираз $\| \phi(f) - \phi(g)\|_\infty$:
+
+%---------
+$\| \phi(f) - \phi(g)\|_\infty = \left\|  \lambda \int \limits_{0}^{1} (t + s)^2 f(s) ds - 2t^2 -  \lambda \int \limits_{0}^{1} (t + s)^2 g(s) ds + 2t^2 \right\|_\infty = \left\| \lambda  \int \limits_{0}^{1} (t + s)^2 \left(f(s) - g(s) \right) ds  \right\|_\infty = $
+
+\vspace{3mm}
+\hspace{23mm}
+$= \sup \limits_{t \in [0, 1]} \left| \lambda  \int \limits_{0}^{1} (t + s)^2 \left(f(s) - g(s) \right) ds \right|
+= |\lambda| \sup \limits_{t \in [0, 1]} \left| \int \limits_{0}^{1}  (t + s)^2 \left(f(s) - g(s) \right)  ds \right| \leqslant $
+
+\vspace{3mm}
+\hspace{23mm}
+$\leqslant |\lambda| \sup \limits_{t \in [0, 1]}  \int \limits_{0}^{1} (t + s)^2 \left| \left(f(s) - g(s) \right) \right| ds \leqslant
+|\lambda| \sup \limits_{t \in [0, 1]}  \int \limits_{0}^{1}  (t + s)^2  \left\| \left(f(s) - g(s) \right) \right\|_\infty ds =$
+
+\vspace{3mm}
+\hspace{23mm}
+$= |\lambda| \cdot \left\| \left(f(s) - g(s) \right) \right\|_\infty  \sup \limits_{t \in [0, 1]}  \int \limits_{0}^{1} (t + s)^2 ds =
+|\lambda| \cdot \left\| \left(f(s) - g(s) \right) \right\|_\infty  \sup \limits_{t \in [0, 1]}  \left( \left. \frac{(t+s)^3}{3} \right|_{s = 0}^{s = 1} \right) =$
+
+\vspace{3mm}
+\hspace{23mm}
+$= |\lambda| \cdot \left\| \left(f(s) - g(s) \right) \right\|_\infty  \sup \limits_{t \in [0, 1]}  \left( \frac{(t+1)^3}{3} - \frac{t^3}{3} \right) = 
+|\lambda| \cdot \left\| \left(f(s) - g(s) \right) \right\|_\infty  \sup \limits_{t \in [0, 1]}  \left(\frac{3t^2+3t + 1}{3} \right) =$
+
+\vspace{3mm}
+\hspace{23mm}
+$= |\lambda| \cdot \left\| \left(f(s) - g(s) \right) \right\|_\infty \cdot \frac{7}{3} = \frac{7}{3} \cdot |\lambda| \cdot \left\| \left(f(s) - g(s) \right) \right\|_\infty$
+
+%-----
+\newpage{}
+Отже, ми отримали:
+
+\vspace{-4mm}
+$$ \| \phi(f) - \phi(g)\|_\infty \leqslant  \frac{7}{3} \cdot |\lambda| \cdot \left\| \left(f(s) - g(s) \right) \right\|_\infty$$
+
+Згідно з означення $\phi$ буде стиском тоді, коли $ \frac{7}{3} \cdot |\lambda| \in (0, 1)$. Тоді маємо:
+
+\vspace{-3mm}
+$$\frac{7}{3} \cdot |\lambda| \in (0, 1) \quad \Leftrightarrow \quad |\lambda| \in (0, \frac{3}{7} ) \quad \Leftrightarrow \quad
+\lambda \in (-\frac{3}{7}, 0) \cup (0, \frac{3}{7}) $$
+
+Отже, ми отримали: якщо $\lambda \in (-\frac{3}{7}, 0) \cup (0, \frac{3}{7})$, то $\phi$ є стиском на $\mathcal{C} \left( [0, 1]; \mathbb{R} \right)$.
+
+\item Як відомо з лекцій \hyperlink{1}{[2]}: коли $\Omega \subset \mathbb{R}^n$ є компактною множиною -- лінійний нормований простір $\mathcal{C} \left( \Omega; \mathbb{K} \right)$ є банаховим. В нашому випадку $\Omega = [0, 1] \subset \mathbb{R}$ - обмежена та замкнена множина, тому вона є компактною, а, отже, $\left( \mathcal{C} \left( [0, 1], \mathbb{R} \right), \| \cdot \|_\infty \right)$ - банаховий простір. З цього за теоремою Банаха маємо те, що стиск $\phi$ на $\mathcal{C} \left( [0, 1], \mathbb{R} \right)$ має єдину нерухому точку, тобто існує тільки один розв'язок даного рівняння: $f = \phi(f)$ в $\mathcal{C} \left( [0, 1], \mathbb{R} \right)$.
+
+Візьмемо $\lambda = \frac{1}{4} \in  (-\frac{3}{7}, 0) \cup (0, \frac{3}{7})$. Тоді маємо:
+
+\vspace{3mm}
+$ f =  \frac{1}{4} \int \limits_{0}^{1} (t + s)^2 f(s) ds - 2t^2 = \frac{1}{4} \int \limits_{0}^{1} (t^2 + 2st + s^2) f(s) ds - 2t^2 = \frac{1}{4} \int \limits_{0}^{1} t^2 f(s) ds + \frac{1}{4} \int \limits_{0}^{1} 2stf(s) ds + \frac{1}{4} \int \limits_{0}^{1} s^2 f(s) ds - \nolinebreak 2t^2 =$
+
+\vspace{3mm}
+\hspace{2mm} 
+$=  \frac{1}{4} t^2 \int \limits_{0}^{1} f(s) ds + \frac{1}{2}t \int \limits_{0}^{1} sf(s) ds + \frac{1}{4} \int \limits_{0}^{1} s^2 f(s) ds - \nolinebreak 2t^2 =
+t^2 \left( \frac{1}{4} \int \limits_{0}^{1} f(s) ds - 2 \right) +  \frac{1}{2}t \int \limits_{0}^{1} sf(s) ds + \frac{1}{4} \int \limits_{0}^{1} s^2 f(s) ds  $
+
+\vspace{3mm}
+Покладемо:
+
+$$ 
+\begin{cases}
+A = \frac{1}{4} \int \limits_{0}^{1} f(s) ds - 2 \\ 
+B = \frac{1}{2} \int \limits_{0}^{1} sf(s) ds \\
+C = \frac{1}{4} \int \limits_{0}^{1} s^2 f(s) ds
+\end{cases}
+$$
+
+\vspace{3mm}
+Бачимо, що $A,B,C \in \mathbb{R}$. Отримали:
+$$ f(t) = At^2 + Bt + C$$
+
+Виразимо кожну з констант окремо:
+
+\begin{enumerate}
+\item A: 
+
+$A = \frac{1}{4} \int \limits_{0}^{1} f(s) ds - 2 = \frac{1}{4} \int \limits_{0}^{1} (As^2 + Bs + C) ds - 2 = \frac{1}{4} A \int \limits_{0}^{1} s^2 ds + \frac{1}{4} B \int \limits_{0}^{1} s ds + C \int_{0}^{1} ds - 2 = $
+
+\vspace{3mm}
+\hspace{2mm}
+$= \frac{1}{4} A \left. \frac{s^3}{3} \right|_{s = 0}^{s = 1} + \frac{1}{4} B \left. \frac{s^2}{2} \right|_{s = 0}^{s = 1} + \frac{1}{4}C \left. s \right|_{s = 0}^{s = 1} - 2 = \frac{1}{12} A + \frac{1}{8} B  + \frac{1}{4}C  - 2$
+
+\vspace{3mm}
+\item B:
+
+$B =  \frac{1}{2} \int \limits_{0}^{1} sf(s) ds =  \frac{1}{2} \int \limits_{0}^{1} s(As^2 + Bs + C) ds = \frac{1}{2} \int \limits_{0}^{1} (As^3 + Bs^2 + Cs) ds = \frac{1}{2} A \Int{s^3} + \frac{1}{2} B \Int{s^2} + \nolinebreak \frac{1}{2} C \Int{s} =$
+
+\vspace{3mm}
+\hspace{2mm}
+$= \frac {1}{2} A \left. \frac{s^4}{4}\right|_{s = 0}^{s = 1} + \frac{1}{2} B \left. \frac{s^3}{3} \right|_{s = 0}^{s = 1} + \frac{1}{2} C \left. \frac{s^2}{2}\right|_{s = 0}^{s = 1} = \frac{1}{8} A + \frac{1}{6} B + \frac{1}{4} C$
+
+\newpage
+
+\item C:
+
+$C = \frac{1}{4} \int \limits_{0}^{1} s^2 f(s) ds = C = \frac{1}{4} \int \limits_{0}^{1} s^2 (As^2 + Bs + C) ds = \frac{1}{4} \Int{(As^4 + Bs^3 + Cs^2)} = $
+
+\vspace{3mm}
+\hspace{2mm}
+$= \frac{1}{4} A \Int{s^4} + + \frac{1}{4} B\Int{s^3} + \frac{1}{4} C \Int{s^2} = \frac{1}{4} A \left. \frac{s^5}{5} \right|_{s = 0}^{s = 1} + \frac{1}{4} A \left. \frac{s^4}{4} \right|_{s = 0}^{s = 1} + \frac{1}{4} C \left. \frac{s^3}{3} \right|_{s = 0}^{s = 1} =$
+
+\vspace{3mm}
+\hspace{2mm}
+$= \frac{1}{20} A + \frac{1}{16} B + \frac{1}{12} C$
+\end{enumerate}
+
+Отримали систему:
+
+$$
+\begin{cases}
+A = \frac{1}{12} A + \frac{1}{8} B  + \frac{1}{4}C  - 2 \\
+B = \frac{1}{8} A + \frac{1}{6} B + \frac{1}{4} C \\
+C = \frac{1}{20} A + \frac{1}{16} B + \frac{1}{12} C
+\end{cases}
+\quad \Leftrightarrow \quad 
+\begin{cases}
+\frac{11}{12} - \frac{1}{8} B  - \frac{1}{4}C  = 2 \\
+\frac{1}{8} A - \frac{5}{6} B + \frac{1}{4} C = 0 \\
+\frac{1}{20} A + \frac{1}{16} B - \frac{11}{12} C = 0
+\end{cases}
+$$
+
+Розв'яжемо систему методом Крамера:
+
+$$\Delta = 
+\begin{vmatrix}
+\frac{11}{12} & -\frac{1}{8} & -\frac{1}{4} \\
+\frac{1}{8}    & -\frac{5}{6} & \frac{1}{4}  \\
+\frac{1}{20}  & \frac{1}{16} & -\frac{11}{12} \\  
+\end{vmatrix}
+=\cfrac{45457}{69120}; 
+\qquad
+\Delta_A =  
+\begin{vmatrix}
+2 & -\frac{1}{8} & -\frac{1}{4} \\
+0    & -\frac{5}{6} & \frac{1}{4}  \\
+0  & \frac{1}{16} & -\frac{11}{12} \\  
+\end{vmatrix}
+= \cfrac{431}{288}
+\qquad
+\Delta_B =  
+\begin{vmatrix}
+\frac{11}{12} & 2 & -\frac{1}{4} \\
+\frac{1}{8}    & 0 & \frac{1}{4}  \\
+\frac{1}{20}  & 0 & -\frac{11}{12} \\  
+\end{vmatrix}
+= \cfrac{61}{240}
+$$
+
+\vspace{-1mm}
+$$
+\quad
+\Delta_C =  
+\begin{vmatrix}
+\frac{11}{12} & -\frac{1}{8} & 2 \\
+\frac{1}{8}    & -\frac{5}{6} & 0  \\
+\frac{1}{20}  & \frac{1}{16} & 0 \\
+\end{vmatrix}
+= \cfrac{19}{192}
+$$
+
+Тоді:
+
+$$
+\begin{cases}
+A = \frac{\Delta_A}{\Delta} = \frac{45457}{69120} \cdot \frac{288}{431} \\
+B = \frac{\Delta_B}{\Delta} = \frac{45457}{69120} \cdot \frac{240}{61}\\
+C = \frac{\Delta_C}{\Delta} = \frac{45457}{69120} \cdot \frac{192}{19}
+\end{cases}
+\quad \Rightarrow \quad 
+\begin{cases}
+A = \frac{45457}{103440}  \\ 
+B = \frac{45457}{17568} \\
+C = \frac{45457}{6840}
+\end{cases}
+$$
+
+\vspace{3mm}
+Отже, отримуємо функцію $f$, яка і буде єдиним розв'язком заданого рівняння:
+
+$$f(t) = \frac{45457}{103440} t^2 +  \frac{45457}{17568} t + \frac{45457}{6840}$$ 
+\end{enumerate}
+
+\paragraph{Відповідь.} а)  $\lambda \in (-\frac{3}{7}, 0) \cup (0, \frac{3}{7})$ 
+
+\vspace{1mm}
+\hspace{16mm}
+б) $f(t) = \frac{45457}{103440} t^2 +  \frac{45457}{17568} t + \frac{45457}{6840}$.
+
+\newpage{}
+
+\paragraph{Задача 3.} Встановити чи буде множина $X$ предкомпактною в лінійному нормованому просторі $\left(E, \| \cdot \| \right)$ якщо $X = \left\{  \x = (x_1, x_2, \dots) \in \ell_1: \left| x_n \right| \leqslant \frac{1}{n^2}\right\}, E = \ell_1$. 
+
+\noindent\rule{4cm}{0.4pt}
+
+Нагадаємо теорему з лекцій:
+
+\textbf{Теорема.} \quad  Нехай $p \in [1, +\infty)$. Підмножина $F \subset \ell_p$ є предкомпактною тоді і тільки тоді, коли
+\begin{enumerate}
+\item підмножина $F$ є обмеженою за нормою простору $\ell_p$; \vspace{-3mm}
+\item для довільного $\varepsilon > 0$ існує таке $n \in \mathbb{N}$, що для всіх $\x \in F, \x = (x_1, x_2, \dots)$, $$\left( \sum \limits_{k = n + 1}^{\infty}|x_k|^p\right)^{\frac{1}{p}} < \varepsilon$$
+\end{enumerate}
+
+Зазначимо, що, оскільки нам заданий лінійний нормований простір $\ell_1$, то нормою на ньому буде $\| \cdot \|_1$. Тобто для $\x \in \ell_1, \x = (x_1, x_2, \dots): \| \x \|_ 1 = \sum \limits_{k = 0}^{\infty} |x_k|$. Розділимо доведення на дві частини згідно з теоремою наведеною вище:
+
+\begin{enumerate}
+\item Нехай $\x \in X, \x = (x_1, x_2, \dots)$, тоді:
+
+$\| \x \|_1 = \sum \limits_{k = 0}^{\infty} |x_k| \leqslant \sum \limits_{k = 1}^{\infty} \frac{1}{k^2} - \text{нерівність випливає з означення множини $X$}$ 
+
+З курсу математичного аналізу відомо, що $\sum \limits_{k = 1}^{\infty} \frac{1}{k^2} = \frac{\pi^2}{6}$. Отже, з довільності вибору $\x$ ми отримали те, що $\forall \x \in X: \| \x \|_1 \leqslant \frac{\pi^2}{6}$, що означає обмеженість множини $X$ за нормою простору $\ell_1$.
+
+\vspace{3mm}
+\item Нехай $\x \in X, \x = (x_1, x_2, \dots)$. З умови маємо: $\forall \x \in X: |x_n| \leqslant \frac{1}{n^2}$, тому, оскільки \newline $\forall k \in \mathbb{N}: |x_k| \geqslant 0, \frac{1}{k^2} > 0$, а також оскільки ряд $\sum \limits_{k = 1}^{\infty} \frac{1}{k^2}$ - збіжний, то за першою теоремою порівняння отримуємо те, що ряд  $\sum \limits_{k = 0}^{\infty} |x_k|$ - збіжний.
+
+\vspace{3mm}
+Осільки ряд $\sum \limits_{k = 0}^{\infty} |x_k|$ - збіжний, то з курсу математичного аналізу нам відомо, що збігаються всі його залшики, при чому:
+$$ \lim \limits_{n \to \infty} \sum \limits_{k = n}^{\infty} |x_k| = 0 \quad \hyperlink{1}{[3]}$$
+
+Розпишемо останню рівність:
+
+\vspace{3mm}
+$ \lim \limits_{n \to \infty} \sum \limits_{k = n}^{\infty} |x_k| = 0 \quad \Leftrightarrow \quad \forall \varepsilon > 0: \exists N \in \mathbb{N}: \forall n \geqslant N: \left| \sum \limits_{k = n}^{\infty} |x_k| - 0 \right| < \varepsilon \quad \Leftrightarrow$
+
+\vspace{3mm}
+\hspace{29mm}
+$\Leftrightarrow \quad \forall \varepsilon > 0: \exists N \in \mathbb{N}: \forall n \geqslant N: \sum \limits_{k = n}^{\infty} |x_k| < \varepsilon \quad$
+
+\vspace{3mm}
+Отже, ми отримали, що для довільного $\varepsilon > 0$ існує таке $n \in \mathbb{N}$, що для всіх $\x \in F, \x = (x_1, x_2, \dots)$: 
+$$ \sum \limits_{k = n + 1}^{\infty}|x_k| < \varepsilon$$
+\end{enumerate}
+
+\newpage 
+
+Підсумуємо:
+
+\begin{enumerate}
+\item Підмножина $X$ є обмеженою за нормою простору $\ell_1$
+\item Для довільного $\varepsilon > 0$ існує таке $n \in \mathbb{N}$, що для всіх $\x \in F, \x = (x_1, x_2, \dots)$: 
+$$ \sum \limits_{k = n + 1}^{\infty}|x_k| < \varepsilon$$
+\end{enumerate}
+
+Отже, за теоремою наведеною вище ми маємо те, що множина $X$ є предкомпактною в лінійному нормованому просторі $\left(\ell_1, \| \cdot \|_1 \right)$
+
+\paragraph{Відповідь.} множина $X$ є предкомпактною в лінійному нормованому просторі $\left(\ell_1, \| \cdot \|_1 \right)$
+
+\vspace{4mm}
+\section*{Додаток }
+
+\hypertarget{1}{[1]} - Чаповський Ю.А. - конспект лекцій з функціонального аналізу  ст. 128 Теорема 1.6.17
+
+\hspace{-6.3mm}
+[2] - Чаповський Ю.А. - конспект лекцій з функціонального аналізу  ст. 128 Наслідок 1.6.18
+
+\hspace{-6.3mm}
+[3] - \href{https://drive.google.com/file/d/1TjgKePwptgl93cQ0WRwgO9wxc3RV5srA/view?usp=share_link}{Воробйов Н.Н. - теорія рядів } ст. 34 теорема внизу сторінки
+
+\end{document}

@@ -1,0 +1,558 @@
+\documentclass[a5paper, 20pt, titlepage]{article}
+\def\MakeUppercaseUnsupportedInPdfStrings{\scshape}
+\usepackage[warn]{mathtext}
+\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[russian]{babel}
+\usepackage{amsmath}
+\usepackage[ warn ]{ mathtext }
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[normalem]{ulem}
+\usepackage[pdftex]{graphics}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{amsmath,systeme}
+\usepackage{comment}
+\usepackage{slashbox}
+\usepackage{pgfplots}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage[unicode, pdftex]{hyperref}
+\usepackage{yfonts}
+\usepackage{mathtools}
+\usepackage{tikz}
+\newtheorem{theorem}{Теорема}
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{fillbetween}
+\geometry{verbose,a4paper,tmargin=2cm,bmargin=2cm,lmargin=2.5cm,rmargin=1.5cm}
+\setcounter{MaxMatrixCols}{25}
+\hypersetup{
+    colorlinks = true,
+    linkbordercolor = {white},
+    linkcolor=blue
+}
+
+\DeclareMathOperator{\Ker}{Ker}
+
+\setstretch{1.4}
+
+\title{Самостійна робота 3 з функціонального аналізу \\ Варіант 4}
+\author{\vspace{-4mm} КА-02 Козак Назар}
+\date{}
+
+%комани для векторів x,f та y
+\newcommand{\x}{\textbf{x}}
+\newcommand{\y}{\textbf{y}}
+\newcommand{\ff}{\textbf{f}}
+\newcommand{\p}{\textbf{p}}
+\newcommand{\g}{\textbf{g}}
+\newcommand{\Sup}[1]{\sup \limits_{t \in [-1, 0]} \left| #1 \right|}
+
+\newcommand{\I}{\mathrm{I}}
+\newcommand{\Ima}{\text{Im}}
+\newcommand{\Int}[1]{\int \limits_{-\pi}^{\pi} #1 dt}
+\begin{document}
+
+\maketitle
+
+\paragraph{Задача 1.} \hfill \nolinebreak В гiльбертовому просторi $H = L^2_{\mathbb{R}}(\Omega, \mu)$ знайти відстань між функцією $f$ та лінійним простором $V = \mathbb{R} \langle f_1 , f_2, f_3\rangle$, якщо $\Omega = [-\pi, \pi], \, d \mu(t) = dt, \, f(t) = \cos^2 t, \, f_1(t) = 1, \, f_2(t) = t, f_3(t) = t^2$
+
+\noindent\rule{4cm}{0.4pt}
+
+Перш за все зробимо малюнок
+
+\begin{figure}[!h]
+\centering
+\begin{tikzpicture}[xscale=2.0, yscale=0.8]
+\draw (0,0) -- (1.5,1.5) -- (4.5,1.5) -- (3,0) -- cycle;
+\draw[->](1.5,0.5) -- (2.5,3);
+\draw[->](1.5,0.5) -- (2.5,1);
+\draw[->, thick](2.5,1) -- (2.5,3);
+%labels
+\node at (0.65,0.335) {$V$};
+\node at (2,2.1) {$\textbf{f}$};
+\node at (2.6,2) {$\textbf{d}$};
+\node at (2,0.5) {$\textbf{p}$};
+\end{tikzpicture}
+\end{figure}
+
+Вектор $\p$ - це проекція вектора $\ff$ на простір V. Відстань між функцією $\ff = \cos^2 t$ та простором $V$ є $\| \ff - \p \|$, в нашому випадку ми розглядаємо простір $H = L^2_{\mathbb{R}}([-\pi, \pi], \mu)$, де $d \mu(t) = dt$, тому на нормою на ньому є:
+
+$$ \| g \| = \sqrt{\int \limits_{-\pi}^{\pi} \left( g(t) \right)^2 dt}$$
+
+Знайдемо відстань, для цього спочатку ортоганалізуємо систему векторів $\left\{ 1, t, t^2\right\}$:
+
+\vspace{4mm}\
+\hspace{4mm}
+$P_0(t) = 1$
+
+\hspace{5mm}
+$P_1(t) = t - \left(t, \frac{P_0}{\| P_0 \|} \right) \cdot \frac{P_0}{\|P_0 \|} = t - \left(t, P_0 \right) \cdot \frac{1}{\|P_0\|^2} = t - \frac{\int \limits_{-\pi}^{\pi} t \cdot 1 dt}{\int \limits_{-\pi}^{\pi} 1 \cdot 1 dt} = t - \frac{\left. \frac{t^2}{2} \right|_{t = -\pi}^{t = \pi}}{\left. t \right|_{t = -\pi}^{t = \pi}} = t$ 
+
+\hspace{5mm}
+$P_2(t) = t^2 - \left(t^2, \frac{P_0}{\| P_0 \|} \right) \cdot \frac{P_0}{\| P_0 \|}  -  \left(t^2, \frac{P_1}{\| P_1 \|} \right) \cdot \frac{P_1}{\| P_1 \|} = t^2 - \left(t^2, P_0 \right) \cdot \frac{1}{\| P_0 \|^2}  -  \left(t^2, P_1 \right) \cdot \frac{t}{\| P_1 \|^2} = $
+
+\vspace{2mm}
+\hspace{14mm}
+$= t^2 - \frac{\int \limits_{-\pi}^{\pi} t^2 \cdot 1 dt}{\int \limits_{-\pi}^{\pi} 1 \cdot 1 dt} - \frac{\int \limits_{-\pi}^{\pi} t^2 \cdot t dt}{\int \limits_{-\pi}^{\pi} t \cdot t dt}t = 
+t^2 - \frac{\int \limits_{-\pi}^{\pi} t^2 dt}{\int \limits_{-\pi}^{\pi} 1 dt} - \frac{\int \limits_{-\pi}^{\pi} t^3 dt}{\int \limits_{-\pi}^{\pi} t^2 dt} t
+= t^2 - \frac{\left. \frac{t^3}{3} \right|_{t = -\pi}^{t = \pi}}{\left. t \right|_{t = - \pi}^{t = \pi}} - 0 = t^2 - \frac{\pi^3 - (-\pi)^3}{3\cdot 2 \pi} = t^2 - \frac{\pi^2}{3}$ 
+
+\vspace{5mm}
+Тепер знайдемо проекцію $\p$:
+
+\vspace{5mm}
+\hspace{4mm}
+$\p = \left(\cos^2  t, \frac{P_0}{\|P_0 \|} \right) \cdot \frac{P_0}{\| P_0 \|} +  \left(\cos^2  t, \frac{P_1}{\|P_1 \|} \right) \cdot \frac{P_1}{\| P_1 \|} +
+ \left(\cos^2  t, \frac{P_2}{\|P_2 \|} \right) \cdot \frac{P_2}{\| P_2 \|} =$
+
+\vspace{3mm}
+\hspace{7mm}
+$= \left(\cos^2  t, P_0 \right) \cdot \frac{P_0}{\| P_0 \|^2} + \left(\cos^2  t, P_1 \right) \cdot \frac{P_1}{\| P_1 \|^2} + \left(\cos^2  t, P_2 \right) \cdot \frac{P_2}{\| P_2 \|^2} \,\, \boxed{=}$
+
+\vspace{5mm}
+Знайдемо скалярні добутки окремо:
+
+\vspace{5mm}
+\hspace{4mm}
+$\left(\cos^2  t, P_0 \right) = \int \limits_{-\pi}^{\pi} \cos^2 t \cdot 1 dt = \frac{1}{2} \int \limits_{-\pi}^{\pi} (\cos 2t + 1) dt = \frac{1}{2} \left. \left( \frac{1}{2} \sin 2t + t \right) \right|_{t = -\pi}^{t = \pi} = \frac{1}{2} \left( \pi - (-\pi)\right) = \pi$
+
+\vspace{3mm}
+\hspace{4mm}
+$\left(\cos^2  t, P_1 \right) = \int \limits_{-\pi}^{\pi} t \cos^2 t dt = \frac{1}{2} \Int{t(\cos 2t + 1)} = \frac{1}{2} \Int{t \cos 2t} + \frac{1}{2} \Int{t} = \left( \right) = 
+\frac{1}{4} \int \limits_{-\pi}^{\pi} t d(\sin 2t) + \left. \frac{t^2}{4} \right|_{-\pi}^{\pi} = $
+
+\vspace{4mm}
+\hspace{21mm}
+$=  \left. \frac{1}{4} t \sin 2t \right|_{t = -\pi}^{t = \pi} - \frac{1}{4} \Int{\sin 2t} + 0 = 0 + \left. \frac{1}{8} \cos 2t \right|_{t = -\pi}^{t = \pi} = 0$
+
+\vspace{3mm}
+\hspace{4mm}
+$\hypertarget{123}{\left(\cos^2  t, P_2 \right)} = \Int{\left(t^2 - \frac{\pi^2}{3} \right) \cos^2 t} = \Int{t^2 \cos^2 t} - \frac{\pi^2}{3} \Int{\cos^2 t} =
+\frac{1}{2} \Int{t^2(1 + \cos 2t)} -
+$ 
+
+\vspace{3mm}
+\hspace{21mm}
+$-\frac{\pi^2}{6} \Int{(1 + \cos 2t)} = \frac{1}{2} \Int{t^2} + \frac{1}{4} \int \limits_{-\pi}^{\pi} t^2 d(\sin 2t) - \frac{\pi^2}{6} \Int{1} - \frac{\pi^2}{6} \Int{\cos 2t} = $
+
+\vspace{3mm}
+\hspace{21mm}
+$= \left. \frac{t^3}{6} \right|_{t = - \pi}^{t = \pi} + \left. \frac{1}{4} t^2 \sin 2t  \right|_{t = - \pi}^{t = \pi} - \frac{1}{2} \Int{t \sin 2t} - \left. \frac{\pi^2}{6} t \right|_{t = - \pi}^{t = \pi} - 
+\left. \frac{\pi^2}{6} \sin 2t \right|_{t = - \pi}^{t = \pi} = $
+
+\vspace{3mm}
+\hspace{21mm}
+$= \frac{\pi^3}{3} + 0 - \frac{1}{2} \Int{t \sin 2t} - \frac{\pi^3}{3} - 0 = \frac{1}{4} \int \limits_{-\pi}^{\pi} t d(\cos 2t) = \left. \frac{1}{4} t \cos 2t \right|_{t = - \pi}^{t = \pi} - \frac{1}{4} \Int{\cos 2t} = $
+
+\vspace{3mm}
+\hspace{21mm}
+$= \frac{\pi}{2} + \left. \frac{1}{8} \sin 2t \right|_{t = -\pi}^{t = \pi} = \frac{\pi}{2} + 0 = \frac{\pi}{2}$
+
+\vspace{4mm}
+Повернемось до $\p$:
+
+\vspace{3mm}
+\hspace{7mm}
+$\boxed{=} \,\, \pi \cdot \frac{1}{\Int{1 \cdot 1}} + 0 + \frac{\pi}{2} \cdot \frac{t^2}{\Int{t^2 \cdot t^2}} =
+\frac{\pi}{\left. t \right|_{t = -\pi}^{t = \pi}} + \frac{\pi}{2}  \cdot \frac{t^2}{\left. \frac{t^5}{5} \right|_{t = -\pi}^{t = \pi}} =
+\frac{\pi}{2 \pi} + \frac{5 t^2}{2 \pi^5} \frac{\pi}{2} = \frac{1}{2} + \frac{5 t^2}{4\pi^4}$
+
+\vspace{4mm}
+Тепер можемо знайти відстань:
+
+\vspace{2mm}
+\hspace{4mm}
+$\text{dist}(\ff; V) = \|\ff - \p \| = \left\| \cos^2 t - \frac{1}{2} - \frac{5t^2}{4 \pi^4} \right\| =
+\sqrt{\Int{\left( \cos^2 t - \frac{1}{2} - \frac{5t^2}{4 \pi^4} \right)^2 }} $
+
+\vspace{3mm}
+Обчислимо інтеграл окремо:
+
+\vspace{2mm}
+\hspace{4mm}
+$\Int{\left( \cos^2 t - \frac{1}{2} - \frac{5t^2}{4 \pi^4} \right)^2 } =  I_1 + I_2 + I_3 + I_4 + I_5 + I_6, \text{\,\, де}$
+
+$$
+\begin{cases}
+I_1 = \Int{\cos^4 t} \\
+I_2 = -\Int{2 \cdot \frac{1}{2} \cdot \cos^2 t} \\
+I_3 = -\Int{2  \frac{5t^2}{4 \pi^4} \cos^2 } \\
+I_4 = \Int{2 \cdot \frac{1}{2} \cdot \frac{5t^2}{4 \pi^4}} \\
+I_5 = \Int{ \left( \frac{1}{2} \right)^2} \\
+I_6 = \Int{t^4\left( \frac{5}{4 \pi^4} \right)^2}
+\end{cases}
+$$
+
+Обрахуємо їх:
+
+\vspace{2mm}
+\hspace{4mm}
+$I_1 = \Int{\cos^4 t} = \Int{\left( \frac{1 + \cos 2t}{2}\right)^2} = \frac{1}{4} \Int{(1 + 2 \cos 2t + \cos^2 2t)} = \frac{1}{4} \Int{ \left(1 + 2 \cos 2t + \frac{1 + \cos 4t}{2} \right)} =$
+
+\vspace{3mm}
+\hspace{8mm}
+$= \frac{1}{4} \Int{1} + \frac{1}{2} \Int{\cos 2t} + \frac{1}{8} \Int{1} + \frac{1}{8} \Int{\cos 4t} = \frac{1}{4}\left. t \right|_{t = -\pi}^{t = \pi} +
+\frac{1}{4} \left. \sin 2t \right|_{t = -\pi}^{t = \pi} + \frac{1}{8} \left. t \right|_{t = -\pi}^{t = \pi} + \frac{1}{32} \left. \sin 4t \right|_{t = -\pi}^{t = \pi} =$
+
+\vspace{3mm}
+\hspace{8mm}
+$= \frac{\pi}{2} + 0 + \frac{\pi}{4} + 0 = \frac{3 \pi}{4}$
+
+\vspace{5mm}
+\hspace{4mm}
+$I_2 = -\Int{2 \cdot \frac{1}{2} \cdot \cos^2 t} = - \frac{1}{2} \Int{(1 + \cos 2t)} = - \frac{1}{2} \left. t \right|_{t = -\pi}^{t = \pi} - \frac{1}{4} \left. \sin 2t \right|_{t = -\pi}^{t = \pi} = - \pi $
+
+\vspace{5mm}
+\hspace{4mm}
+$I_3 = -\Int{2  \frac{5t^2}{4 \pi^4} \cos^2 t } = -\frac{5}{4\pi^4} \Int{t^2(1 + \cos 2t)} = - \left. \frac{5}{4\pi^4} \cdot \frac{t^3}{3} \right|_{t = - \pi}^{t = \pi} - \frac{5}{4 \pi^4} \int \limits_{-\pi}^{\pi} t^2 \cos 2t dt =$
+
+\vspace{5mm}
+\hspace{8mm}
+$= -\frac{5}{6 \pi} - \frac{5}{8 \pi^4} \int \limits_{-\pi}^{\pi} t^2 d(\sin 2t) = -\frac{5}{6 \pi} - \left. \frac{5}{8 \pi^4} t^2 \sin 2t \right|_{t = -\pi}^{t = \pi} +
+\frac{5}{4\pi^4} \Int{t \sin 2t} = -\frac{5}{6\pi} - 0 - \frac{5}{8 \pi^4} \int \limits_{-\pi}^{\pi} t d(\cos 2t) = $
+
+\vspace{5mm}
+\hspace{8mm}
+$= -\frac{5}{6\pi} - \left. \frac{5}{8 \pi^4} t \cos 2t \right|_{-\pi}^{\pi} + \frac{5}{8 \pi^4} \Int{\cos 2t} = - \frac{5}{6 \pi} - \frac{5}{4 \pi^3} + \left. \frac{5}{16 \pi^4} \sin 2t \right|_{t = -\pi}^{t = \pi} =  - \frac{5}{6 \pi} - \frac{5}{4 \pi^3} + 0 =  - \frac{5}{6 \pi} - \frac{5}{4 \pi^3}$
+
+\vspace{5mm}
+\hspace{4mm}
+$I_4 = \Int{2 \cdot \frac{1}{2} \cdot t^2 \frac{5}{4 \pi^4}} = \frac{5}{4 \pi^4} \Int{t^2} = \frac{5}{4 \pi^4}  \cdot \left. \frac{t^3}{3} \right|_{t = -\pi}^{t = \pi} = \frac{5}{4 \pi^4} \cdot \frac{2 \pi^3}{3} = \frac{5}{6 \pi}$
+
+\vspace{5mm}
+\hspace{4mm}
+$I_5 =  \Int{ \left( \frac{1}{2} \right)^2} = \frac{1}{4} \left. t \right|_{t = -\pi}^{t = \pi} = \frac{\pi}{2}$
+
+\vspace{5mm}
+\hspace{4mm}
+$I_6 = \Int{t^4\left(\frac{5}{4 \pi^4} \right)^2} = \left. \frac{25}{16 \pi^8} \cdot \frac{t^5}{5} \right|_{t = -\pi}^{t = \pi} = \frac{5}{8 \pi^3}$
+
+\vspace{3mm}
+Тоді маємо:
+
+\vspace{3mm}
+$\Int{\left( \cos^2 t - \frac{1}{2} - \frac{5t^2}{4 \pi^4} \right)^2} = \frac{3 \pi}{4} - \pi - \frac{5}{6\pi} - \frac{5}{4 \pi^3} + \frac{5}{6 \pi} + \frac{\pi}{2} + \frac{5}{8 \pi^3} =  \frac{\pi}{4} - \frac{5}{8 \pi^3} $
+
+\vspace{4mm}
+Остаточно:
+
+$\text{dist}(\ff; V) =  \left\|\cos^2 t - \frac{1}{2} - \frac{5t^2}{4 \pi^4}  \right\| =
+\sqrt{\Int{\left( \cos^2 t - \frac{1}{2} - \frac{5t^2}{4 \pi^4} \right)^2 }} =\sqrt{ \frac{\pi}{4} - \frac{5}{8 \pi^3}}$
+
+\vspace{2mm}
+\paragraph{Відповідь.} $\sqrt{ \frac{\pi}{4} - \frac{5}{8 \pi^3}}$
+
+\vspace{4mm}
+
+\paragraph{Задача 2.} \hfill \nolinebreak Довести, що лiнiйний оператор $A : E \rightarrow E$, , що дiє в банаховому просторi $E = \mathcal{C} \left( \Omega, \mathbb{R} \right)$ є обмежений i знайти його норму, якщо $\Omega = [0, \pi], \,\, \left( A f \right)(t) = \int \limits_{0}^{\pi} \left( t + \sin \frac{s}{2} \right)f(s) ds$
+
+\noindent\rule{4cm}{0.4pt}
+
+Нагадаємо означення обмеженого лінійного оператора:
+
+\vspace{4mm}
+\textbf{Означення.} \quad Нехай $\left( E_1, \| \cdot \|_1 \right), \left( E_2, \| \cdot \|_2 \right)$ -- лінійні нормовані простори над полем $\mathbb{K}$. Оператор \\$A: E_1 \rightarrow E_2$ лінійний над полем $\mathbb{K}$ називається обмеженим на $E_1$, якщо існує таке $C \in \mathbb{R}_+$, що
+\vspace{-3mm}
+$$ \left\| A \x \right\|_2 \leqslant C \| \x \|_1, \text{\quad для всіх $\x \in E_1$} $$
+
+У нашому випадку $E_1 = E_2 = \mathcal{C} \left( [0, \pi], \mathbb{R} \right)$. $\mathcal{C} \left( [0, \pi], \mathbb{R} \right)$ - простір непервних дійснозначних функцій на відрізку $[0, \pi]$, нормою на цьому просторі є супремум-норма, тобто: $ \| \x \|_\infty = \sup \limits_{t \in [0, \pi]} |\x(t)|$. Тоді нам треба довести, що
+
+\vspace{-3mm}
+$$\exists C \in \mathbb{R_+}:  \forall \x \in \mathcal{C} \left( [0, \pi], \mathbb{R} \right): \left\| A \x \right\|_\infty \leqslant C \| \x \|_\infty $$
+
+Нехай $\x \in \mathcal{C} \left( [0, \pi], \mathbb{R} \right)$, тоді
+
+\vspace{3mm}
+\hspace{4mm}
+$\left\| A \x \right\|_\infty = \sup \limits_{t \in [0, \pi]} \left| \int \limits_{0}^{\pi} \left( t + \sin \frac{s}{2} \right) \x(s)  ds \right|
+\leqslant \sup \limits_{t \in [0, \pi]}  \int \limits_{0}^{\pi} \left| \left( t + \sin \frac{s}{2} \right) \x(s) \right| ds$
+
+\vspace{5mm}
+Оскільки $t \in [0, \pi], s \in [0, \pi]$, то $ t + \sin \frac{s}{2} \geqslant 0$, тому $\left| \left( t + \sin \frac{s}{2} \right) \x(s) \right| = \left( t + \sin \frac{s}{2} \right)  \left| \x(s) \right|$, тоді маємо:
+
+\vspace{5mm}
+\hspace{4mm}
+$\left\| A \x \right\|_\infty \leqslant \sup \limits_{t \in [0, \pi]}  \int \limits_{0}^{\pi} \left| \left( t + \sin \frac{s}{2} \right) \x(s) \right| ds =
+\sup \limits_{t \in [0, \pi]}  \int \limits_{0}^{\pi} \left( t + \sin \frac{s}{2} \right)  \left| \x(s) \right| ds \leqslant
+\sup \limits_{t \in [0, \pi]}  \int \limits_{0}^{\pi} \left( t + \sin \frac{s}{2} \right)  \left\| \x(s) \right\|_\infty ds = $
+
+\vspace{4mm}
+\hspace{16mm}
+$= \left\| \x(s) \right\|_\infty \cdot \sup \limits_{t \in [0, \pi]}  \int \limits_{0}^{\pi} \left( t + \sin \frac{s}{2} \right) ds =
+\left\| \x(s) \right\|_\infty \cdot \sup \limits_{t \in [0, \pi]}   \left. \left( ts - 2 \cos \frac{s}{2} \right) \right|_{s = 0}^{s = \pi} =
+\left\| \x(s) \right\|_\infty \cdot \sup \limits_{t \in [0, \pi]} (t\pi + 2) =$
+
+\vspace{4mm}
+\hspace{16mm}
+$= \left\| \x(s) \right\|_\infty \cdot (\pi^2 + 2)$
+
+\vspace{4mm}
+Отже ми отримали що 
+
+\vspace{-3mm}
+$$\forall \x \in \mathcal{C} \left( [0, \pi], \mathbb{R} \right): \left\| A \x \right\|_\infty \leqslant (\pi^2 + 2) \| \x \|_\infty $$
+
+Тому, оскільки $\pi^2 + 2 \in \mathbb{R_+}$, то лінійний оператор $A$ є обмеженим на $\mathcal{C} \left( [0, \pi], \mathbb{R} \right)$.
+
+\newpage{}
+
+\vspace{4mm}
+Знайдемо норму оператора. З зауваження 2.2.5 з лекцій \hyperlink{1}{[1]} випливає:
+\vspace{-2mm}
+$$ \| A \x \|_\infty \leqslant \| A \| \| \x \|_\infty, \x \in \mathcal{C} \left( [0, \pi], \mathbb{R} \right)$$
+
+Візьмемо $\x = 1 \in \mathcal{C} \left( [0, \pi], \mathbb{R} \right)$, тоді оскільки норма завжди $\geqslant$ 0, маємо:
+
+\vspace{3mm}
+\hspace{4mm}
+$\|A 1 \|_\infty \leqslant \| A \| \| 1 \|_\infty \quad \Rightarrow \quad \| A \| \geqslant \frac{\|A 1 \|_\infty}{\| 1 \|_\infty} \quad \Rightarrow \quad 
+\| A \| \geqslant \frac{\sup \limits_{t \in [0,\pi]} \left| \int \limits_{0}^{\pi} \left(t + \sin \frac{s}{2} \right)ds \right|}{1} \quad \Rightarrow \quad
+\| A \| \geqslant \pi^2 + 2$
+
+\vspace{4mm}
+В нашому випадку, згідно з теоремою 2.2.6 маємо \hyperlink{2}{[2]}:
+
+$$ \| A \| = \sup \limits_{\| x \|_\infty = 1} \| A \x\|_\infty, \quad \x \in \mathcal{C} \left( [0, \pi], \mathbb{R} \right) $$
+
+Візьмемо довільну функцію $\y \in \mathcal{C} \left( [0, \pi], \mathbb{R} \right)$, таку що $\| \y \|_\infty = 1$,  тоді:
+
+\vspace{3mm}
+\hspace{4mm}
+$\left\| A \y \right\|_\infty = \sup \limits_{t \in [0, \pi]} \left| \int \limits_{0}^{\pi} \left( t + \sin \frac{s}{2} \right) \y(s)  ds \right|
+\leqslant \sup \limits_{t \in [0, \pi]}  \int \limits_{0}^{\pi} \left| \left( t + \sin \frac{s}{2} \right) \y(s) \right| ds$
+
+\vspace{5mm}
+Як вже було показано $\left| \left( t + \sin \frac{s}{2} \right) \y(s) \right| = \left( t + \sin \frac{s}{2} \right)  \left| \y(s) \right|$, тоді :
+
+\vspace{5mm}
+\hspace{4mm}
+$\left\| A \y \right\|_\infty \leqslant \sup \limits_{t \in [0, \pi]}  \int \limits_{0}^{\pi} \left| \left( t + \sin \frac{s}{2} \right) \y(s) \right| ds =
+\sup \limits_{t \in [0, \pi]}  \int \limits_{0}^{\pi} \left( t + \sin \frac{s}{2} \right)  \left| \y(s) \right| ds \leqslant
+\sup \limits_{t \in [0, \pi]}  \int \limits_{0}^{\pi} \left( t + \sin \frac{s}{2} \right)  \left\| \y(s) \right\|_\infty ds = $
+
+\vspace{4mm}
+\hspace{16mm}
+$= \left\| \y(s) \right\|_\infty \cdot \sup \limits_{t \in [0, \pi]}  \int \limits_{0}^{\pi} \left( t + \sin \frac{s}{2} \right) ds =
+1 \cdot \sup \limits_{t \in [0, \pi]}   \left. \left( ts - 2 \cos \frac{s}{2} \right) \right|_{s = 0}^{s = \pi} =
+\cdot \sup \limits_{t \in [0, \pi]} (t\pi + 2) =$
+
+\vspace{4mm}
+\hspace{16mm}
+$= (\pi^2 + 2)$
+
+З довільності вибору $\y$ маємо: $\y \in \mathcal{C} \left( [0, \pi], \mathbb{R} \right), \| \y \|_\infty = 1 \,\, \Rightarrow \| A \y\|_\infty \leqslant \pi^2 + 2$. З цього випливає, що $ \| A \| = \sup \limits_{\| x \|_\infty = 1} \| A \x\|_\infty \leqslant \pi^2 + 2, \quad \x \in \mathcal{C} \left( [0, \pi], \mathbb{R} \right) $ Тоді маємо такий висновок:
+
+$$
+\begin{rcases}
+\| A \| \geqslant \pi^2 + 2\\
+\| A \| \leqslant \pi^2 + 2 \\
+\end{rcases}
+\quad \Leftrightarrow \quad 
+\| A \| = \pi^2 + 2
+$$
+
+\vspace{2mm}
+\paragraph{Відповідь.} $\| A \| = \pi^2 + 2$
+
+
+\vspace{4mm}
+
+\paragraph{Задача 3.} \hfill \nolinebreak Знайти спектр, його структуру, та резольвенту оператора $A: E \rightarrow E, E = \mathcal{C}\left(\Omega, \mathbb{C} \right)$, якщо $\Omega = [-1, 0], \left( Af \right)(t) = \int \limits_{-1}^{t} \tau f(\tau) d \tau - f(t)$   
+
+\noindent\rule{4cm}{0.4pt}
+
+Спочатку знайдемо спектр оператора та його структу. Спектр оператора $A$ можна записати як: 
+\vspace{-3mm}
+$$\sigma(A) = \sigma_p(A) \sqcup \sigma_c(A) \sqcup \sigma_r(A), \text{\,\, де:}$$
+
+\begin{enumerate}
+\item $\lambda \in \sigma_p(A)$ - власні числа оператора $A$
+\item $\lambda \in \sigma_c(A) $ - точки неперервного спектру
+\item $\lambda \in \sigma_r(A) $ - точки залишкового спектру
+\end{enumerate}
+
+Знайдемо всі власні значення оператора $A$. Власні значення оператора $A$, це такі $\lambda$, що $\Ker(A - \lambda \I) \neq \{ \textbf{0} \}$\\ Знайдемо $\Ker(A - \lambda \I)$, нехай $f(t) \in \mathcal{C} \left( [-1, 0], \mathbb{C} \right)$, тоді
+
+\vspace{3mm}
+\hspace{4mm}
+$(A - \lambda \I) f = 0 \quad \Rightarrow \quad (Af)(t) - \lambda f(t) = 0 \quad \Rightarrow \quad \int \limits_{-1}^{t} \tau f(\tau) d \tau - f(t) - \lambda f(t) = 0$
+
+\vspace{3mm}
+Нехай $z(t) = \int \limits_{-1}^{t} \tau f(\tau) d \tau  $, тоді 
+
+$$ z(t) - f(t) - \lambda f(t) = 0 $$
+
+\vspace{3mm}
+Оскільки,  $f(t) \in \mathcal{C} \left( [-1, 0], \mathbb{C} \right)$, то $z \in \mathcal{C}^1 \left( [-1, 0], \mathbb{C} \right)$. Тоді маємо:
+
+$$ z'(t) = t f(t) \quad \Rightarrow \quad f(t) = \frac{z'(t)}{t} $$
+
+\vspace{3mm}
+Бачимо, що $z(-1) = 0$. Тоді підставивши $f(t) = \frac{z'(t)}{t}$ у початкове рівняння отримуємо таку задачу Коші:
+
+$$
+\begin{cases}
+z(t) - \frac{z'(t)}{t} - \lambda f(t) \frac{z'(t)}{t} = 0 \\
+z(-1) = 0
+\end{cases}
+$$
+
+Розв'яжемо її:
+
+$$ z(t) - \frac{z'(t)}{t} - \lambda f(t) \frac{z'(t)}{t} = 0 \quad \Leftrightarrow \quad z(t) - \left( 1 + \lambda \right) \frac{z'(t)}{t} = 0  $$
+
+Маємо два випадки:
+
+\begin{enumerate}
+\item $ \lambda = -1 \quad \Rightarrow \quad z(t) = 0, \forall t \in[-1, 0] \quad \Rightarrow \quad \Ker(A + \I) = \{\textbf{0}\}$, з цього випливає, що $\lambda = -1$ не є власним значенням оператора $A$. 
+
+\item $\lambda \neq -1$. Тоді маємо:
+
+$$
+\begin{cases}
+z'(t) - \frac{t}{1+\lambda} z(t) = 0\\
+z(-1) = 0
+\end{cases}
+$$
+
+Розв'яжемо задачу Коші методом Бернуллі. Нехай $z(t) = U \cdot V, \,\, U = U(t), V = V(t)$, тоді маємо:
+
+$$ U'V + UV' - \frac{t}{1 + \lambda} U V = 0 \quad \Leftrightarrow \quad U'V + U \left( V' - \frac{t}{1 + \lambda} V \right) = 0 $$
+
+Знайдемо таку функцію $V$, що $V' - \frac{t}{1 + \lambda} V = 0$:
+
+$$V' - \frac{t}{1 + \lambda} V = 0 \quad \Rightarrow \quad \frac{dV}{dt} = \frac{t}{1+\lambda} V \quad \Rightarrow \quad \int \frac{dV}{V} = \int \frac{t dt}{1 + \lambda} \quad \Rightarrow \quad V = e^{\frac{1}{2(1+\lambda)} t^2}$$
+
+\vspace{3mm}
+Підставвимо $V = e^{\frac{1}{2(1+\lambda)} t^2}$ в наше рівняння:
+
+$$U' e^{\frac{1}{2(1+\lambda)} t^2} - 0 = 0 \quad \Rightarrow \quad U' = 0 \quad \Rightarrow \quad U = C, \,\, C = \text{const}$$
+
+\newpage{}
+Отримали, що $z(t) = U \cdot V = C e^{\frac{1}{2(1+\lambda)} t^2}$. Оскільки $z(-1) = 0$, маємо:
+
+\vspace{-3mm}
+$$ z(-1) = C e^{\frac{1}{2(1+\lambda)}} = 0 \quad \Rightarrow \quad C = 0 \quad \Rightarrow \quad z(t) = 0, \,\, \forall t \in [-1, 0] $$
+
+\end{enumerate}
+
+Таким чином отримали, що для будь-якого $\lambda \neq -1: \lambda - \text{не є власним значенням оператору $A$}$. \\ З того, що $\lambda = -1 $ також не є власним значенням оператору $A$ випливає те, що оператор $A$ не має власних значень, тобто $\sigma_p(A) = \varnothing$.
+
+Тепер спробуємо знайти точки неперервного спектру. В нашому випадку це такі $\lambda$ для яких \\ виконується: $\overline{\Ima (A - \lambda \I)} = \mathcal{C} \left( [-1, 0], \mathbb{C} \right)$. Почнемо з $\lambda = -1$, нехай $f \in \mathcal{C} \left( [-1, 0], \mathbb{C} \right)$ тоді:
+
+$$ (A - \lambda \I)f = \int \limits_{-1}^{t} \tau f(\tau) d \tau - f(t) + f(t) \quad \Rightarrow \quad (A - \lambda \I)f = \int \limits_{-1}^{t} \tau f(\tau) d \tau $$
+
+Підставивши в останній рівності значення $t = -1$, отримаємо, що, якщо $y \in \Ima( A + \I) $, то $y(-1) = 0$. Образ оператора $A + I$ не буде $\mathcal{C} \left( [-1, 0], \mathbb{C} \right)$, наведемо контрприклад. Візьмемо $x(t) = 1 \in \mathcal{C} \left( [-1, 0], \mathbb{C} \right)$. Оскільки $x(-1) = 1 \neq 0$, то $x(t) \not \in \Ima( A + \I)$. Доведемо також, що $x(t) = 1$ не є граниичною точкою множини $\Ima(A + \I)$. Для цього нагадаємо означення граничної точки:
+
+\vspace{4mm}
+\textbf{Означення.} \quad Нехай $\left(E, \| \cdot \|\right)$ -- лінійний нормований простір, і $X \subset E$ -- підмножина E. Точка $x^0 \in E$ називається граничною точкою множини $X$, якщо $\mathring{B} (x^0; r) \cap X \neq \varnothing$ для всіх $r > 0$, \\ де $\mathring{B} (x^0; r) = B(x^0; r) \textbackslash \{ x^0 \}, \,\, B(x^0, r) = \left\{ \x \in E: \| \x - x^0 \| < r \right\}$.
+
+\vspace{5mm}
+Нехай $y(t) \in \Ima(A+I)$, оскільки $E$ в нашому випадку це $\mathcal{C} \left( [-1, 0], \mathbb{C} \right)$, то ми розглядаємо супремум-норму. Тоді розглянемо вираз  $\| y - x \|_\infty$:
+
+\vspace{-3mm}
+$$\| y - x \|_\infty \geqslant |y(0) - x(0)| \quad \Rightarrow \quad  \| y - x \|_\infty \geqslant 1$$ 
+
+З довільності вибору функції $y(t)$ ми отримали те, що для $r \in (0; 1)$ перетин відкритої кулі в $\mathcal{C} \left( [-1, 0], \mathbb{C} \right)$ навколо точки $x(t)$ радіуса $r$ з множиною $\Ima(A+I)$ не містить жодної функції окрім $x(t)$. З чого випливає, що перетин відкритої виколотої куля в в $\mathcal{C} \left( [-1, 0], \mathbb{C} \right)$ навколо точки $x(t)$ радіуса $r$ та множини $\Ima(A+I)$ це порожня множина для $r \in (0, 1)$. З чого, за означенням граничної точки випливає те, що точка $x(t) = 1$ не є граничною точкою множини $\Ima(A + \I)$. Тоді маємо:
+
+\vspace{3mm}
+$$
+\begin{rcases}
+x(t) = 1 \in \mathcal{C} \left( [-1, 0], \mathbb{C} \right) \\
+x(t) = 1 \not \in \Ima(A + \I) \\
+x(t) - \text{не є граничною точкою множини $\Ima(A+\I)$}
+\end{rcases}
+\quad \Rightarrow \quad \overline{\Ima (A - \lambda \I)} \neq \mathcal{C} \left( [-1, 0], \mathbb{C} \right)
+$$
+
+Таким чином ми отримали, що при $\lambda = -1:\overline{\Ima (A - \lambda \I)} \neq \mathcal{C} \left( [-1, 0], \mathbb{C} \right)$. Тобто за означенням[3] $\lambda = -1 $ це точка залишкового спектру.  
+
+Тепер розглянемо випадок, коли $\lambda \neq -1$. Нехай $y \in \mathcal{C} \left( [-1, 0], \mathbb{C} \right)$. Тоді:
+
+\vspace{-3mm}
+$$ \y \in \Ima(A - \lambda \I) \Rightarrow \exists x \in \mathcal{C} \left( [-1, 0], \mathbb{C} \right): \,\, (A - \lambda \I)x = y$$
+
+Спробуємо розв'язати рівняння $(A - \lambda \I)x = y$ відносно $x$, маємо:
+
+$$ (A - \lambda \I)x = y \quad \Rightarrow \quad  \int \limits_{-1}^{t} \tau x(\tau) d \tau - x(t) - \lambda x(t) = y(t)$$ 
+
+Нехай $z(t) =  \int \limits_{-1}^{t} \tau x(\tau) d \tau$. Бачимо, що $z(-1) = 0$. Тоді підставивиши $z(t)$ в наше рівняння  отримуємо рівняння: $z(t) - x(t) - \lambda x(t) = y$. Оскільки,  $x(t), y(t) \in \mathcal{C} \left( [-1, 0], \mathbb{C} \right)$, то $z \in \mathcal{C}^1 \left( [-1, 0], \mathbb{C} \right)$, то маємо \\ $z'(t) = t x(t)$, тоді $x(t) = \frac{z'(t)}{t}$. Отримуємо задачу Коші:
+
+$$
+\begin{cases}
+z(t) - \frac{z'(t)}{t} - \lambda \frac{z'(t)}{t} = y(t) \\
+z(-1) = 0
+\end{cases}
+$$
+
+Розв'яжемо її:
+
+\vspace{-3mm}
+$$ z(t) - \frac{z'(t)}{t} - \lambda \frac{z'(t)}{t} = y(t) \quad \Rightarrow \quad z(t) - \frac{z'(t)}{t} \left(1 + \lambda \right) = y(t) \quad \Rightarrow \quad  z'(t) - \frac{t \cdot z(t)}{1 + \lambda} + \frac{t \cdot y(t)}{1+ \lambda} = 0$$
+
+Тоді:
+
+$$ z'(t) - \frac{t \cdot z(t)}{1 + \lambda} + \frac{t \cdot y(t)}{1+ \lambda} = 0 \,\, \biggl| \cdot e^{-\frac{t^2}{2(1+\lambda)}} $$
+
+$$ z'(t) \cdot e^{-\frac{t^2}{2(1+\lambda)}}  - \frac{t \cdot z(t)}{1 + \lambda} \cdot e^{-\frac{t^2}{2(1+\lambda)}} + \frac{t \cdot y(t)}{1+ \lambda} \cdot e^{-\frac{t^2}{2(1+\lambda)}} = 0 $$
+
+$$ \left( z(t) \cdot e^{-\frac{t^2}{2(1+\lambda)}} \right)' = - \frac{t \cdot y(t)}{1+ \lambda} \cdot e^{-\frac{t^2}{2(1+\lambda)}}$$ 
+
+$$ \int \limits_{-1}^{t} \left( z(s) \cdot e^{-\frac{s^2}{2(1+\lambda)}} \right)' ds = - \int \limits_{-1}^{t} \frac{s \cdot y(s)}{1+ \lambda} \cdot e^{-\frac{s^2}{2(1+\lambda)}} ds$$ 
+
+$$ \left. \left( z(s) \cdot e^{-\frac{s^2}{2(1+\lambda)}} \right) \right|_{s = -1}^{s = t} = - \int \limits_{-1}^{t} \frac{s \cdot y(s)}{1+ \lambda} \cdot e^{-\frac{s^2}{2(1+\lambda)}} ds$$ 
+
+Оскільки $z(-1) = 0$, то маємо:
+
+$$ z(t) \cdot e^{-\frac{t^2}{2(1+\lambda)}} - 0 = - \int \limits_{-1}^{t} \frac{s \cdot y(s)}{1+ \lambda} \cdot e^{-\frac{s^2}{2(1+\lambda)}} ds 
+\quad \Rightarrow \quad z(t) = - e^{\frac{t^2}{2(1+\lambda)}} \int \limits_{-1}^{t} \frac{t \cdot y(s)}{1+ \lambda} \cdot e^{-\frac{s^2}{2(1+\lambda)}} ds $$
+
+З рівняння $z(t) - x(t) - \lambda x(t) = y(t)$ маємо $x(t) = \frac{1}{1 + \lambda} \left( z(t) - y(t)\right)$, тоді:
+
+$$ x(t) =  \frac{1}{1 + \lambda} \left( - e^{\frac{t^2}{2(1+\lambda)}} \int \limits_{-1}^{t} \frac{s \cdot y(s)}{1+ \lambda} \cdot e^{-\frac{s^2}{2(1+\lambda)}} ds - y(t)\right) $$
+
+Підсумуємо, ми знайшли такий оператор $By =  \frac{1}{1 + \lambda} \left( - e^{\frac{t^2}{2(1+\lambda)}} \int \limits_{-1}^{t} \frac{t \cdot y(s)}{1+ \lambda} \cdot e^{-\frac{s^2}{2(1+\lambda)}} ds - y(t)\right) = x(t)$. Якщо ми доведемо, що цей оператор є обмеженим, можна буде вважати, що оператор $B$ є оберненим до оператору $A - \lambda  \I, \,\,\, \lambda \neq -1$. Доведемо обмеженість:
+
+\vspace{3mm}
+\hspace{-5mm}
+$\| By\|_\infty = \Sup{\frac{1}{1 + \lambda} \left( - e^{\frac{t^2}{2(1+\lambda)}} \int \limits_{-1}^{t} \frac{s \cdot y(s)}{1+ \lambda} \cdot e^{-\frac{s^2}{2(1+\lambda)}} ds - y(t)\right)} = \Sup{\frac{1}{1 + \lambda} \left( e^{\frac{t^2}{2(1+\lambda)}} \int \limits_{-1}^{t} \frac{s \cdot y(s)}{1+ \lambda} \cdot e^{-\frac{s^2}{2(1+\lambda)}} ds + y(t)\right)} \nolinebreak \leqslant$
+
+\vspace{3mm}
+\hspace{7mm}
+$\leqslant \Sup{\frac{1}{1 + \lambda} e^{\frac{t^2}{2(1+\lambda)}} \int \limits_{-1}^{t} \frac{s \cdot y(s)}{1+ \lambda} \cdot e^{-\frac{s^2}{2(1+\lambda)}} ds} + \Sup{\frac{1}{1 + \lambda} y(t)} \leqslant$ 
+
+\vspace{3mm}
+\hspace{7mm}
+$\leqslant \Sup{\frac{1}{1 + \lambda} e^{\frac{t^2}{2(1+\lambda)}} \int \limits_{-1}^{t} \frac{s \cdot \|y\|_\infty}{1+ \lambda} \cdot e^{-\frac{s^2}{2(1+\lambda)}} ds} + \Sup{\frac{1}{1 + \lambda} \|y\|_\infty} =$
+
+\vspace{3mm}
+\hspace{7mm}
+$= \| y \|_\infty \cdot \left( \Sup{\frac{1}{1 + \lambda} e^{\frac{t^2}{2(1+\lambda)}} \int \limits_{-1}^{t} \frac{s }{1+ \lambda} \cdot e^{-\frac{s^2}{2(1+\lambda)}} ds} + \Sup{\frac{1}{1 + \lambda}}  \right) =$
+
+\vspace{3mm}
+\hspace{7mm}
+$= \| y \|_\infty \cdot \left( \Sup{\frac{1}{1 + \lambda} e^{\frac{t^2}{2(1+\lambda)}} \int \limits_{-1}^{t} \frac{s }{1+ \lambda} \cdot e^{-\frac{s^2}{2(1+\lambda)}} ds} + \left| \frac{1}{1 + \lambda}  \right| \right) =$
+
+\vspace{5mm}
+$\Sup{\frac{1}{1 + \lambda} e^{\frac{t^2}{2(1+\lambda)}} \int \limits_{-1}^{t} \frac{s }{1+ \lambda} \cdot e^{-\frac{s^2}{2(1+\lambda)}} ds} + \left| \frac{1}{1 + \lambda} \right|$ це якесь число, позначимо його через $K$. Тоді маємо: 
+
+$$ \| B y\|_\infty \leqslant K \| y \|_\infty, \,\,\, K = \text{const} $$
+
+З чого виплває обмеженість оператора $B$. Отже, маємо, оператор $B$ є оберененим до оператору $A - \lambda \I$ при $\lambda \neq -1$, тому $ \lambda \in \mathbb{C} \textbackslash \{-1\}$ - регулярні значення оператору $A$, а оператор $B$ є резольвентою оператора \nolinebreak $A$.
+
+
+\vspace{2mm}
+\paragraph{Відповідь.} $\sigma(A) = \sigma_r(A) = \{-1\}$, $R_\lambda(A)y = \frac{1}{1 + \lambda} \left( - e^{\frac{t^2}{2(1+\lambda)}} \int \limits_{-1}^{t} \frac{s \cdot y(s)}{1+ \lambda} \cdot e^{-\frac{s^2}{2(1+\lambda)}} ds - y(t)\right) $
+
+
+\vspace{6mm}
+\section*{Додаток} 
+
+\hypertarget{1}{[1]} - Чаповський Ю.А. - конспект лекцій з функціонального аналізу  ст. 340 Зауваження 2.2.5
+
+\hspace{-6.3mm}
+\hypertarget{2}{[2]}  - Чаповський Ю.А. - конспект лекцій з функціонального аналізу  ст. 340 Теорема 2.2.6
+\end{document}
